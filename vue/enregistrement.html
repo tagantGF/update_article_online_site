@@ -1,0 +1,33 @@
+<div name='enregistrement' class="panel panel-primary col-xs-10 col-lg-5 col-sm-7 col-md-7" id="enregistrement">
+					<div class="panel-heading">
+						<center><img src="images/logo.png" width="200px"></center>
+						<h4><center><span class='langue'>Enregistrement</span></br><span style="font-size:0.8em;color:red" class='langue' id='error_connect'></span></center></h4>
+					</div>
+					<div class="panel-body">
+						<form action ="#" data-url="controleur/enregistrement.php" name ="enregistrement" method="post" id="form_enregistrement">
+							<div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+								<span class="input-group-addon"><span class='langue'>Nom:</span><span class="obligatoire"></span>:</span>
+								<input type="text" class="form-control inputfr" name="nom" placeholder="Ex: TAGANT" minlength="2" required>
+							</div>
+							<div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+								<span class="input-group-addon"><span class='langue'>Prénom:</span><span class="obligatoire"></span>:</span>
+								<input type="text" class="form-control inputfr" name="prenom" placeholder="Ex: franck" minlength="2" required>
+							</div>
+							<div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+								<span class="input-group-addon"><span class='langue'>Email:</span><span class="obligatoire"></span>:</span>
+								<input type="email" class="form-control inputfr" name="email" placeholder="franck@gmail.com" required>
+							</div>
+							<div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+								<span class="input-group-addon"><span class='langue'>Mot de passe:</span></span>
+								<div class="input-group"> 
+									<input type="password" class="pwd form-control inputfr invisibless" name="pwd" required>
+									<span class="input-group-addon afficherpwd" style='cursor:pointer'><span class='glyphicon glyphicon-eye-close'></span></span> 
+								</div>
+								
+							</div>
+							<button type ="submit" class="btn btn-success langue"><span class="glyphicon glyphicon-ok-sign"></span> Valider</button><br>
+							<span class="seconnecter pull-right" name="connexion" style="color:red;cursor:pointer">Se connecter ?</span>
+							<input type="reset" id="reseteur" style="display:none">
+						</form></br></br>
+					</div>
+				</div>

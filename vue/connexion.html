@@ -1,0 +1,25 @@
+<div name='connexion' class="panel panel-primary col-xs-10 col-lg-5 col-sm-7 col-md-7" id="connexion">
+					<div class="panel-heading">
+						<center><img src="images/logo.png" width="200px"></center>
+						<h4><center><span class='langue'>Connexion</span></br><span style="font-size:0.8em;color:red" class='langue' id='error_connect'></span></center></h4>
+					</div>
+					<div class="panel-body">
+						<form action ="#" data-url="controleur/connexion.php" name='connexion' method="post" id="form_connexion">
+							<div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+								<span class="input-group-addon"><span class='langue'>Identifiant:</span>:</span>
+								<input type="email" class="form-control" name="email" placeholder="franck@gmail.com" required>
+							</div>
+							<div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+								<span class="input-group-addon"><span class='langue'>Mot de passe:</span>:</span>
+								<div class="input-group"> 
+									<input type="password" class="pwd form-control invisibless" name="pwd" required>
+									<span class="input-group-addon afficherpwd" style='cursor:pointer'><span class='glyphicon glyphicon-eye-close'></span></span> 
+								</div>
+								
+							</div>
+							<button type ="submit" class="btn btn-success langue"><span class="glyphicon glyphicon-ok-sign"></span> Valider</button><br>
+							<span class="senregistrer pull-right" name="enregistrement" style="color:red;cursor:pointer">S'enregistrer ?</span>
+							<input type="reset" id="reseteur" style="display:none">
+						</form></br></br>
+					</div>
+				</div>

@@ -1,0 +1,49 @@
+body{
+	background:#f1f2f6;
+	-webkit-background-size: cover; /* pour Chrome et Safari */
+	-moz-background-size: cover; /* pour Firefox */
+	-o-background-size: cover; /* pour Opera */
+	background-size: cover; /* version standardisée */
+	
+}
+body #contenu{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+body #connexion{
+	position:absolute;
+	top:35%;
+	height: 30%;
+	border:none;
+}
+body #enregistrement{ 
+	position:absolute;
+	top:30%;
+	height: 40%;
+}
+body #formContact{
+	position:absolute;
+	top:25%;
+	height: 50%;
+}
+body #header_collapse{
+	background:#474787;
+	border-radius:2px;
+}
+body #accordion{
+	position:absolute;
+	top:2%;
+}
+
+body div.caracteristique_article{ 
+	margin-top: 10%;
+    line-height: 35px;
+}
+body div.row_carac_article{ 
+	padding-bottom: 4em;
+}
+body div.row_carac_article_description{ 
+	line-height: 25px;
+}
+
