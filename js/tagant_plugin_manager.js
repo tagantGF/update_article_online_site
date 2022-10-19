@@ -166,45 +166,114 @@
 							$('body #search_bar').removeAttr('style');
 							sessionStorage.setItem('firstSearchDone','1');
 							sessionStorage.setItem('search_article_id',id_article);
-
-							var liste = "";
-							var description= "";
-							var caracteristiques= "";
-							const lt = ['id_artcl','description','caracteristiques'];
+							$('body .id_article2').val('');
+							var liste_articles = "";
+							//*****************************elements relatifs au produit**************** */
+								var arbo = data[0]['TreeName1']+' / '+data[0]['TreeName2']+' / '+data[0]['TreeName3'];
+								var produit = '';
+								var titre_prod = '';
+								var text_prod = '';
+								var description_prod = '';
+								var caracteristiques_prod= "";
+							//*********************************************************************************** */
 							for(var a in data[0]){
-								if(data[0][a] && !lt.includes(a)){
-									liste += '<div class="row_carac_article">\
-										<span class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="background-color: #ffffff;">\
-											<strong>'+a+'</strong>\
-										</span>\
-										<span class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="background-color: #dfe4ea;">\
-											'+data[0][a]+'\
-										</span>\
-									</div>';
+								if(a == 'ProductName'){
+									titre_prod = data[0][a];
 								}
-								else if(a == 'description'){
-									description = '<div class="row_carac_article">\
-										<span class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="background-color: #ffffff;">\
-											<strong>'+a+'</strong>\
-										</span>\
-										<span class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="background-color: #dfe4ea;">\
-											'+data[0][a]+'\
-										</span>\
-									</div>';
-								}else if(a == 'caracteristiques'){
-									caracteristiques = '<div class="row_carac_article">\
-										<span class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="background-color: #ffffff;">\
-											<strong>'+a+'</strong>\
-										</span>\
-										<span class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="background-color: #dfe4ea;">\
-											'+data[0][a]+'\
-										</span>\
-									</div>';
+								else if(a == 'caracteristiques'){
+									text_prod = data[0][a];
+								}else if(a == 'description'){
+									description_prod = data[0][a];
 								}
 							}
-							liste = liste+caracteristiques+description;
-							$('body #list_articles').html(liste);
-							$('body span#id_article').text(id_article);
+							produit = '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:0.2px solid black;padding-top:10px;padding-bottom:10px;margin-bottom:20px">\
+								<h3><center>Produit de l\'article <button class="btn btn-info glyphicon glyphicon-plus"></button></center></h3>\
+								<div class="row col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;">\
+									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="border-right:0.5px solid black">\
+										<div style="margin-top:7em">\
+											<h4><center><strong>Arborescence du produit :</strong></center></h4>\
+											<form class="form-inline arbo_prod_change" style="display: none;">\
+												<div class="block_arbo">\
+													<div class="form-group mx-sm-3 mb-2">\
+														<select class="form-control" style="height: 40px;" name="pp" required>\
+															<option>Cameroun</option>\
+															<option>Gabon</option>\
+														</select>\
+													</div>\
+													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
+												</div>\
+											</form>\
+											<span class="arbo_prod_dur" style="font-size:18px;cursor: pointer;"><center>'+arbo+'</center></span>\
+										</div>\
+									</div>\
+									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6">\
+										<h4><center><strong>Information du produit :</strong></center></h4>\
+										<div class="form-group">\
+											<label style="background-color:white" class="pull-left"><span class="langue">Titre produit:</span></label><br>\
+											<form class="form-inline titre_prod_change" style="display:none">\
+												<div class="block_arbo">\
+													<div class="form-group mx-sm-3 mb-2">\
+														<input type="text" value="je text oui" class="form-control">\
+													</div>\
+													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
+												</div>\
+											</form>\
+											<div class="titre_prod_dur" style="cursor:pointer">'+titre_prod+'</div>\
+										</div>\
+										<div class="form-group">\
+											<label style="background-color:white" class="pull-left"><span class="langue">Texte court:</span></label><br>\
+											<form class="form-inline text_prod_change" style="display:none">\
+												<div class="block_arbo">\
+													<div class="form-group mx-sm-3 mb-2">\
+														<input type="text" value="je text oui" class="form-control">\
+													</div>\
+													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
+												</div>\
+											</form>\
+											<div class="text_prod_dur" style="cursor:pointer">'+text_prod+'</div>\
+										</div>\
+										<div class="form-group">\
+											<label style="background-color:white" class="pull-left"><span class="langue">Description:</span></label><br>\
+											<form class="form-inline description_prod_change" style="display:none">\
+												<div class="block_arbo">\
+													<div class="form-group mx-sm-3 mb-2">\
+														<textarea cols="30" rows="4" class="form-control">jhg fjgh fgjtghj hgjghjh </textarea>\
+													</div>\
+													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
+												</div>\
+											</form>\
+											<div class="description_prod_dur" style="cursor:pointer;">'+description_prod+'</div>\
+										</div>\
+									</div>\
+								</div>\
+								<div>\
+									<h4><center><strong>Caractéristiques du produit :</strong></center></h4><br>\
+									<table class="table table-striped table-bordered table-condensed">\
+										<!-- <thead></thead> -->\
+										<tbody>\
+										  <tr>\
+											<td><strong>MARK</strong></td>\
+											<td>Otto</td>\
+										  </tr>\
+										  <tr>\
+											<td><strong>JACOB</strong></td>\
+											<td>Thornton</td>\
+										  </tr>\
+										  <tr>\
+											<td><strong>MARK</strong></td>\
+											<td>Otto</td>\
+										  </tr>\
+										  <tr>\
+											<td><strong>JACOB</strong></td>\
+											<td>Thornton</td>\
+										  </tr>\
+										</tbody>\
+									</table>\
+								</div>\
+							</div>';
+							//liste = liste+caracteristiques+description;
+							$('body #content_block_prod').html(produit);
+							$('body span.id_article').text(id_article);
 						}
 					})
 				}

@@ -127,7 +127,7 @@ header("Access-Control-Allow-Origin: *");
 			while($donneee = $v->fetch(PDO::FETCH_OBJ)){
 				$r[] = $donneee ;
 			}
-			return $r ;
+			return $v;
 		}
 		public function selectionUnique3($table,array $champs,$contrainte){
 			$q = "SELECT DISTINCT " ;
