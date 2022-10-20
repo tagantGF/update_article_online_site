@@ -58,6 +58,80 @@
                 <span class="btn btn-primary glyphicon glyphicon-pencil"></span>
             </div>
             <div id="contenu"></div>
+             <!--***********************************ajout article*********************************-->
+                <div class="modal fade" data-backdrop='false' id='ajouterArticle'>
+                    <div class="modal-dialog modal-xs">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h3 class="modal-title">
+                                <center>
+                                    Ajouter un article
+                                    <button type="button" class="close" data-dismiss="modal" style="position: absolute;right: 30px;"><span class="glyphicon glyphicon-remove" style='color:red'></span></button>
+                                </center>
+                                </h3>
+                            </div>
+                            <div class="modal-body" id="affichemesmsg"> mon test</div>
+                        </div>
+                    </div>
+                </div>
+            <!--**********************************************************************************-->
+
+            <!--***********************************ajout caracteristique produit*********************************-->
+            <div class="modal fade" data-backdrop='false' id='ajouterProdCarac'>
+                <div class="modal-dialog modal-xs">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h3 class="modal-title">
+                            <center>
+                                Ajouter la caractéristique du produit
+                                <button type="button" class="close" data-dismiss="modal" style="position: absolute;right: 30px;"><span class="glyphicon glyphicon-remove" style='color:red'></span></button>
+                            </center>
+                            </h3>
+                        </div>
+                        <div class="modal-body" id="affichemesmsg">
+                            <form action ="#" data-url="https://findtagant.online/controleur/compte.php" method="post" id="form_compte">
+                                <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                    <span class="input-group-addon"><span class='langue'>Libellé :</span></span>
+                                    <input type="tel" class="form-control" name="tel1" required>
+                                </div>
+                                <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                    <span class="input-group-addon"><span class='langue'>Valeur:</span></span>
+                                    <input type="tel" class="form-control" name="tel1" required>
+                                </div>
+                                <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Ajouter</span></button>
+                                <input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!--**********************************************************************************-->
+
+        <!--***********************************afficher arborescence produits*********************************-->
+        <div class="modal fade" data-backdrop='false' id='showArbo'>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h3 class="modal-title">
+                        <center>
+                            Choix de l'arborescence
+                            <button type="button" class="close" data-dismiss="modal" style="position: absolute;right: 30px;"><span class="glyphicon glyphicon-remove" style='color:red'></span></button>
+                        </center>
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <form action ="#" data-url="https://findtagant.online/controleur/compte.php" method="post" id="form_compte">
+                            <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                <select class="arborescence_prod form-control" style="height: 40px;" required></select>
+                            </div>
+                            <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Modifier</span></button>
+							<input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--**********************************************************************************-->
 		</div>
 		<!--<script type="text/javascript" src="cordova.js"></script> -->
 		<script src="js/jquery.js"></script>

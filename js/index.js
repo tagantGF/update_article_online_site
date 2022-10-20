@@ -122,6 +122,64 @@ $(function(){
 			});
 		});
 	//************************************************************************************************************************ */
+
+	//**************************************edit elements*************************************************************** */
+		$('body').on('click','.editable',function(e){ // affiche option(delete,update) après click sur ligne article
+			e.preventDefault();
+			e.stopPropagation();
+			var th = $(this);
+			contenu = th.text();
+			//console.log('yess',contenu);
+			var lenom = th.attr('name');
+			if(lenom == 'arbo_produit'){
+				th.attr('style','display:none');
+				$('body form.'+lenom).removeAttr('style');
+			}else{
+				th.attr('style','display:none');
+				$('body form.'+lenom).removeAttr('style');
+				$('body form.'+lenom+' textarea').text(contenu);
+			}
+			
+			
+		});
+		$('body').on('click','.editable_tr',function(e){ // affiche option(delete,update) après click sur ligne article
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var th = $(this);
+			var lenom = th.attr('name');
+			var fi = '';
+			var lst = '';
+			th.children().each(function(index) {
+				if(index == 0){
+					fi = $(this).text();
+				}else{
+					lst = $(this).text();
+				}
+			});
+			th.next().removeAttr('style');
+			th.next().find("textarea[name='"+lenom+"1']").text(fi);
+			th.next().find("textarea[name='"+lenom+"2']").text(lst);
+		});
+	//************************************************************************************************************* */
+
+	//**************************************show modal**************************************************** */
+		$('body').on('click','.showProdArbo,.addArtiProd,.caracProd',function(e){ // bar recherche page d'accueil
+			e.preventDefault();
+			e.stopPropagation();
+
+			var th = $(this);
+			var lenom = th.attr('id');
+			if(lenom == 'showProdArbo'){
+				$('body #showArbo').modal('show');
+				$('body').tagant_recup();
+			}else if(lenom == 'addArtiProd'){
+				$('body #ajouterArticle').modal('show');
+			}else if(lenom == 'caracProd'){
+				$('body #ajouterProdCarac').modal('show');
+			}
+		});
+	//***************************************************************************************************** */
 })
 
  

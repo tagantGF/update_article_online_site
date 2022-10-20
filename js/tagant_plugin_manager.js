@@ -16,7 +16,16 @@
 			})
 		})
 	}
-	
+	function strNoAccent(a) {
+		var b="áàâäãåçéèêëíïîìñóòôöõúùûüýÁÀÂÄÃÅÇÉÈÊËÍÏÎÌÑÓÒÔÖÕÚÙÛÜÝ",
+			c="aaaaaaceeeeiiiinooooouuuuyAAAAAACEEEEIIIINOOOOOUUUUY",
+			d="";
+		for(var i = 0, j = a.length; i < j; i++) {
+		  var e = a.substr(i, 1);
+		  d += (b.indexOf(e) !== -1) ? c.substr(b.indexOf(e), 1) : e;
+		}
+		return d;
+	  }
 	jQuery.fn.tagant_submit_form = function(form_soumis){
 		this.on('submit',form_soumis,function(e){
 			e.preventDefault();
@@ -106,33 +115,19 @@
 		})
 	}
 	
-	jQuery.fn.tagant_recup = function(donnee){
+	jQuery.fn.tagant_recup = function(){
 		$.ajax({
-			url:'controleur/selectAll.php',
+			url:'controleur/selectAllArbo.php',
 			type:'post',
 			data:'token='+sessionStorage.getItem('token'),
 			dataType:'json',
 			success:function(data){
 				var liste = "";
 				for(var a in data){
-					 liste += '<div class="accordion-group collapse'+data[a]['num_demandes']+'">\
-						<div class="form-control accordion-heading" id="header_collapse">\
-						  <a style="color:white" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse'+a+'">\
-							<center>\
-								'+data[a]['objet']+'\
-								<span name="'+data[a]['num_demandes']+'" id="deleteDemande" style="color:red" class="pull-right glyphicon glyphicon-trash"></span>\
-							</center>\
-							\
-						  </a>\
-						</div>\
-						<div id="collapse'+a+'" class="accordion-body collapse">\
-						  <div class="accordion-inner">\
-							'+data[a]['message']+'\
-						  </div>\
-						</div>\
-					</div>';
+					var arbo = data[a]['TreeName1']+'/'+data[a]['TreeName2']+'/'+data[a]['TreeName3'];
+					liste += '<option>'+arbo+'</option>';
 				}
-				$('body #listeContacts').html(liste);
+				$('body .arborescence_prod').html(liste);
 			}
 		})
 	}
@@ -168,34 +163,57 @@
 							sessionStorage.setItem('search_article_id',id_article);
 							$('body .id_article2').val('');
 							var liste_articles = "";
-							//*****************************elements relatifs au produit**************** */
+						//*****************************elements relatifs au produit**************** */
 								var arbo = data[0]['TreeName1']+' / '+data[0]['TreeName2']+' / '+data[0]['TreeName3'];
 								var produit = '';
 								var titre_prod = '';
 								var text_prod = '';
 								var description_prod = '';
 								var caracteristiques_prod= "";
-							//*********************************************************************************** */
+								var caracteristiques = '';
+							
 							for(var a in data[0]){
 								if(a == 'ProductName'){
 									titre_prod = data[0][a];
 								}
 								else if(a == 'caracteristiques'){
 									text_prod = data[0][a];
+									caracteristiques = data[0][a];
 								}else if(a == 'description'){
 									description_prod = data[0][a];
 								}
 							}
+							caracteristiques =  caracteristiques.split('•');
+							caracteristiques = caracteristiques.filter(function(n){return n != ''});
+							for(var aa in caracteristiques){
+								caracteristiques[aa] =  caracteristiques[aa].split(':');
+								caracteristiques_prod += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+												<td><strong>'+caracteristiques[aa][0]+'</strong></td>\
+												<td>'+caracteristiques[aa][1]+'</td>\
+											</tr>\
+											<tr style="display:none" class="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+												<td>\
+													<div class="col">\
+														<textarea name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
+													</div>\
+												</td>\
+												<td>\
+													<div class="col">\
+														<textarea name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
+													</div><span style="left:-26px" class="glyphicon glyphicon-ok-sign btn btn-success"><span>\
+												</td>\
+											</tr>';
+							}
 							produit = '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:0.2px solid black;padding-top:10px;padding-bottom:10px;margin-bottom:20px">\
-								<h3><center>Produit de l\'article <button class="btn btn-info glyphicon glyphicon-plus"></button></center></h3>\
+								<h3><center>Produit de l\'article <button id="addArtiProd" class="addArtiProd btn btn-info glyphicon glyphicon-plus"></button></center></h3><br>\
 								<div class="row col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;">\
 									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="border-right:0.5px solid black">\
-										<div style="margin-top:7em">\
+										<div style="margin-top:12em">\
 											<h4><center><strong>Arborescence du produit :</strong></center></h4>\
-											<form class="form-inline arbo_prod_change" style="display: none;">\
+											<form class="form-inline arbo_produit" style="display: none;">\
 												<div class="block_arbo">\
 													<div class="form-group mx-sm-3 mb-2">\
-														<select class="form-control" style="height: 40px;" name="pp" required>\
+														<select class="arborescence_prod form-control" style="height: 40px;" required>\
 															<option>Cameroun</option>\
 															<option>Gabon</option>\
 														</select>\
@@ -203,76 +221,158 @@
 													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
 												</div>\
 											</form>\
-											<span class="arbo_prod_dur" style="font-size:18px;cursor: pointer;"><center>'+arbo+'</center></span>\
+											<span class="showProdArbo" id="showProdArbo" style="font-size:18px;cursor: pointer;" name="arbo_produit"><center>'+arbo+'</center></span>\
 										</div>\
 									</div>\
 									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6">\
 										<h4><center><strong>Information du produit :</strong></center></h4>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Titre produit:</span></label><br>\
-											<form class="form-inline titre_prod_change" style="display:none">\
-												<div class="block_arbo">\
-													<div class="form-group mx-sm-3 mb-2">\
-														<input type="text" value="je text oui" class="form-control">\
-													</div>\
-													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
-												</div>\
+											<form class="titre_produit" style="display:none">\
+												<br><textarea cols="40" rows="4" class="form-control"></textarea>\
+												<center><button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
-											<div class="titre_prod_dur" style="cursor:pointer">'+titre_prod+'</div>\
+											<div class="editable" style="cursor:pointer" name="titre_produit"><center>'+titre_prod+'</center></div>\
 										</div>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Texte court:</span></label><br>\
-											<form class="form-inline text_prod_change" style="display:none">\
-												<div class="block_arbo">\
-													<div class="form-group mx-sm-3 mb-2">\
-														<input type="text" value="je text oui" class="form-control">\
-													</div>\
-													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
-												</div>\
+											<form class="text_produit" style="display:none">\
+												<br><textarea cols="40" rows="4" class="form-control"></textarea>\
+												<center><button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
-											<div class="text_prod_dur" style="cursor:pointer">'+text_prod+'</div>\
+											<div class="editable" style="cursor:pointer" name="text_produit"><center>'+text_prod+'</center></div>\
 										</div>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Description:</span></label><br>\
-											<form class="form-inline description_prod_change" style="display:none">\
-												<div class="block_arbo">\
-													<div class="form-group mx-sm-3 mb-2">\
-														<textarea cols="30" rows="4" class="form-control">jhg fjgh fgjtghj hgjghjh </textarea>\
-													</div>\
-													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
-												</div>\
+											<form class="description_produit" style="display:none">\
+												<br><textarea cols="40" rows="4" class="form-control"></textarea>\
+												<center><button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
-											<div class="description_prod_dur" style="cursor:pointer;">'+description_prod+'</div>\
+											<div class="editable" style="cursor:pointer;" name="description_produit"><center>'+description_prod+'</center></div>\
 										</div>\
 									</div>\
 								</div>\
 								<div>\
-									<h4><center><strong>Caractéristiques du produit :</strong></center></h4><br>\
+									<h4><center><strong>Caractéristiques du produit <button id="caracProd" class="caracProd btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4><br>\
 									<table class="table table-striped table-bordered table-condensed">\
 										<!-- <thead></thead> -->\
-										<tbody>\
-										  <tr>\
-											<td><strong>MARK</strong></td>\
-											<td>Otto</td>\
-										  </tr>\
-										  <tr>\
-											<td><strong>JACOB</strong></td>\
-											<td>Thornton</td>\
-										  </tr>\
-										  <tr>\
-											<td><strong>MARK</strong></td>\
-											<td>Otto</td>\
-										  </tr>\
-										  <tr>\
-											<td><strong>JACOB</strong></td>\
-											<td>Thornton</td>\
-										  </tr>\
-										</tbody>\
+										<tbody>'+caracteristiques_prod+'</tbody>\
 									</table>\
 								</div>\
 							</div>';
-							//liste = liste+caracteristiques+description;
+						//********************************************************************************************************************* */
+						//***************************************************elements relatif aux articles********************** */	
+							for(var c in data){
+								var lib_article = '';
+								var photo1 = '';
+								var photo2 = '';
+								var photo3 = '';
+								var arthcode_entete = [];
+								var arthcode_val = [];
+								var artval_entete = [];
+								var artval_val = [];
+								var caracteristiques_art = '';
+								for(var d in data[c]){
+									if(d == 'libelle_article'){
+										lib_article = data[c][d];
+									}else if(d == 'ProductImageHD1'){
+										if(data[c][d] == null){
+											photo1 = 'images/image_default.png';
+										}else{
+											photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+										}
+									}else if(d == 'ProductImageHD2'){
+										if(data[c][d] == null){
+											photo2 = 'images/image_default.png';
+										}else{
+											photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+										}
+									}else if(d == 'ProductImageHD3'){
+										if(data[c][d] == null){
+											photo3 = 'images/image_default.png';
+										}else{
+											photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+										}
+									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[c][d]){
+										arthcode_val.push(data[c][d]);
+										arthcode_entete.push(d);
+									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtVal' && data[c][d]){
+										artval_val.push(data[c][d]);
+										artval_entete.push(d);
+									}
+									else if(d == 'code_feraud' && data[c][d]){
+										code_feraud = data[c][d];
+									}
+								}
+								for(var dd in arthcode_entete){
+									for(var ee in artval_entete){
+										var nArthcode = arthcode_entete[dd].replace(/\D/g,'');
+										var nArthval = arthcode_entete[ee].replace(/\D/g,'');
+										
+										if(nArthcode == nArthval){
+											caracteristiques_art += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
+												<td><strong>'+arthcode_val[dd]+'</strong></td>\
+												<td>'+artval_val[dd]+'</td>\
+											</tr>\
+											<tr style="display:none" class="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
+												<td>\
+													<div class="col">\
+														<textarea name="'+strNoAccent(artval_val[dd]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'lib"></textarea>\
+													</div>\
+												</td>\
+												<td>\
+													<div class="col">\
+														<textarea name="'+strNoAccent(artval_val[dd]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'val"></textarea>\
+													</div><span style="left:-26px" class="glyphicon glyphicon-ok-sign btn btn-success"><span>\
+												</td>\
+											</tr>';
+										}
+									}
+								}
+								liste_articles += '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:0.2px dashed black;padding-top:10px;padding-bottom:10px;margin-bottom: 20px;">\
+								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;"">\
+									<h4>\
+										<center>\
+											Article \
+											<span style="background-color:#2dadc1">'+code_feraud+'</span> : \
+											<form class="libArt'+code_feraud+'" style="display:none">\
+												<br><textarea cols="40" rows="4" class="form-control"></textarea>\
+												<center><button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
+											</form>\
+											<span class="editable" style="cursor:pointer" name="libArt'+code_feraud+'">'+lib_article+'</span>\
+										</center>\
+										<button class="btn btn-warning glyphicon glyphicon-retweet"></button>\
+									</h4>\
+									<div class="card-group">\
+										<div class="card">\
+										  <img width="250" height="250" src="'+photo1+'" class="card-img-top" alt="...">\
+										</div>\
+										<div class="card">\
+										  <img width="250" height="250"src="'+photo2+'" class="card-img-top" alt="...">\
+										</div>\
+										<div class="card">\
+										  <img width="250" height="250" src="'+photo3+'" class="card-img-top" alt="...">\
+										</div>\
+									</div>\
+								</div>\
+								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12">\
+									<h4><center>Caractéristiques de l\'article :</center></h4>\
+									<table class="table table-striped table-bordered table-condensed">\
+										<thead>\
+										  <!-- <tr>\
+											<th scope="col">Tétieres</th>\
+											<th scope="col">Valeurs</th>\
+										  </tr> -->\
+										</thead>\
+										<tbody>'+caracteristiques_art+'</tbody>\
+									</table>\
+								</div>\
+							</div>';
+							}
+						//***************************************************************************************************************** */
+						//liste = liste+caracteristiques+description;
 							$('body #content_block_prod').html(produit);
+							$('body #content_block_art').html(liste_articles);
 							$('body span.id_article').text(id_article);
 						}
 					})
@@ -280,5 +380,4 @@
 			}
 		})
 	}
-	
 })(jQuery)

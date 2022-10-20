@@ -3,6 +3,7 @@ header("Access-Control-Allow-Origin: *");
 			try
 			{
 				$db = new PDO('mysql:host=localhost;dbname=pim_bd','root','');
+				$db->exec('SET NAMES utf8');
 			}
 			catch (Exception $e)
 			{
@@ -127,7 +128,7 @@ header("Access-Control-Allow-Origin: *");
 			while($donneee = $v->fetch(PDO::FETCH_OBJ)){
 				$r[] = $donneee ;
 			}
-			return $v;
+			return $r;
 		}
 		public function selectionUnique3($table,array $champs,$contrainte){
 			$q = "SELECT DISTINCT " ;
@@ -146,7 +147,26 @@ header("Access-Control-Allow-Origin: *");
 			while($donneee = $v->fetch(PDO::FETCH_OBJ)){
 				$r[] = $donneee ;
 			}
-			return $q ;
+			return $r ;
+		}
+		public function selectArbo($table,array $champs,$contrainte){
+			$q = "SELECT DISTINCT " ;
+			foreach($champs as $val){
+				$q .= "$val".",";
+			}
+			$q = substr($q,0,-1);
+			$q .= " FROM $table";
+			if($contrainte != ''){
+				$q .= " WHERE $contrainte";
+			}else{
+				$q .= "$contrainte ORDER BY TreeName1, TreeName2, TreeName3";
+			}
+			$v = $this->db->query($q);
+			$r = array();
+			while($donneee = $v->fetch(PDO::FETCH_OBJ)){
+				$r[] = $donneee ;
+			}
+			return $r ;
 		}
 		public function modifier($table,array $champs,$contrainte){
 			$q = "UPDATE $table SET ";

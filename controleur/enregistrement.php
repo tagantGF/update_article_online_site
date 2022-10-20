@@ -38,7 +38,7 @@ header("Access-Control-Allow-Origin: *");
 				$tab[1] = $token;
 				echo json_encode($tab);
 			}else{
-				echo json_encode('existant');
+				echo json_encode($envoi);
 			}
 	}else{
 		echo json_encode('aucune information envoyée');
