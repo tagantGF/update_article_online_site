@@ -17,6 +17,13 @@ body #connexion{
 	height: 30%;
 	border:none;
 }
+body #deconnexion{
+	top: 5px;
+}
+body #logoFeraudPage{
+	top:25px;
+	position:absolute;
+}
 body #enregistrement{ 
 	position:absolute;
 	top:30%;

@@ -15,19 +15,20 @@ $(function(){
 	if(sessionStorage.getItem('role_num') == 1){
 		firstpage('vue/listecontact.html');
 		$('body #deconnexion').removeAttr('style');
-		$('body #deconnexion').attr('style','position:absolute;top:3%;right:8%;color:red;top:3%;cursor:pointer');
+		$('body #logoFeraudPage').removeAttr('style');
 	}else if(sessionStorage.getItem('role_num') == 2 && sessionStorage.getItem('firstSearchDone') != '1'){
 		firstpage('vue/search_accueil.html');
 		if(sessionStorage.getItem('num_user') != null){
 			$('body #deconnexion').removeAttr('style');
+			$('body #logoFeraudPage').removeAttr('style');
 		}
-		$('body #deconnexion').attr('style','position:absolute;top:3%;right:8%;color:red;top:3%;cursor:pointer');
 	}else{
 		if(sessionStorage.getItem('firstSearchDone') != '1'){
 			firstpage('vue/connexion.html');
 		}else if(sessionStorage.getItem('firstSearchDone') == '1'){
 			$('body').tagant_search_article(sessionStorage.getItem('search_article_id'));
 			$('body #deconnexion').removeAttr('style');
+			$('body #logoFeraudPage').removeAttr('style');
 		}
 	}
 //****************************************************************
@@ -49,6 +50,7 @@ $(function(){
 		firstpage('vue/connexion.html');
 		$('body #deconnexion').attr('style','display:none');
 		$('body #search_bar').attr('style','display:none');
+		$('body #logoFeraudPage').attr('style','display:none');
     });
 	$('body').on('click','#deleteDemande',function(e){
 		e.preventDefault();
@@ -164,7 +166,7 @@ $(function(){
 	//************************************************************************************************************* */
 
 	//**************************************show modal**************************************************** */
-		$('body').on('click','.showProdArbo,.addArtiProd,.caracProd',function(e){ // bar recherche page d'accueil
+		$('body').on('click','.showProdArbo,.addArtiProd,.caracProd,.caracArti',function(e){ // bar recherche page d'accueil
 			e.preventDefault();
 			e.stopPropagation();
 
@@ -177,6 +179,8 @@ $(function(){
 				$('body #ajouterArticle').modal('show');
 			}else if(lenom == 'caracProd'){
 				$('body #ajouterProdCarac').modal('show');
+			}else if(lenom == 'caracArti'){
+				$('body #ajouterArtiCarac').modal('show');
 			}
 		});
 	//***************************************************************************************************** */

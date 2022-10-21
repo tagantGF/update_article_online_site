@@ -43,7 +43,8 @@
     <body>
 		<div class="container">
 			<div id="successContactSave" style="display:none;position:absolute;top:8%;left:20%;" class="alert alert-success col-xs-10 col-lg-5 col-sm-7 col-md-7"><center>Envoi bien effectué !</center></div><br>
-            <div id="deconnexion" class="pull-right btn btn-danger" style="display:none;top:5px"><span class="glyphicon glyphicon-off"></span> Déconnexion</div><br><br><br><br>
+            <div class="pull-left" id="logoFeraudPage" style="display: none;"><img src="images/logo.png" width="200px"></div>
+            <div id="deconnexion" class="pull-right btn btn-danger" style="display:none"><span class="glyphicon glyphicon-off"></span> Déconnexion</div>
             <div id='search_bar' class="row" style="display:none">
                 <div class="col-md-8">
                   <div class="search">
@@ -106,6 +107,37 @@
                 </div>
             </div>
         <!--**********************************************************************************-->
+
+         <!--***********************************ajout caracteristique article*********************************-->
+         <div class="modal fade" data-backdrop='false' id='ajouterArtiCarac'>
+            <div class="modal-dialog modal-xs">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h3 class="modal-title">
+                        <center>
+                            Ajouter la caractéristique de l'article
+                            <button type="button" class="close" data-dismiss="modal" style="position: absolute;right: 30px;"><span class="glyphicon glyphicon-remove" style='color:red'></span></button>
+                        </center>
+                        </h3>
+                    </div>
+                    <div class="modal-body" id="affichemesmsg">
+                        <form action ="#" data-url="https://findtagant.online/controleur/compte.php" method="post" id="form_compte">
+                            <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                <span class="input-group-addon"><span class='langue'>Libellé :</span></span>
+                                <input type="tel" class="form-control" name="tel1" required>
+                            </div>
+                            <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                <span class="input-group-addon"><span class='langue'>Valeur:</span></span>
+                                <input type="tel" class="form-control" name="tel1" required>
+                            </div>
+                            <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Ajouter</span></button>
+                            <input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--**********************************************************************************-->
 
         <!--***********************************afficher arborescence produits*********************************-->
         <div class="modal fade" data-backdrop='false' id='showArbo'>

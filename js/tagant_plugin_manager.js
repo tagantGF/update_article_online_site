@@ -53,7 +53,7 @@
 				success:function(data){
 					if(nom == "enregistrement" && data != "existant"){
 						$('body #deconnexion').removeAttr('style');
-						$('body #deconnexion').attr('style','position:absolute;top:3%;right:8%;color:red;top:3%;cursor:pointer');
+						$('body #logoFeraudPage').removeAttr('style');
 						for(var a in data){
 							if(a == 0){
 								for(var b in data[a]){
@@ -72,11 +72,12 @@
 							data:'',
 							success:function(data2){
 								$('#contenu').html(data2);
+								$('body #logoFeraudPage').removeAttr('style');
 							}
 						})
 					}else if(nom == "connexion" && data != "existant"){
 						$('body #deconnexion').removeAttr('style');
-						$('body #deconnexion').attr('style','position:absolute;top:3%;right:8%;color:red;top:3%;cursor:pointer');
+						$('body #logoFeraudPage').removeAttr('style');
 						var url2 = "";
 						for(var a in data){
 							if(a == 0){
@@ -85,6 +86,7 @@
 										sessionStorage.setItem(c, data[a][b][c]);
 										if(c == "role_num" && data[a][b][c] == 2){
 											url2 = 'vue/search_accueil.html';
+											$('body #logoFeraudPage').removeAttr('style');
 										}else if(c == "role_num" && data[a][b][c] == 1){
 											url2= 'vue/listecontact.html';
 										}
@@ -356,7 +358,7 @@
 									</div>\
 								</div>\
 								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12">\
-									<h4><center>Caractéristiques de l\'article :</center></h4>\
+									<h4><center><strong>Caractéristiques de l\'article <button id="caracArti" class="caracArti btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4>\
 									<table class="table table-striped table-bordered table-condensed">\
 										<thead>\
 										  <!-- <tr>\
