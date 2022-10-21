@@ -1,5 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
+header("Content-Type: text/html; charset=utf-8");
 	if(isset($_POST)){
 			include_once('../model/bigModelForMe.php');
 			include_once('../model/JWT.php');
@@ -29,14 +30,14 @@ header("Access-Control-Allow-Origin: *");
                     $tab = array();
                     foreach($element_arti_a_migrer[0] as $k=>$v){
                             if($k != "num_art"){
-                                $tab[$k] = utf8_encode($v);
+                                $tab[$k] = $v;
                             }
                     }
                     $y =  $manager->modifier('articles',$tab,"code_feraud=$code_feraud");
-                    // echo '<pre>';
-                    //     print_r($element_arti_a_migrer);
-                    // echo '</pre>';
-                    echo json_encode($y);
+                    //echo '<pre>';
+                         //print_r($y);
+                    //echo '</pre>';
+                   echo ($y);
                 }
             }
 			

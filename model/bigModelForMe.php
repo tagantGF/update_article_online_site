@@ -1,9 +1,10 @@
 <?php
 header("Access-Control-Allow-Origin: *");
+header("Content-Type: text/html; charset=utf-8");
 			try
 			{
 				$db = new PDO('mysql:host=localhost;dbname=pim_bd','root','');
-				$db->exec('SET NAMES utf8');
+				//$db->exec('SET NAMES utf8');
 			}
 			catch (Exception $e)
 			{
@@ -123,6 +124,7 @@ header("Access-Control-Allow-Origin: *");
 			}else{
 				$q .= "$contrainte";
 			}
+			$this->db->exec('SET NAMES utf8');
 			$v = $this->db->query($q);
 			$r = array();
 			while($donneee = $v->fetch(PDO::FETCH_OBJ)){
@@ -142,6 +144,7 @@ header("Access-Control-Allow-Origin: *");
 			}else{
 				$q .= "$contrainte";
 			}
+			$this->db->exec('SET NAMES utf8');
 			$v = $this->db->query($q);
 			$r = array();
 			while($donneee = $v->fetch(PDO::FETCH_OBJ)){
@@ -161,6 +164,7 @@ header("Access-Control-Allow-Origin: *");
 			}else{
 				$q .= "$contrainte ORDER BY TreeName1, TreeName2, TreeName3";
 			}
+			$this->db->exec('SET NAMES utf8');
 			$v = $this->db->query($q);
 			$r = array();
 			while($donneee = $v->fetch(PDO::FETCH_OBJ)){
@@ -172,10 +176,11 @@ header("Access-Control-Allow-Origin: *");
 			$q = "UPDATE $table SET ";
 			$r = array();
 			foreach($champs as $key=>$val){
-				$q .= "$key ='".$val."'," ;
+				$q .= "$key ='".addslashes($val)."'," ;
 			}
 			$q = substr($q,0,-1);
 			$q .= " WHERE $contrainte";
+			//$this->db->exec('SET NAMES utf8');
 			$this->db->query($q);
 			return $q;
 		}
