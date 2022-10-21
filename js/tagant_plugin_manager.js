@@ -39,17 +39,19 @@
 				var partss = th.serialize();  //+'&num_user='+sessionStorage.getItem('user_num')
 			}else if(form_soumis == '#form_contact'){
 				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&user_num='+sessionStorage.getItem('num_user');
+			}else if(form_soumis == '#form_changeProdArti'){
+				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&code_feraud='+sessionStorage.getItem('codeFeraudToChange');
 			}
 			$.ajax({
 				url:url,
 				type:'post',
 				dataType:'json',
 				data:partss,
-				beforeSend:function(){
-					$('body #masquepage').removeAttr('style');
-					$('body #afficheload').removeAttr('style');
-					$('body #afficheload').html('<center><img src="images/loader.gif" height="30%" width="30%"></center>');
-				},
+				// beforeSend:function(){
+				// 	$('body #masquepage').removeAttr('style');
+				// 	$('body #afficheload').removeAttr('style');
+				// 	$('body #afficheload').html('<center><img src="images/loader.gif" height="30%" width="30%"></center>');
+				// },
 				success:function(data){
 					if(nom == "enregistrement" && data != "existant"){
 						$('body #deconnexion').removeAttr('style');
@@ -109,6 +111,10 @@
 					}else if(nom == "contact"){
 						$('body #reseteur').trigger('click');
 						$("#successContactSave").fadeIn(1000).delay(1500).fadeOut(1000);
+					}else if(nom == "changeProdArti"){
+						// $('body #reseteur').trigger('click');
+						// $("#successContactSave").fadeIn(1000).delay(1500).fadeOut(1000);
+						alert('yes');
 					}else{
 						alert('Utilisateur déja existant !');
 					}
@@ -343,7 +349,7 @@
 											</form>\
 											<span class="editable" style="cursor:pointer" name="libArt'+code_feraud+'">'+lib_article+'</span>\
 										</center>\
-										<button class="btn btn-warning glyphicon glyphicon-retweet"></button>\
+										<button name="'+code_feraud+'" id="changeProdArti" class="changeProdArti btn btn-warning glyphicon glyphicon-retweet"></button>\
 									</h4>\
 									<div class="card-group">\
 										<div class="card">\

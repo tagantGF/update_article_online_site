@@ -139,6 +139,33 @@
         </div>
     <!--**********************************************************************************-->
 
+    <!--***********************************form change prod*********************************-->
+    <div class="modal fade" data-backdrop='false' id='changeProdArticle'>
+        <div class="modal-dialog modal-xs">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h3 class="modal-title">
+                    <center>
+                        Changer le produit de l'article
+                        <button type="button" class="close" data-dismiss="modal" style="position: absolute;right: 30px;"><span class="glyphicon glyphicon-remove" style='color:red'></span></button>
+                    </center>
+                    </h3>
+                </div>
+                <div class="modal-body" id="affichemesmsg">
+                    <form action ="#" data-url="controleur/changeProdArti.php" method="post" name="changeProdArti" id="form_changeProdArti">
+                        <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                           <label class='langue'>Veuillez saisir l'identifiant de l'article auquel vous voulez le rattacher :</label>
+                            <input type="text" class="form-control" placeholder="Ex : 114433" name="code_feraudForMigrate" required>
+                        </div>
+                        <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Soumettre</span></button>
+                        <input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--**********************************************************************************-->
+
         <!--***********************************afficher arborescence produits*********************************-->
         <div class="modal fade" data-backdrop='false' id='showArbo'>
             <div class="modal-dialog modal-lg">

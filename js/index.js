@@ -42,6 +42,7 @@ $(function(){
 	$('body').tagant_submit_form('#form_enregistrement');
 	$('body').tagant_submit_form('#form_connexion');
 	$('body').tagant_submit_form('#form_contact');
+	$('body').tagant_submit_form('#form_changeProdArti');
 //****************************************************************
 
 	$('body').on('click','#deconnexion',function(e){
@@ -166,7 +167,7 @@ $(function(){
 	//************************************************************************************************************* */
 
 	//**************************************show modal**************************************************** */
-		$('body').on('click','.showProdArbo,.addArtiProd,.caracProd,.caracArti',function(e){ // bar recherche page d'accueil
+		$('body').on('click','.showProdArbo,.addArtiProd,.caracProd,.caracArti,.changeProdArti',function(e){ // bar recherche page d'accueil
 			e.preventDefault();
 			e.stopPropagation();
 
@@ -181,6 +182,9 @@ $(function(){
 				$('body #ajouterProdCarac').modal('show');
 			}else if(lenom == 'caracArti'){
 				$('body #ajouterArtiCarac').modal('show');
+			}else if(lenom == 'changeProdArti'){
+				sessionStorage.setItem('codeFeraudToChange',th.attr('name'));
+				$('body #changeProdArticle').modal('show');
 			}
 		});
 	//***************************************************************************************************** */
