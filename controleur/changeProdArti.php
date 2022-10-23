@@ -37,7 +37,7 @@ header("Content-Type: text/html; charset=utf-8");
                     //echo '<pre>';
                          //print_r($y);
                     //echo '</pre>';
-                   echo ($y);
+                   echo json_encode('Changement fait!');
                 }
             }
 			

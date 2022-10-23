@@ -11,7 +11,7 @@ $(function(){
 			}
 		})
 	}
-	
+
 	if(sessionStorage.getItem('role_num') == 1){
 		firstpage('vue/listecontact.html');
 		$('body #deconnexion').removeAttr('style');
@@ -43,6 +43,9 @@ $(function(){
 	$('body').tagant_submit_form('#form_connexion');
 	$('body').tagant_submit_form('#form_contact');
 	$('body').tagant_submit_form('#form_changeProdArti');
+	$('body').tagant_submit_form('#form_insertArticle');
+	$('body').tagant_submit_form('#form_addCaracteristiquesProduct');
+	$('body').tagant_submit_form('#form_addCaracteristiquesArticle');
 //****************************************************************
 
 	$('body').on('click','#deconnexion',function(e){
@@ -177,17 +180,44 @@ $(function(){
 				$('body #showArbo').modal('show');
 				$('body').tagant_recup();
 			}else if(lenom == 'addArtiProd'){
+				sessionStorage.setItem('codeFeraudForAddArticle',th.attr('name'));
 				$('body #ajouterArticle').modal('show');
 			}else if(lenom == 'caracProd'){
 				$('body #ajouterProdCarac').modal('show');
+				sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
 			}else if(lenom == 'caracArti'){
 				$('body #ajouterArtiCarac').modal('show');
+				sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
 			}else if(lenom == 'changeProdArti'){
 				sessionStorage.setItem('codeFeraudToChange',th.attr('name'));
 				$('body #changeProdArticle').modal('show');
 			}
 		});
 	//***************************************************************************************************** */
+	//*****************************ajouter tetieres***************************** */
+		$('body').on('click','#addtetiere',function(e){ // bar de recherche != page accueil
+			e.preventDefault();
+			e.stopPropagation();
+			var nbre = parseInt($('body #showligntetiere').attr('name'));
+			if(nbre < 11){
+				nbre = (nbre == 0)?4:nbre+1;
+				var elmt ='<div class="row form-group">\
+						<div class="col">\
+						<label>ArtThCode'+nbre+' : </label>\
+						<input type="text" name="ArtThCode'+nbre+'" class="form-control" placeholder="ArtThCode'+nbre+'">\
+						</div>\
+						<div class="col">\
+						<label>ArtVal'+nbre+' : </label>\
+						<input type="text" name="ArtVal'+nbre+'" class="form-control" placeholder="ArtVal'+nbre+'">\
+						</div>\
+					</div>';
+				$('body #showligntetiere').append(elmt);
+				$('body #showligntetiere').attr('name',nbre);
+			}else{
+				alert('Limite de tétières atteinte');
+			}
+		}); 
+	//**************************************************************************** */
 })
 
  

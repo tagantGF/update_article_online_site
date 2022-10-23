@@ -27,7 +27,7 @@ header("Content-Type: text/html; charset=utf-8");
 					if(is_int($val)){
 						$q .= $val.",";
 					}else{
-						$q .= "'".$val."',";
+						$q .= "'".addslashes($val)."',";
 					}
 			}
 			$q =substr($q,0,-1);

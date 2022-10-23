@@ -41,6 +41,12 @@
 				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&user_num='+sessionStorage.getItem('num_user');
 			}else if(form_soumis == '#form_changeProdArti'){
 				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&code_feraud='+sessionStorage.getItem('codeFeraudToChange');
+			}else if(form_soumis == '#form_insertArticle'){
+				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForProd='+sessionStorage.getItem('codeFeraudForAddArticle');
+			}else if(form_soumis == '#form_addCaracteristiquesProduct'){
+				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForAddCaract='+sessionStorage.getItem('codeFeraudForAddCaract');
+			}else if(form_soumis == '#form_addCaracteristiquesArticle'){
+				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForAddCaract='+sessionStorage.getItem('codeFeraudForAddCaract');
 			}
 			$.ajax({
 				url:url,
@@ -111,10 +117,26 @@
 					}else if(nom == "contact"){
 						$('body #reseteur').trigger('click');
 						$("#successContactSave").fadeIn(1000).delay(1500).fadeOut(1000);
-					}else if(nom == "changeProdArti"){
-						// $('body #reseteur').trigger('click');
-						// $("#successContactSave").fadeIn(1000).delay(1500).fadeOut(1000);
-						alert('yes');
+					}else if(nom == "changeProdArti" && data == "Changement fait!"){
+						$('body #changeProdArticle .reseteur').trigger('click');
+						$('body #changeProdArticle .close').trigger('click');
+						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudToChange'));
+					}else if(nom == "insertArticle" && data == "Ajout fait !"){
+						$('body #ajouterArticle .reseteur').trigger('click');
+						$('body #ajouterArticle .close').trigger('click');
+						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudForAddArticle'));
+					}else if(nom == "addCaracteristiquesProduct" && data == "Changement fait !"){
+						$('body #ajouterProdCarac .reseteur').trigger('click');
+						$('body #ajouterProdCarac .close').trigger('click');
+						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudForAddCaract'));
+					}else if(nom == "addCaracteristiquesArticle"){
+						if(data == "Changement non fait !"){
+							alert('Limite de caractéristiques atteinte');
+						}else{
+							$('body #ajouterArtiCarac .reseteur').trigger('click');
+							$('body #ajouterArtiCarac .close').trigger('click');
+							$('body').tagant_search_article(sessionStorage.getItem('codeFeraudForAddCaract'));
+						}
 					}else{
 						alert('Utilisateur déja existant !');
 					}
@@ -179,6 +201,7 @@
 								var description_prod = '';
 								var caracteristiques_prod= "";
 								var caracteristiques = '';
+								var codeFeraudForAddArticle ='';
 							
 							for(var a in data[0]){
 								if(a == 'ProductName'){
@@ -189,6 +212,8 @@
 									caracteristiques = data[0][a];
 								}else if(a == 'description'){
 									description_prod = data[0][a];
+								}else if(a == 'code_feraud'){
+									codeFeraudForAddArticle = data[0][a];
 								}
 							}
 							caracteristiques =  caracteristiques.split('•');
@@ -213,7 +238,7 @@
 											</tr>';
 							}
 							produit = '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:0.2px solid black;padding-top:10px;padding-bottom:10px;margin-bottom:20px">\
-								<h3><center>Produit de l\'article <button id="addArtiProd" class="addArtiProd btn btn-info glyphicon glyphicon-plus"></button></center></h3><br>\
+								<h3><center>Produit de l\'article <button name="'+codeFeraudForAddArticle+'" id="addArtiProd" class="addArtiProd btn btn-info glyphicon glyphicon-plus"></button></center></h3><br>\
 								<div class="row col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;">\
 									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="border-right:0.5px solid black">\
 										<div style="margin-top:12em">\
@@ -261,7 +286,7 @@
 									</div>\
 								</div>\
 								<div>\
-									<h4><center><strong>Caractéristiques du produit <button id="caracProd" class="caracProd btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4><br>\
+									<h4><center><strong>Caractéristiques du produit <button id="caracProd" name="'+codeFeraudForAddArticle+'" class="caracProd btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4><br>\
 									<table class="table table-striped table-bordered table-condensed">\
 										<!-- <thead></thead> -->\
 										<tbody>'+caracteristiques_prod+'</tbody>\
@@ -284,19 +309,19 @@
 									if(d == 'libelle_article'){
 										lib_article = data[c][d];
 									}else if(d == 'ProductImageHD1'){
-										if(data[c][d] == null){
+										if([null,''].includes(data[c][d])){
 											photo1 = 'images/image_default.png';
 										}else{
 											photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
 										}
 									}else if(d == 'ProductImageHD2'){
-										if(data[c][d] == null){
+										if([null,''].includes(data[c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
 											photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
 										}
 									}else if(d == 'ProductImageHD3'){
-										if(data[c][d] == null){
+										if([null,''].includes(data[c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
 											photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
@@ -337,7 +362,7 @@
 										}
 									}
 								}
-								liste_articles += '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:0.2px dashed black;padding-top:10px;padding-bottom:10px;margin-bottom: 20px;">\
+								liste_articles += '<div id="'+code_feraud+'" class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:0.2px dashed black;padding-top:10px;padding-bottom:10px;margin-bottom: 20px;">\
 								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;"">\
 									<h4>\
 										<center>\
@@ -364,7 +389,7 @@
 									</div>\
 								</div>\
 								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12">\
-									<h4><center><strong>Caractéristiques de l\'article <button id="caracArti" class="caracArti btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4>\
+									<h4><center><strong>Caractéristiques de l\'article <button name="'+code_feraud+'" id="caracArti" class="caracArti btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4>\
 									<table class="table table-striped table-bordered table-condensed">\
 										<thead>\
 										  <!-- <tr>\

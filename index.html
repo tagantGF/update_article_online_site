@@ -71,7 +71,44 @@
                                 </center>
                                 </h3>
                             </div>
-                            <div class="modal-body" id="affichemesmsg"> mon test</div>
+                            <div class="modal-body">
+                                <form action ="#" data-url="controleur/insertArticles.php" method="post" name="insertArticle" id="form_insertArticle">
+                                    <div class="row form-group">
+                                      <div class="col">
+                                        <label>Code feraud : </label>
+                                        <input type="text" class="form-control" name="code_feraud" placeholder="Ex: 124487">
+                                      </div>
+                                      <div class="col">
+                                        <label>Code fournisseur : </label>
+                                        <input type="text" class="form-control" name="code_fournisseur" placeholder="Code fournisseur">
+                                      </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col">
+                                          <label>EAN : </label>
+                                          <input type="text" class="form-control" name="EAN" placeholder="EAN">
+                                        </div>
+                                        <div class="col">
+                                          <label>Libellé article : </label>
+                                          <input type="text" name="libelle_article" class="form-control" placeholder="Libelle article">
+                                        </div>
+                                    </div>
+                                    <div class="form-group"><h4><center>Tétière(s) <button id="addtetiere" class="addtetiere btn btn-default glyphicon glyphicon-plus"></button></center></h4></div>
+                                    <div class="row form-group">
+                                        <div class="col">
+                                          <label>ArtThCode3 : </label>
+                                          <input type="text" name="ArtThCode3" class="form-control" placeholder="ArtThCode3">
+                                        </div>
+                                        <div class="col">
+                                          <label>ArtVal3 : </label>
+                                          <input type="text" name="ArtVal3" class="form-control" placeholder="ArtVal3">
+                                        </div>
+                                    </div>
+                                    <div id="showligntetiere" name="0"></div>
+                                    <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Ajouter</span></button>
+                                    <input type="reset" class="reseteur" style="display:none" name='reinitialise'>
+                                  </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,18 +126,18 @@
                             </center>
                             </h3>
                         </div>
-                        <div class="modal-body" id="affichemesmsg">
-                            <form action ="#" data-url="https://findtagant.online/controleur/compte.php" method="post" id="form_compte">
+                        <div class="modal-body">
+                            <form action ="#" data-url="controleur/AddCaracteristiquesProd.php" method="post" name="addCaracteristiquesProduct" id="form_addCaracteristiquesProduct">
                                 <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
-                                    <span class="input-group-addon"><span class='langue'>Libellé :</span></span>
-                                    <input type="tel" class="form-control" name="tel1" required>
+                                    <span class="input-group-addon"><span>Libellé :</span></span>
+                                    <input type="text" class="form-control" name="libelle" required>
                                 </div>
                                 <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
-                                    <span class="input-group-addon"><span class='langue'>Valeur:</span></span>
-                                    <input type="tel" class="form-control" name="tel1" required>
+                                    <span class="input-group-addon"><span>Valeur:</span></span>
+                                    <input type="text" class="form-control" name="valeur" required>
                                 </div>
                                 <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Ajouter</span></button>
-                                <input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+                                <input type="reset" class="reseteur" style="display:none" name='reinitialise'>
                             </form>
                         </div>
                     </div>
@@ -120,18 +157,18 @@
                         </center>
                         </h3>
                     </div>
-                    <div class="modal-body" id="affichemesmsg">
-                        <form action ="#" data-url="https://findtagant.online/controleur/compte.php" method="post" id="form_compte">
+                    <div class="modal-body">
+                        <form action ="#" data-url="controleur/addCaracteristiquesArti.php" method="post" name="addCaracteristiquesArticle" id="form_addCaracteristiquesArticle">
                             <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
                                 <span class="input-group-addon"><span class='langue'>Libellé :</span></span>
-                                <input type="tel" class="form-control" name="tel1" required>
+                                <input type="text" class="form-control" name="libelle" required>
                             </div>
                             <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
-                                <span class="input-group-addon"><span class='langue'>Valeur:</span></span>
-                                <input type="tel" class="form-control" name="tel1" required>
+                                <span class="input-group-addon"><span>Valeur:</span></span>
+                                <input type="text" class="form-control" name="valeur" required>
                             </div>
                             <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Ajouter</span></button>
-                            <input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+                            <input type="reset" class="reseteur" style="display:none" name='reinitialise'>
                         </form>
                     </div>
                 </div>
@@ -158,7 +195,7 @@
                             <input type="text" class="form-control" placeholder="Ex : 114433" name="code_feraudForMigrate" required>
                         </div>
                         <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Soumettre</span></button>
-                        <input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+                        <input type="reset" class="reseteur" style="display:none" name='reinitialise'>
                     </form>
                 </div>
             </div>
@@ -184,7 +221,7 @@
                                 <select class="arborescence_prod form-control" style="height: 40px;" required></select>
                             </div>
                             <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Modifier</span></button>
-							<input type="reset" id="reseteur" style="display:none" name='reinitialise'>
+							<input type="reset" class="reseteur" style="display:none" name='reinitialise'>
                         </form>
                     </div>
                 </div>
