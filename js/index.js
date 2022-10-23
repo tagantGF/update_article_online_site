@@ -46,7 +46,7 @@ $(function(){
 	$('body').tagant_submit_form('#form_insertArticle');
 	$('body').tagant_submit_form('#form_addCaracteristiquesProduct');
 	$('body').tagant_submit_form('#form_addCaracteristiquesArticle');
-//****************************************************************
+	//****************************************************************
 
 	$('body').on('click','#deconnexion',function(e){
 		e.preventDefault();
@@ -97,37 +97,6 @@ $(function(){
 			$('body').tagant_search_article(valeur);
 		}); 
 	//************************************************************************ */
-
-	//********************************************show button click article lign********************* */
-	 
-		let handleMousemove = (event) => { // detect position souris
-			sessionStorage.setItem('xMousePos',`${event.x}`);
-			sessionStorage.setItem('yMousePos',`${event.y}`);
-		};
-		let handleClickmove = (event) => { //detecte le click
-			var pp = $('body div#bloc_option_article').attr('style');
-			if(pp != 'display: none;'){
-				$('body div#bloc_option_article').css({
-					"display":"none"
-				});
-			}
-		};
-	 	document.addEventListener('mousemove', handleMousemove);
-		document.addEventListener('click', handleClickmove);
-
-
-		$('body').on('click','.row_carac_article',function(e){ // affiche option(delete,update) après click sur ligne article
-			e.preventDefault();
-			e.stopPropagation();
-			$('body div#bloc_option_article').removeAttr('style');
-			$('body div#bloc_option_article').css({
-				"position":"absolute",
-				"left":sessionStorage.getItem('xMousePos')+'px',
-				"top":sessionStorage.getItem('yMousePos')+'px',
-				"z-index":"99"
-			});
-		});
-	//************************************************************************************************************************ */
 
 	//**************************************edit elements*************************************************************** */
 		$('body').on('click','.editable',function(e){ // affiche option(delete,update) après click sur ligne article
@@ -218,6 +187,30 @@ $(function(){
 			}
 		}); 
 	//**************************************************************************** */
+
+	//***************************modifie element produit*************************** */
+		$('body').on('click','.modifieElmtProd',function(e){ // affiche option(delete,update) après click sur ligne article
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var th = $(this);
+			var lenom = th.attr('id');
+			var codeFeraud = th.attr('name');
+			var valeur = $('body textarea[name='+lenom+']').val();
+ 			var datass = lenom+'='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+			$.ajax({
+				url:"controleur/modifArticles.php",
+				type:'post',
+				dataType:'json',
+				data:datass,
+				success:function(data){
+					if(data == 'changement fait !'){
+						$('body').tagant_search_article(codeFeraud);
+					}
+				}
+			})
+		});
+	//****************************************************************************** */
 })
 
  

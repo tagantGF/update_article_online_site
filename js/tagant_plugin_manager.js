@@ -246,10 +246,7 @@
 											<form class="form-inline arbo_produit" style="display: none;">\
 												<div class="block_arbo">\
 													<div class="form-group mx-sm-3 mb-2">\
-														<select class="arborescence_prod form-control" style="height: 40px;" required>\
-															<option>Cameroun</option>\
-															<option>Gabon</option>\
-														</select>\
+														<select class="arborescence_prod form-control" style="height: 40px;" required></select>\
 													</div>\
 													<button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button>\
 												</div>\
@@ -261,25 +258,25 @@
 										<h4><center><strong>Information du produit :</strong></center></h4>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Titre produit:</span></label><br>\
-											<form class="titre_produit" style="display:none">\
-												<br><textarea cols="40" rows="4" class="form-control"></textarea>\
-												<center><button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
+											<form id="ModifieProdElmtTitreProd" class="titre_produit" style="display:none">\
+												<br><textarea cols="40" rows="4" name="ProductName" class="form-control"></textarea>\
+												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="ProductName" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<div class="editable" style="cursor:pointer" name="titre_produit"><center>'+titre_prod+'</center></div>\
 										</div>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Texte court:</span></label><br>\
-											<form class="text_produit" style="display:none">\
-												<br><textarea cols="40" rows="4" class="form-control"></textarea>\
-												<center><button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
+											<form action ="#" method="post" id="ModifieProdElmtTextProd" class="text_produit" style="display:none">\
+												<br><textarea cols="40" rows="4" name="caracteristiques" class="form-control"></textarea>\
+												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="caracteristiques" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<div class="editable" style="cursor:pointer" name="text_produit"><center>'+text_prod+'</center></div>\
 										</div>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Description:</span></label><br>\
-											<form class="description_produit" style="display:none">\
-												<br><textarea cols="40" rows="4" class="form-control"></textarea>\
-												<center><button type="submit" class="btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
+											<form action ="#" method="post" id="ModifieProdElmtDescriptionProd" class="description_produit" style="display:none">\
+												<br><textarea cols="40" rows="4" name="description" class="form-control"></textarea>\
+												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="description" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<div class="editable" style="cursor:pointer;" name="description_produit"><center>'+description_prod+'</center></div>\
 										</div>\
