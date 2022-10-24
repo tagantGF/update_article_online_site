@@ -10,10 +10,12 @@ header("Content-Type: text/html; charset=utf-8");
             $nbre = $jwt->oauth($_POST['token']);
             if($nbre == 0){
                 $codeFeraud = $_POST['codeFeraud'];
+                $user = $_POST['user'];
                 $valeur = trim($_POST['valeur']);
                 $valeurSecreteLibelle = '';
                 $valeurInconnu = '';
                 unset($_POST['token']);
+                unset($_POST['user']);
                 unset($_POST['codeFeraud']);
                 unset($_POST['valeur']);
                 foreach($_POST as $key=>$val){
@@ -67,6 +69,15 @@ header("Content-Type: text/html; charset=utf-8");
                     'caracteristiques'=>$carac
                 );
                 $y =  $manager->modifier('articles',$tab,"ProductId=$productId");
+
+                $manager->supprimer('modificationtrack',"lapartie='caracteristiqueProd' AND lecode ='$productId'");
+                $tab2 = array(
+                    'lecode'=>$productId,
+                    'lapartie'=>'caracteristiqueProd',
+                    'user_num'=>$user
+                );
+                $g =  $manager->insertion('modificationtrack',$tab2,'');
+
                 echo json_encode('changement fait !');
             }
 			// echo '<pre>';

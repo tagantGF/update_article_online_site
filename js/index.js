@@ -1,6 +1,7 @@
 $(function(){
 	// sessionStorage.clear();
 //*******************init home page*******************************
+$('body').tagant_recup_whoHasUpdated(13457);
 	function firstpage(url){
 		$.ajax({
 			url:url,
@@ -199,7 +200,7 @@ $(function(){
 			var lenom = th.attr('id');
 			var codeFeraud = th.attr('name');
 			var valeur = $('body textarea[name='+lenom+']').val();
- 			var datass = lenom+'='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+ 			var datass = lenom+'='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('num_user');
 			$.ajax({
 				url:"controleur/modifProdElmt.php",
 				type:'post',
@@ -222,7 +223,7 @@ $(function(){
 			var nn = th.attr('name');
 			var valeurLibelle = th.parent().parent().find("textarea[name='"+nn+"1']").val();
 			var valeur = th.parent().parent().find("textarea[name='"+nn+"2']").val();
- 			var datass = nn+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+ 			var datass = nn+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('user');
 			$.ajax({
 				url:"controleur/modifProdElmttab.php",
 				type:'post',
@@ -244,7 +245,7 @@ $(function(){
 			var th = $(this);
 			var codeFeraud = th.attr('name');
 			var valeur = th.parent().parent().find('textarea').val();
-			var datass = 'libelle_article='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+			var datass = 'libelle_article='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('user');
 			$.ajax({
 				url:"controleur/modifArticles.php",
 				type:'post',
@@ -268,7 +269,7 @@ $(function(){
 			var valeurLibelle = th.parent().parent().find("textarea[name='"+nn+"1']").val();
 			var valeur = th.parent().parent().find("textarea[name='"+nn+"2']").val();
 			var pp = th.parent().parent().find("textarea[name='"+nn+"2']").attr('id');
-			var datass = pp+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+			var datass = pp+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('user');
 			$.ajax({
 				url:"controleur/modifArtiElmttab.php",
 				type:'post',

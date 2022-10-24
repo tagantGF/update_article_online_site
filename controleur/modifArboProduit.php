@@ -12,6 +12,7 @@ header("Content-Type: text/html; charset=utf-8");
             $nbre = $jwt->oauth($_POST['token']);
             if($nbre == 0){
                 $arbo = $_POST['arborescence_prod'];
+                $user = $_POST['user'];
                 $codeFeraud = $_POST['codeFeraud'];
                 $arbo = explode("/", $arbo);
                 $t = $manager->selectionUnique2('articles',array('ProductId'),"code_feraud=$codeFeraud");
@@ -22,6 +23,14 @@ header("Content-Type: text/html; charset=utf-8");
                     'TreeName3'=>$arbo[2]
                 );
                 $y =  $manager->modifier('articles',$tab,"ProductId=$productId");
+
+                $manager->supprimer('modificationtrack',"lapartie IN ('ArborescenceProd'') AND lecode ='$productId'");
+                $tab2 = array(
+                    'lecode'=>$productId,
+                    'lapartie'=>'ArborescenceProd',
+                    'user_num'=>$user
+                );
+                $g =  $manager->insertion('modificationtrack',$tab2,'');
                 echo json_encode('modification faite !');
             }
 	}else{
