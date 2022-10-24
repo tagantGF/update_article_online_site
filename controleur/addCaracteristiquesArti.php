@@ -1,5 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
+header("Content-Type: text/html; charset=utf-8");
 	if (isset($_POST)){
 			include_once('../model/bigModelForMe.php');
 			require_once '../includes/config.php';

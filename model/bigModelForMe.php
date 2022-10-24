@@ -180,7 +180,7 @@ header("Content-Type: text/html; charset=utf-8");
 			}
 			$q = substr($q,0,-1);
 			$q .= " WHERE $contrainte";
-			//$this->db->exec('SET NAMES utf8');
+			$this->db->exec('SET NAMES utf8');
 			$this->db->query($q);
 			return $q;
 		}

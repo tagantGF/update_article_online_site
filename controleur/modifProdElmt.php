@@ -1,5 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
+header("Content-Type: text/html; charset=utf-8");
 	if (isset($_POST)){
 			include_once('../model/bigModelForMe.php');
 			require_once '../includes/config.php';
@@ -14,11 +15,10 @@ header("Access-Control-Allow-Origin: *");
                 foreach($_POST as $key=>$val){
                     $_POST[$key] = htmlspecialchars($val);
                 }
-                $tab = array(
-                    'libelle_article'=>$_POST['libelle_article']
-                );
-                $y =  $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");
-                echo json_encode('changement fait !');
+                $t = $manager->selectionUnique2('articles',array('ProductId'),"code_feraud=$codeFeraud");
+                $productId =  $t[0]->ProductId;
+                $y =  $manager->modifier('articles',$_POST,"ProductId=$productId");
+                echo json_encode("changement fait !");
             }
 			// echo '<pre>';
             //     print_r($recup);

@@ -46,6 +46,7 @@ $(function(){
 	$('body').tagant_submit_form('#form_insertArticle');
 	$('body').tagant_submit_form('#form_addCaracteristiquesProduct');
 	$('body').tagant_submit_form('#form_addCaracteristiquesArticle');
+	$('body').tagant_submit_form('#form_ChangeArbo');
 	//****************************************************************
 
 	$('body').on('click','#deconnexion',function(e){
@@ -148,6 +149,7 @@ $(function(){
 			if(lenom == 'showProdArbo'){
 				$('body #showArbo').modal('show');
 				$('body').tagant_recup();
+				sessionStorage.setItem('codeFeraudArbo',th.attr('name'));
 			}else if(lenom == 'addArtiProd'){
 				sessionStorage.setItem('codeFeraudForAddArticle',th.attr('name'));
 				$('body #ajouterArticle').modal('show');
@@ -157,7 +159,7 @@ $(function(){
 			}else if(lenom == 'caracArti'){
 				$('body #ajouterArtiCarac').modal('show');
 				sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
-			}else if(lenom == 'changeProdArti'){
+			}else if(th.is(".changeProdArti")){
 				sessionStorage.setItem('codeFeraudToChange',th.attr('name'));
 				$('body #changeProdArticle').modal('show');
 			}
@@ -199,7 +201,30 @@ $(function(){
 			var valeur = $('body textarea[name='+lenom+']').val();
  			var datass = lenom+'='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
 			$.ajax({
-				url:"controleur/modifArticles.php",
+				url:"controleur/modifProdElmt.php",
+				type:'post',
+				dataType:'json',
+				data:datass,
+				success:function(data){
+					if(data == 'changement fait !'){
+						$('body').tagant_search_article(codeFeraud);
+					}
+				}
+			})
+		});
+
+		$('body').on('click','.saveCaractProd',function(e){ 
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var th = $(this);
+			var codeFeraud = th.attr('id');
+			var nn = th.attr('name');
+			var valeurLibelle = th.parent().parent().find("textarea[name='"+nn+"1']").val();
+			var valeur = th.parent().parent().find("textarea[name='"+nn+"2']").val();
+ 			var datass = nn+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+			$.ajax({
+				url:"controleur/modifProdElmttab.php",
 				type:'post',
 				dataType:'json',
 				data:datass,
@@ -211,6 +236,52 @@ $(function(){
 			})
 		});
 	//****************************************************************************** */
+	//***************************modifie element articles*************************** */
+		$('body').on('click','.modifieElmtArti',function(e){ // affiche option(delete,update) après click sur ligne article
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var th = $(this);
+			var codeFeraud = th.attr('name');
+			var valeur = th.parent().parent().find('textarea').val();
+			var datass = 'libelle_article='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+			$.ajax({
+				url:"controleur/modifArticles.php",
+				type:'post',
+				dataType:'json',
+				data:datass,
+				success:function(data){
+					if(data == 'changement fait !'){
+						$('body').tagant_search_article(codeFeraud);
+					}
+				}
+			})
+		});
+
+		$('body').on('click','.saveCaractArti',function(e){ 
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var th = $(this);
+			var codeFeraud = th.attr('id');
+			var nn = th.attr('name');
+			var valeurLibelle = th.parent().parent().find("textarea[name='"+nn+"1']").val();
+			var valeur = th.parent().parent().find("textarea[name='"+nn+"2']").val();
+			var pp = th.parent().parent().find("textarea[name='"+nn+"2']").attr('id');
+			var datass = pp+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud;
+			$.ajax({
+				url:"controleur/modifArtiElmttab.php",
+				type:'post',
+				dataType:'json',
+				data:datass,
+				success:function(data){
+					if(data == 'changement fait !'){
+						$('body').tagant_search_article(codeFeraud);
+					}
+				}
+			})
+		});
+//****************************************************************************** */
 })
 
  
