@@ -12,6 +12,7 @@ header("Content-Type: text/html; charset=utf-8");
                 $codeFeraud = $_POST['codeFeraudForAddCaract'];
                 $libelle = htmlspecialchars(addslashes($_POST['libelle']));
                 $valeur = htmlspecialchars(addslashes($_POST['valeur']));
+                $user = $_POST['user'];
                 $t = $manager->selectionUnique2('articles',array('*'),"code_feraud=$codeFeraud");
                 for($a=3;$a<12;$a++){
                     foreach($t[0] as $k=>$v){
@@ -23,6 +24,15 @@ header("Content-Type: text/html; charset=utf-8");
                                         "ArtVal$a"=>$valeur
                                     );
                                     $y =  $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");
+
+                                    $manager->supprimer('modificationtrack',"lapartie=caracteristiqueArti AND lecode ='$codeFeraud'");
+                                    $tab2 = array(
+                                        'lecode'=>$codeFeraud,
+                                        'lapartie'=>'caracteristiqueArti',
+                                        'user_num'=>$user
+                                    );
+                                    $g =  $manager->insertion('modificationtrack',$tab2,'');
+
                                     echo json_encode($y);
                                     $a = 12;
                                 }

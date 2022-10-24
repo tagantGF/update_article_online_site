@@ -44,9 +44,9 @@
 			}else if(form_soumis == '#form_insertArticle'){
 				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForProd='+sessionStorage.getItem('codeFeraudForAddArticle');
 			}else if(form_soumis == '#form_addCaracteristiquesProduct'){
-				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForAddCaract='+sessionStorage.getItem('codeFeraudForAddCaract')+'&user='+sessionStorage.getItem('user');
+				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForAddCaract='+sessionStorage.getItem('codeFeraudForAddCaract')+'&user='+sessionStorage.getItem('num_user');
 			}else if(form_soumis == '#form_addCaracteristiquesArticle'){
-				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForAddCaract='+sessionStorage.getItem('codeFeraudForAddCaract');
+				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForAddCaract='+sessionStorage.getItem('codeFeraudForAddCaract')+'&user='+sessionStorage.getItem('num_user');
 			}else if(form_soumis == '#form_ChangeArbo'){
 				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+sessionStorage.getItem('codeFeraudArbo')+'&user='+sessionStorage.getItem('num_user');
 			}
@@ -174,7 +174,18 @@
 			data:'token='+sessionStorage.getItem('token')+'&prodId='+prodID,
 			dataType:'json',
 			success:function(data){
-				
+				for(var a in data){
+					var lapartie = '';
+					var nomuser = '';
+					for(var b in data[a]){
+						if(b == 'lapartie'){
+							lapartie = data[a][b];
+						}else if(b == 'user_num'){
+							nomuser = data[a][b];
+						}
+					}
+					sessionStorage.setItem(lapartie,nomuser);
+				}
 			}
 		})
 	}
@@ -234,6 +245,7 @@
 									codeFeraudForAddArticle = data[0][a];
 								}else if(a == 'ProductId'){
 									productId = data[0][a];
+									sessionStorage.setItem('produitArti',productId);
 								}
 							}
 							caracteristiques =  caracteristiques.split('•');
@@ -262,12 +274,12 @@
 								<div class="row col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;">\
 									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="border-right:0.5px solid black">\
 										<div style="margin-top:12em">\
-											<h4><center><strong><span style="color:#5bc0de" class="glyphicon glyphicon-info-sign"></span> Arborescence du produit :</strong></center></h4>\
+											<h4><center><strong><span tabindex="0" data-bs-toggle="tooltip" title="ArborescenceProd" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Arborescence du produit :</strong></center></h4>\
 											<span class="showProdArbo" id="showProdArbo" name="'+codeFeraudForAddArticle+'" style="font-size:18px;cursor: pointer;"><center>'+arbo+'</center></span>\
 										</div>\
 									</div>\
 									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6">\
-										<h4><center><strong><span style="color:#5bc0de" class="glyphicon glyphicon-info-sign"></span> Information du produit :</strong></center></h4>\
+										<h4><center><strong><span tabindex="0" data-bs-toggle="tooltip" title="infoProd" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Information du produit :</strong></center></h4>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Titre produit:</span></label><br>\
 											<form id="ModifieProdElmtTitreProd" class="titre_produit" style="display:none">\
@@ -295,7 +307,7 @@
 									</div>\
 								</div>\
 								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12">\
-									<h4><center><strong><span style="color:#5bc0de" class="glyphicon glyphicon-info-sign"></span> Caractéristiques du produit <button id="caracProd" name="'+codeFeraudForAddArticle+'" class="caracProd btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4><br>\
+									<h4><center><strong><span tabindex="0" data-bs-toggle="tooltip" title="caracteristiqueProd" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Caractéristiques du produit <button id="caracProd" name="'+codeFeraudForAddArticle+'" class="caracProd btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4><br>\
 									<table class="table table-striped table-bordered table-condensed">\
 										<!-- <thead></thead> -->\
 										<tbody>'+caracteristiques_prod+'</tbody>\
@@ -375,7 +387,7 @@
 								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;"">\
 									<h4>\
 										<center>\
-										<span style="color:#5bc0de" class="glyphicon glyphicon-info-sign"></span> Article \
+										<span tabindex="0" data-bs-toggle="tooltip" title="libArti" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Article \
 											<span style="background-color:#2dadc1">'+code_feraud+'</span> : \
 											<form class="libArt'+code_feraud+'" style="display:none">\
 												<br><textarea cols="40" rows="4" name="libelle_article" id="'+code_feraud+'" class="form-control"></textarea>\
@@ -398,7 +410,7 @@
 									</div>\
 								</div>\
 								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12">\
-									<h4><center><strong><span tabindex="0" data-bs-toggle="tooltip" title="Disabled tooltip" style="color:#5bc0de;cursor:pointer" class="d-inline-block glyphicon glyphicon-info-sign"></span> Caractéristiques de l\'article <button name="'+code_feraud+'" id="caracArti" class="caracArti btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4>\
+									<h4><center><strong><span tabindex="0" data-bs-toggle="tooltip" title="caracteristiqueArti" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Caractéristiques de l\'article <button name="'+code_feraud+'" id="caracArti" class="caracArti btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4>\
 									<table class="table table-striped table-bordered table-condensed">\
 										<thead>\
 										  <!-- <tr>\
@@ -416,6 +428,7 @@
 							$('body #content_block_prod').html(produit);
 							$('body #content_block_art').html(liste_articles);
 							$('body span.id_article').text(id_article);
+							$('body').tagant_recup_whoHasUpdated(sessionStorage.getItem('produitArti'));
 						}
 					})
 				}

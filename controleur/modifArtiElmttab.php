@@ -41,8 +41,7 @@ header("Content-Type: text/html; charset=utf-8");
                     $tab[$k] = $v;
                 }
 
-                $t = $manager->selectionUnique2('articles',array('ProductId'),"code_feraud=$codeFeraud");
-                $productId =  $t[0]->ProductId;
+                
                 $manager->supprimer('modificationtrack',"lapartie=caracteristiqueArti AND lecode ='$codeFeraud'");
                 $tab2 = array(
                     'lecode'=>$codeFeraud,

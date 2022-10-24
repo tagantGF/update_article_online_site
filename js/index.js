@@ -1,7 +1,6 @@
 $(function(){
 	// sessionStorage.clear();
 //*******************init home page*******************************
-$('body').tagant_recup_whoHasUpdated(13457);
 	function firstpage(url){
 		$.ajax({
 			url:url,
@@ -223,7 +222,7 @@ $('body').tagant_recup_whoHasUpdated(13457);
 			var nn = th.attr('name');
 			var valeurLibelle = th.parent().parent().find("textarea[name='"+nn+"1']").val();
 			var valeur = th.parent().parent().find("textarea[name='"+nn+"2']").val();
- 			var datass = nn+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('user');
+ 			var datass = nn+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('num_user');
 			$.ajax({
 				url:"controleur/modifProdElmttab.php",
 				type:'post',
@@ -245,7 +244,7 @@ $('body').tagant_recup_whoHasUpdated(13457);
 			var th = $(this);
 			var codeFeraud = th.attr('name');
 			var valeur = th.parent().parent().find('textarea').val();
-			var datass = 'libelle_article='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('user');
+			var datass = 'libelle_article='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('num_user');
 			$.ajax({
 				url:"controleur/modifArticles.php",
 				type:'post',
@@ -269,7 +268,7 @@ $('body').tagant_recup_whoHasUpdated(13457);
 			var valeurLibelle = th.parent().parent().find("textarea[name='"+nn+"1']").val();
 			var valeur = th.parent().parent().find("textarea[name='"+nn+"2']").val();
 			var pp = th.parent().parent().find("textarea[name='"+nn+"2']").attr('id');
-			var datass = pp+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('user');
+			var datass = pp+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('num_user');
 			$.ajax({
 				url:"controleur/modifArtiElmttab.php",
 				type:'post',
@@ -283,6 +282,19 @@ $('body').tagant_recup_whoHasUpdated(13457);
 			})
 		});
 //****************************************************************************** */
+
+//*******************************show tooltip************************** */
+	$('body').on('mouseenter','.showtoltip',function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		var th = $(this);
+		var lib = th.attr('title');
+		if(['infoProd','ArborescenceProd','caracteristiqueProd','libArti','caracteristiqueArti'].includes(lib) && sessionStorage.getItem(lib)){
+			th.attr('title','Changement fait par : '+sessionStorage.getItem(lib).toUpperCase());
+		}
+	});
+
+//***************************************************************************** */
 })
 
  

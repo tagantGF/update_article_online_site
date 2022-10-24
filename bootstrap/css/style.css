@@ -13,8 +13,8 @@ body #contenu{
 }
 body #connexion{
 	position:absolute;
-	top:35%;
-	height: 30%;
+	top:30%;
+	height: 40%;
 	border:none;
 }
 body #deconnexion{
@@ -26,8 +26,8 @@ body #logoFeraudPage{
 }
 body #enregistrement{ 
 	position:absolute;
-	top:30%;
-	height: 40%;
+	top:25%;
+	height: 50%;
 }
 body #formContact{
 	position:absolute;
