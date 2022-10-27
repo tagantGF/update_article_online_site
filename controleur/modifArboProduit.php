@@ -26,7 +26,7 @@ header("Content-Type: text/html; charset=utf-8");
 
                 $manager->supprimer('modificationtrack',"lapartie IN ('ArborescenceProd'') AND lecode ='$productId'");
                 $tab2 = array(
-                    'lecode'=>$productId,
+                    'lecode'=>''.$productId.'',
                     'lapartie'=>'ArborescenceProd',
                     'user_num'=>$user
                 );

@@ -23,6 +23,7 @@ header("Content-Type: text/html; charset=utf-8");
                     $valeurSecreteLibelle = trim($key);
                     $valeurInconnu = trim($_POST[$key]);
                 }
+               
                 $valeurSecreteLibelle = str_replace("_"," ",$valeurSecreteLibelle);
                 $valeurSecreteLibelle = trim($valeurSecreteLibelle);
                 $envoi0 = $manager->selectionUnique2('articles',array('*'),"code_feraud=$codeFeraud");
@@ -44,14 +45,16 @@ header("Content-Type: text/html; charset=utf-8");
                     $varMaChaine = str_replace($search, $replace, $varMaChaine);
                     return $varMaChaine; //On retourne le résultat
                 }
+               
                 
-                if(strtolower(fctRetirerAccents(trim($caracteristique[1][0]))) == $valeurSecreteLibelle){
-                    $caracteristique[1][0] = $valeurInconnu;
-                    $caracteristique[1][1] = $valeur;
-                }else if(strtolower(fctRetirerAccents(trim($caracteristique[2][0]))) == $valeurSecreteLibelle){
-                    $caracteristique[2][0] = $valeurInconnu;
-                    $caracteristique[2][1] = $valeur;
-                } 
+
+                foreach($caracteristique as $k=>$v){
+                    if(strtolower(fctRetirerAccents(trim($v[0]))) == $valeurSecreteLibelle){
+                        $caracteristique[$k][0] = strtoupper($valeurInconnu);
+                        $caracteristique[$k][1] = $valeur;
+                    }
+                }
+
                 $carac = '';
                 foreach($caracteristique as $key=>$val){
                     $carac .= '• ';
@@ -68,11 +71,14 @@ header("Content-Type: text/html; charset=utf-8");
                 $tab = array(
                     'caracteristiques'=>$carac
                 );
-                $y =  $manager->modifier('articles',$tab,"ProductId=$productId");
+
+               
+
+                $y =  $manager->modifier('articles',$tab,"ProductId='$productId'");
 
                 $manager->supprimer('modificationtrack',"lapartie='caracteristiqueProd' AND lecode ='$productId'");
                 $tab2 = array(
-                    'lecode'=>$productId,
+                    'lecode'=>''.$productId.'',
                     'lapartie'=>'caracteristiqueProd',
                     'user_num'=>$user
                 );

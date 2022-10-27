@@ -123,10 +123,16 @@
 						$('body #changeProdArticle .reseteur').trigger('click');
 						$('body #changeProdArticle .close').trigger('click');
 						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudToChange'));
-					}else if(nom == "insertArticle" && data == "Ajout fait !"){
-						$('body #ajouterArticle .reseteur').trigger('click');
-						$('body #ajouterArticle .close').trigger('click');
-						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudForAddArticle'));
+					}else if(nom == "insertArticle"){
+						if(data == 'Ajout fait !'){
+							$('body #ajouterArticle .reseteur').trigger('click');
+							$('body #ajouterArticle .close').trigger('click');
+							$('body').tagant_search_article(sessionStorage.getItem('codeFeraudForAddArticle'));
+						}else{
+							$('body #ajouterArticle .reseteur').trigger('click');
+							$('body #ajouterArticle .close').trigger('click');
+							alert("Article déjà existant !");
+						}
 					}else if(nom == "addCaracteristiquesProduct" && data == "Changement fait !"){
 						$('body #ajouterProdCarac .reseteur').trigger('click');
 						$('body #ajouterProdCarac .close').trigger('click');
@@ -174,17 +180,24 @@
 			data:'token='+sessionStorage.getItem('token')+'&prodId='+prodID,
 			dataType:'json',
 			success:function(data){
-				for(var a in data){
-					var lapartie = '';
-					var nomuser = '';
-					for(var b in data[a]){
-						if(b == 'lapartie'){
-							lapartie = data[a][b];
-						}else if(b == 'user_num'){
-							nomuser = data[a][b];
+				if(data.length > 0){
+					for(var a in data){
+						var lapartie = '';
+						var nomuser = '';
+						for(var b in data[a]){
+							if(b == 'lapartie'){
+								lapartie = data[a][b];
+							}else if(b == 'user_num'){
+								nomuser = data[a][b];
+							}
 						}
+						sessionStorage.setItem(lapartie,nomuser);
 					}
-					sessionStorage.setItem(lapartie,nomuser);
+				}else{
+					var tab = ['infoProd','ArborescenceProd','caracteristiqueProd','libArti','caracteristiqueArti'];
+					for(var a in tab){
+						sessionStorage.removeItem(tab[a]);
+					}
 				}
 			}
 		})
@@ -248,28 +261,31 @@
 									sessionStorage.setItem('produitArti',productId);
 								}
 							}
-							caracteristiques =  caracteristiques.split('•');
-							caracteristiques = caracteristiques.filter(function(n){return n != ''});
-							for(var aa in caracteristiques){
-								caracteristiques[aa] =  caracteristiques[aa].split(':');
-								caracteristiques_prod += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
-																<td><strong>'+caracteristiques[aa][0]+'</strong></td>\
-																<td>'+caracteristiques[aa][1]+'</td>\
-															</tr>\
-															<tr style="display:none" class="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
-																<td>\
-																	<div class="col">\
-																		<textarea name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
-																	</div>\
-																</td>\
-																<td>\
-																	<div class="col">\
-																		<textarea name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
-																	</div><span id="'+codeFeraudForAddArticle+'" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'" style="left:-26px" class="saveCaractProd glyphicon glyphicon-ok-sign btn btn-success"><span>\
-																</td>\
-															</tr>';
+							
+							caracteristiques =  (caracteristiques)?caracteristiques.split('•'):"";
+							if(caracteristiques !=""){
+								caracteristiques = caracteristiques.filter(function(n){return n != ''});
+								for(var aa in caracteristiques){
+									caracteristiques[aa] =  caracteristiques[aa].split(':');
+									caracteristiques_prod += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+																	<td><strong>'+caracteristiques[aa][0]+'</strong></td>\
+																	<td>'+caracteristiques[aa][1]+'</td>\
+																</tr>\
+																<tr style="display:none" class="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+																	<td>\
+																		<div class="col">\
+																			<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
+																		</div>\
+																	</td>\
+																	<td>\
+																		<div class="col">\
+																			<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
+																		</div><span id="'+codeFeraudForAddArticle+'" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'" style="left:-26px" class="saveCaractProd glyphicon glyphicon-ok-sign btn btn-success"><span>\
+																	</td>\
+																</tr>';
+								}
 							}
-							produit = '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:0.2px solid black;padding-top:10px;padding-bottom:10px;margin-bottom:20px">\
+							produit = '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:3.2px groove #28a745;padding-top:10px;padding-bottom:10px;margin-bottom:20px">\
 								<h3><center>Produit de l\'article <button name="'+codeFeraudForAddArticle+'" id="addArtiProd" class="addArtiProd btn btn-info glyphicon glyphicon-plus"></button></center></h3><br>\
 								<div class="row col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;">\
 									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="border-right:0.5px solid black">\
@@ -283,7 +299,7 @@
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Titre produit:</span></label><br>\
 											<form id="ModifieProdElmtTitreProd" class="titre_produit" style="display:none">\
-												<br><textarea cols="40" rows="4" name="ProductName" class="form-control"></textarea>\
+												<br><textarea required cols="40" rows="4" name="ProductName" class="form-control"></textarea>\
 												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="ProductName" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<div class="editable" style="cursor:pointer" name="titre_produit"><center>'+titre_prod+'</center></div>\
@@ -291,7 +307,7 @@
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Texte court:</span></label><br>\
 											<form action ="#" method="post" id="ModifieProdElmtTextProd" class="text_produit" style="display:none">\
-												<br><textarea cols="40" rows="4" name="caracteristiques" class="form-control"></textarea>\
+												<br><textarea required cols="40" rows="4" name="caracteristiques" class="form-control"></textarea>\
 												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="caracteristiques" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<div class="editable" style="cursor:pointer" name="text_produit"><center>'+text_prod+'</center></div>\
@@ -299,7 +315,7 @@
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Description:</span></label><br>\
 											<form action ="#" method="post" id="ModifieProdElmtDescriptionProd" class="description_produit" style="display:none">\
-												<br><textarea cols="40" rows="4" name="description" class="form-control"></textarea>\
+												<br><textarea required cols="40" rows="4" name="description" class="form-control"></textarea>\
 												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="description" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<div class="editable" style="cursor:pointer;" name="description_produit"><center>'+description_prod+'</center></div>\
@@ -330,22 +346,25 @@
 									if(d == 'libelle_article'){
 										lib_article = data[c][d];
 									}else if(d == 'ProductImageHD1'){
-										if([null,''].includes(data[c][d])){
+										if([null,'',undefined].includes(data[c][d])){
 											photo1 = 'images/image_default.png';
 										}else{
-											photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+											//photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+											photo1 = '5 - Média/'+data[c][d];
 										}
 									}else if(d == 'ProductImageHD2'){
-										if([null,''].includes(data[c][d])){
+										if([null,'',undefined].includes(data[c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
-											photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+											//photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+											photo2 = '5 - Média/'+data[c][d];
 										}
 									}else if(d == 'ProductImageHD3'){
-										if([null,''].includes(data[c][d])){
+										if([null,'',undefined].includes(data[c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
-											photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+											//photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
+											photo3 = '5 - Média/'+data[c][d];
 										}
 									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[c][d]){
 										arthcode_val.push(data[c][d]);
@@ -361,7 +380,7 @@
 								for(var dd in arthcode_entete){
 									for(var ee in artval_entete){
 										var nArthcode = arthcode_entete[dd].replace(/\D/g,'');
-										var nArthval = arthcode_entete[ee].replace(/\D/g,'');
+										var nArthval = artval_entete[ee].replace(/\D/g,'');
 										
 										if(nArthcode == nArthval){
 											caracteristiques_art += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
@@ -371,12 +390,12 @@
 											<tr style="display:none" class="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
 												<td>\
 													<div class="col">\
-														<textarea name="'+strNoAccent(artval_val[dd]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'lib"></textarea>\
+														<textarea required name="'+strNoAccent(artval_val[dd]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'lib"></textarea>\
 													</div>\
 												</td>\
 												<td>\
 													<div class="col">\
-														<textarea id="'+strNoAccent(arthcode_val[dd]).toLowerCase()+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'val"></textarea>\
+														<textarea required id="'+strNoAccent(arthcode_val[dd]).toLowerCase()+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'val"></textarea>\
 													</div><span id="'+code_feraud+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'" style="left:-26px" class="saveCaractArti glyphicon glyphicon-ok-sign btn btn-success"><span>\
 												</td>\
 											</tr>';
@@ -390,7 +409,7 @@
 										<span tabindex="0" data-bs-toggle="tooltip" title="libArti" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Article \
 											<span style="background-color:#2dadc1">'+code_feraud+'</span> : \
 											<form class="libArt'+code_feraud+'" style="display:none">\
-												<br><textarea cols="40" rows="4" name="libelle_article" id="'+code_feraud+'" class="form-control"></textarea>\
+												<br><textarea required cols="40" rows="4" name="libelle_article" id="'+code_feraud+'" class="form-control"></textarea>\
 												<center><button type="submit" name="'+code_feraud+'" class="modifieElmtArti btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<span class="editable" style="cursor:pointer" name="libArt'+code_feraud+'">'+lib_article+'</span>\
@@ -432,6 +451,9 @@
 						}
 					})
 				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert('Code inconnu')
 			}
 		})
 	}

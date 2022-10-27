@@ -13,7 +13,7 @@ header("Content-Type: text/html; charset=utf-8");
                 $user = $_POST['user'];
                 $libelle = htmlspecialchars(addslashes($_POST['libelle']));
                 $valeur = htmlspecialchars(addslashes($_POST['valeur']));
-                $elmt = " • $libelle : $valeur";
+                $elmt = " • ".strtoupper($libelle)." : $valeur";
 
                 $t = $manager->selectionUnique2('articles',array('ProductId,caracteristiques'),"code_feraud=$codeFeraud");
                 $productId = $t[0]->ProductId;
@@ -23,12 +23,12 @@ header("Content-Type: text/html; charset=utf-8");
                 $tab = array(
                     'caracteristiques'=>$caracteristiques
                 );
-                $y =  $manager->modifier('articles',$tab,"ProductId=$productId");
+                $y =  $manager->modifier('articles',$tab,"ProductId='$productId'");
 
                
                 $manager->supprimer('modificationtrack',"lapartie='caracteristiqueProd' AND lecode ='$productId'");
                 $tab2 = array(
-                    'lecode'=>$productId,
+                    'lecode'=>''.$productId.'',
                     'lapartie'=>'caracteristiqueProd',
                     'user_num'=>$user
                 );

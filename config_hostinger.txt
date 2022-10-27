@@ -1,0 +1,7 @@
+***************base de données********************
+nom : u207806544_pimBd
+username : u207806544_franck
+mdp : PimBd@.2022
+
+
+mdp filezilla : Ftp@.2022

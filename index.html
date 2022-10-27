@@ -43,13 +43,13 @@
     <body>
 		<div class="container">
 			<div id="successContactSave" style="display:none;position:absolute;top:8%;left:20%;" class="alert alert-success col-xs-10 col-lg-5 col-sm-7 col-md-7"><center>Envoi bien effectué !</center></div><br>
-            <div class="pull-left" id="logoFeraudPage" style="display: none;"><img src="images/logo.png" width="200px"></div>
+            <div class="pull-left" id="logoFeraudPage" style="display: none;"><img src="images/logo_gf.svg" width="200px"></div>
             <div id="deconnexion" class="pull-right btn btn-danger" style="display:none"><span class="glyphicon glyphicon-off"></span> Déconnexion</div>
             <div id='search_bar' class="row" style="display:none">
                 <div class="col-md-8">
                   <div class="search">
                     <i class="fa fa-search"></i>
-                    <input type="text" class="id_article2 form-control" placeholder="Veuillez entrer l'identifiant de l'article !">
+                    <input type="number" class="id_article2 form-control" placeholder="Veuillez entrer l'identifiant de l'article !">
                     <button id="home_search2" class="btn btn-primary">Search</button>
                   </div>
                 </div>
@@ -76,7 +76,7 @@
                                     <div class="row form-group">
                                       <div class="col">
                                         <label>Code feraud : </label>
-                                        <input type="text" class="form-control" name="code_feraud" placeholder="Ex: 124487">
+                                        <input type="number" class="form-control" name="code_feraud" maxlength="6" placeholder="Ex: 124487" />
                                       </div>
                                       <div class="col">
                                         <label>Code fournisseur : </label>
@@ -86,7 +86,7 @@
                                     <div class="row form-group">
                                         <div class="col">
                                           <label>EAN : </label>
-                                          <input type="text" class="form-control" name="EAN" placeholder="EAN">
+                                          <input type="number" maxlength="13" class="form-control" name="EAN" placeholder="EAN">
                                         </div>
                                         <div class="col">
                                           <label>Libellé article : </label>
@@ -192,7 +192,7 @@
                     <form action ="#" data-url="controleur/changeProdArti.php" method="post" name="changeProdArti" id="form_changeProdArti">
                         <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
                            <label class='langue'>Veuillez saisir l'identifiant de l'article auquel vous voulez le rattacher :</label>
-                            <input type="text" class="form-control" placeholder="Ex : 114433" name="code_feraudForMigrate" required>
+                            <input type="number" class="form-control" maxlength="6" placeholder="Ex : 114433" name="code_feraudForMigrate" required>
                         </div>
                         <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Soumettre</span></button>
                         <input type="reset" class="reseteur" style="display:none" name='reinitialise'>

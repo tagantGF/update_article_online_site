@@ -19,7 +19,7 @@ header("Access-Control-Allow-Origin: *");
                     'libelle_article'=>$_POST['libelle_article']
                 );
 
-                $manager->supprimer('modificationtrack',"lapartie=libArti AND lecode ='$codeFeraud'");
+                $manager->supprimer('modificationtrack',"lapartie=libArti AND lecode =$codeFeraud");
                 $tab2 = array(
                     'lecode'=>$codeFeraud,
                     'lapartie'=>'libArti',

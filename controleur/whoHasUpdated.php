@@ -10,13 +10,13 @@ header("Content-Type: text/html; charset=utf-8");
             $nbre = $jwt->oauth($_POST['token']);
             if($nbre == 0){
                 $prodId = $_POST['prodId'];
-                $t = $manager->selectionUnique2('articles',array('code_feraud'),"ProductId=$prodId");
+                $t = $manager->selectionUnique2('articles',array('code_feraud'),"ProductId='$prodId'");
                 $elmt = '';
                 foreach($t[0] as $k=>$v){
                     $elmt .= "('".$v."',";
                 }
                 //$elmt = substr($elmt, 0, -1);
-                $elmt .= $prodId.")";
+                $elmt .= "'$prodId')";
                 $t2 = $manager->selectionUnique2('modificationtrack',array('*'),"lecode IN $elmt");
                 if(count($t2 != 0)){
                     foreach($t2 as $k=>$v){

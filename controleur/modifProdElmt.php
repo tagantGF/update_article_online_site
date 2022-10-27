@@ -21,11 +21,11 @@ header("Content-Type: text/html; charset=utf-8");
                 }
                 $t = $manager->selectionUnique2('articles',array('ProductId'),"code_feraud=$codeFeraud");
                 $productId =  $t[0]->ProductId;
-                $y =  $manager->modifier('articles',$_POST,"ProductId=$productId");
+                $y =  $manager->modifier('articles',$_POST,"ProductId='$productId'");
                 
                 $manager->supprimer('modificationtrack',"lapartie='infoProd' AND lecode ='$productId'");
                 $tab2 = array(
-                    'lecode'=>$productId,
+                    'lecode'=>''.$productId.'',
                     'lapartie'=>'infoProd',
                     'user_num'=>$user
                 );

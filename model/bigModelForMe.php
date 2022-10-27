@@ -3,6 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: text/html; charset=utf-8");
 			try
 			{
+				//$db = new PDO('mysql:host=localhost;dbname=u207806544_pimBd','u207806544_franck','PimBd@.2022');
 				$db = new PDO('mysql:host=localhost;dbname=pim_bd','root','');
 				//$db->exec('SET NAMES utf8');
 			}

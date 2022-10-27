@@ -11,7 +11,7 @@ header("Content-Type: text/html; charset=utf-8");
             $id_article = htmlspecialchars(addslashes(trim($_POST['id_article'])));
 			$envoi0 = $manager->selectionUnique2('articles',array('ProductId'),"code_feraud=$id_article");
 			$en = $envoi0[0]->ProductId;
-			$envoi = $manager->selectionUnique2('articles',array('*'),"ProductId=$en");
+			$envoi = $manager->selectionUnique2('articles',array('*'),"ProductId='$en'");
 			echo json_encode($envoi);
 		}
 	}
