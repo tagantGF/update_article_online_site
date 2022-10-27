@@ -364,7 +364,7 @@
 								for(var dd in arthcode_entete){
 									for(var ee in artval_entete){
 										var nArthcode = arthcode_entete[dd].replace(/\D/g,'');
-										var nArthval = arthcode_entete[ee].replace(/\D/g,'');
+										var nArthval = artval_entete[ee].replace(/\D/g,'');
 										
 										if(nArthcode == nArthval){
 											caracteristiques_art += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
