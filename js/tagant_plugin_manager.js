@@ -1,4 +1,4 @@
- (function($){
+(function($){
 	//affiche form_inscription,form_connexion******************
 	jQuery.fn.tagant_affiche_page = function(bouton,evenementss){
 		this.on(evenementss,bouton,function(e){
@@ -123,16 +123,10 @@
 						$('body #changeProdArticle .reseteur').trigger('click');
 						$('body #changeProdArticle .close').trigger('click');
 						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudToChange'));
-					}else if(nom == "insertArticle"){
-						if(data == 'Ajout fait !'){
-							$('body #ajouterArticle .reseteur').trigger('click');
-							$('body #ajouterArticle .close').trigger('click');
-							$('body').tagant_search_article(sessionStorage.getItem('codeFeraudForAddArticle'));
-						}else{
-							$('body #ajouterArticle .reseteur').trigger('click');
-							$('body #ajouterArticle .close').trigger('click');
-							alert("Article déjà existant !");
-						}
+					}else if(nom == "insertArticle" && data == "Ajout fait !"){
+						$('body #ajouterArticle .reseteur').trigger('click');
+						$('body #ajouterArticle .close').trigger('click');
+						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudForAddArticle'));
 					}else if(nom == "addCaracteristiquesProduct" && data == "Changement fait !"){
 						$('body #ajouterProdCarac .reseteur').trigger('click');
 						$('body #ajouterProdCarac .close').trigger('click');
@@ -180,24 +174,17 @@
 			data:'token='+sessionStorage.getItem('token')+'&prodId='+prodID,
 			dataType:'json',
 			success:function(data){
-				if(data.length > 0){
-					for(var a in data){
-						var lapartie = '';
-						var nomuser = '';
-						for(var b in data[a]){
-							if(b == 'lapartie'){
-								lapartie = data[a][b];
-							}else if(b == 'user_num'){
-								nomuser = data[a][b];
-							}
+				for(var a in data){
+					var lapartie = '';
+					var nomuser = '';
+					for(var b in data[a]){
+						if(b == 'lapartie'){
+							lapartie = data[a][b];
+						}else if(b == 'user_num'){
+							nomuser = data[a][b];
 						}
-						sessionStorage.setItem(lapartie,nomuser);
 					}
-				}else{
-					var tab = ['infoProd','ArborescenceProd','caracteristiqueProd','libArti','caracteristiqueArti'];
-					for(var a in tab){
-						sessionStorage.removeItem(tab[a]);
-					}
+					sessionStorage.setItem(lapartie,nomuser);
 				}
 			}
 		})
@@ -235,7 +222,7 @@
 							$('body .id_article2').val('');
 							var liste_articles = "";
 						//*****************************elements relatifs au produit**************** */
-								var arbo = data[0]['TreeName1']+' / '+data[0]['TreeName2']+' / '+data[0]['TreeName3'];
+								var arbo = data[0][0]['TreeName1']+' / '+data[0][0]['TreeName2']+' / '+data[0][0]['TreeName3'];
 								var productId = '';
 								var produit = '';
 								var titre_prod = '';
@@ -245,45 +232,42 @@
 								var caracteristiques = '';
 								var codeFeraudForAddArticle ='';
 							
-							for(var a in data[0]){
+							for(var a in data[0][0]){
 								if(a == 'ProductName'){
-									titre_prod = data[0][a];
+									titre_prod = data[0][0][a];
 								}
 								else if(a == 'caracteristiques'){
-									text_prod = data[0][a];
-									caracteristiques = data[0][a];
+									text_prod = data[0][0][a];
+									caracteristiques = data[0][0][a];
 								}else if(a == 'description'){
-									description_prod = data[0][a];
+									description_prod = data[0][0][a];
 								}else if(a == 'code_feraud'){
-									codeFeraudForAddArticle = data[0][a];
+									codeFeraudForAddArticle = data[0][0][a];
 								}else if(a == 'ProductId'){
-									productId = data[0][a];
+									productId = data[0][0][a];
 									sessionStorage.setItem('produitArti',productId);
 								}
 							}
-							
-							caracteristiques =  (caracteristiques)?caracteristiques.split('•'):"";
-							if(caracteristiques !=""){
-								caracteristiques = caracteristiques.filter(function(n){return n != ''});
-								for(var aa in caracteristiques){
-									caracteristiques[aa] =  caracteristiques[aa].split(':');
-									caracteristiques_prod += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
-																	<td><strong>'+caracteristiques[aa][0]+'</strong></td>\
-																	<td>'+caracteristiques[aa][1]+'</td>\
-																</tr>\
-																<tr style="display:none" class="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
-																	<td>\
-																		<div class="col">\
-																			<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
-																		</div>\
-																	</td>\
-																	<td>\
-																		<div class="col">\
-																			<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
-																		</div><span id="'+codeFeraudForAddArticle+'" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'" style="left:-26px" class="saveCaractProd glyphicon glyphicon-ok-sign btn btn-success"><span>\
-																	</td>\
-																</tr>';
-								}
+							caracteristiques =  caracteristiques.split('•');
+							caracteristiques = caracteristiques.filter(function(n){return n != ''});
+							for(var aa in caracteristiques){
+								caracteristiques[aa] =  caracteristiques[aa].split(':');
+								caracteristiques_prod += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+																<td><strong>'+caracteristiques[aa][0]+'</strong></td>\
+																<td>'+caracteristiques[aa][1]+'</td>\
+															</tr>\
+															<tr style="display:none" class="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+																<td>\
+																	<div class="col">\
+																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
+																	</div>\
+																</td>\
+																<td>\
+																	<div class="col">\
+																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
+																	</div><span id="'+codeFeraudForAddArticle+'" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'" style="left:-26px" class="saveCaractProd glyphicon glyphicon-ok-sign btn btn-success"><span>\
+																</td>\
+															</tr>';
 							}
 							produit = '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:3.2px groove #28a745;padding-top:10px;padding-bottom:10px;margin-bottom:20px">\
 								<h3><center>Produit de l\'article <button name="'+codeFeraudForAddArticle+'" id="addArtiProd" class="addArtiProd btn btn-info glyphicon glyphicon-plus"></button></center></h3><br>\
@@ -332,7 +316,7 @@
 							</div>';
 						//********************************************************************************************************************* */
 						//***************************************************elements relatif aux articles********************** */	
-							for(var c in data){
+							for(var c in data[0]){
 								var lib_article = '';
 								var photo1 = '';
 								var photo2 = '';
@@ -342,45 +326,45 @@
 								var artval_entete = [];
 								var artval_val = [];
 								var caracteristiques_art = '';
-								for(var d in data[c]){
+								for(var d in data[0][c]){
 									if(d == 'libelle_article'){
-										lib_article = data[c][d];
+										lib_article = data[0][c][d];
 									}else if(d == 'ProductImageHD1'){
-										if([null,'',undefined].includes(data[c][d])){
+										if([null,'',undefined].includes(data[0][c][d])){
 											photo1 = 'images/image_default.png';
 										}else{
 											//photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo1 = '5 - Média/'+data[c][d];
+											photo1 = '5 - Média/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD2'){
-										if([null,'',undefined].includes(data[c][d])){
+										if([null,'',undefined].includes(data[0][c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
 											//photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo2 = '5 - Média/'+data[c][d];
+											photo2 = '5 - Média/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD3'){
-										if([null,'',undefined].includes(data[c][d])){
+										if([null,'',undefined].includes(data[0][c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
 											//photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo3 = '5 - Média/'+data[c][d];
+											photo3 = '5 - Média/'+data[0][c][d];
 										}
-									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[c][d]){
-										arthcode_val.push(data[c][d]);
+									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[0][c][d]){
+										arthcode_val.push(data[0][c][d]);
 										arthcode_entete.push(d);
-									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtVal' && data[c][d]){
-										artval_val.push(data[c][d]);
+									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtVal' && data[0][c][d]){
+										artval_val.push(data[0][c][d]);
 										artval_entete.push(d);
 									}
-									else if(d == 'code_feraud' && data[c][d]){
-										code_feraud = data[c][d];
+									else if(d == 'code_feraud' && data[0][c][d]){
+										code_feraud = data[0][c][d];
 									}
 								}
 								for(var dd in arthcode_entete){
 									for(var ee in artval_entete){
 										var nArthcode = arthcode_entete[dd].replace(/\D/g,'');
-										var nArthval = artval_entete[ee].replace(/\D/g,'');
+										var nArthval = arthcode_entete[ee].replace(/\D/g,'');
 										
 										if(nArthcode == nArthval){
 											caracteristiques_art += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
@@ -447,7 +431,15 @@
 							$('body #content_block_prod').html(produit);
 							$('body #content_block_art').html(liste_articles);
 							$('body span.id_article').text(id_article);
+							if(data[1] != ''){
+								var elmt = '<span tabindex="0" data-bs-toggle="tooltip" title="WhoHasValidedArti" style="margin-left:2px;line-height:32px;color:#5bc0de;cursor:pointer" class="WhoHasValidedArti pull-right d-inline-block showtoltip glyphicon glyphicon-info-sign"></span>\
+											<button class="sayValidated pull-right btn btn-success">\
+												<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
+											</button>';
+								$('body .sayIfValidated').replaceWith(elmt);
+							}
 							$('body').tagant_recup_whoHasUpdated(sessionStorage.getItem('produitArti'));
+							$('body .WhoHasValidedArti').attr('title','Validation faite par : '+data[1][0]['user_num']);
 						}
 					})
 				}

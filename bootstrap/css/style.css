@@ -4,12 +4,26 @@ body{
 	-moz-background-size: cover; /* pour Firefox */
 	-o-background-size: cover; /* pour Opera */
 	background-size: cover; /* version standardisée */
-	
 }
+
+
 body #contenu{
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+body #accueil_corps_search_bloc{
+    height: 50%;
+    top: 25%;
+    position: absolute;
+    width: 100%;
+}
+body #accueil_corps{
+    position: absolute;
+    height: 50%;
+    top: 25%;
+    width: 90%;
+    left: 5%;
 }
 body #connexion{
 	position:absolute;
@@ -19,6 +33,7 @@ body #connexion{
 }
 body #deconnexion{
 	top: 5px;
+	cursor: pointer;
 }
 body #logoFeraudPage{
 	top:25px;
@@ -44,7 +59,7 @@ body #accordion{
 }
 
 body div.caracteristique_article{ 
-	margin-top: 10%;
+	margin-top: 8%;
     line-height: 35px;
 }
 body div.row_carac_article{ 

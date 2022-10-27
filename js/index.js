@@ -333,6 +333,28 @@ $(function(){
 	});
 
 //***************************************************************************** */
+//*******************************save article********************************* */
+$('body').on('click','.sayIfValidated',function(e){
+	e.preventDefault();
+	e.stopPropagation();
+	
+	var th = $(this);
+	$.ajax({
+		url:"controleur/addToArticleDone.php",
+		type:'post',
+		dataType:'json',
+		data:'token='+sessionStorage.getItem('token')+'&id_article='+sessionStorage.getItem("search_article_id")+'&user='+sessionStorage.getItem("num_user"),
+		success:function(data){
+			if(data == 'Sauvegarde faite !'){
+				var elmt = '<button class="sayValidated pull-right btn btn-success">\
+				<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
+			</button>';
+				th.replaceWith(elmt);
+			}
+		}
+	})
+});
+//***************************************************************************** */
 })
 
  
