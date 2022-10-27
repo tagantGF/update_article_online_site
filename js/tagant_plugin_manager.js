@@ -334,21 +334,21 @@
 											photo1 = 'images/image_default.png';
 										}else{
 											//photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo1 = '5 - Média/'+data[0][c][d];
+											photo1 = 'images_pim/media/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD2'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
 											//photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo2 = '5 - Média/'+data[0][c][d];
+											photo2 = 'images_pim/media/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD3'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
 											//photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo3 = '5 - Média/'+data[0][c][d];
+											photo3 = 'images_pim/media/'+data[0][c][d];
 										}
 									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[0][c][d]){
 										arthcode_val.push(data[0][c][d]);
@@ -437,9 +437,9 @@
 												<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
 											</button>';
 								$('body .sayIfValidated').replaceWith(elmt);
+								$('body .WhoHasValidedArti').attr('title','Validation faite par : '+data[1][0]['user_num']);
 							}
 							$('body').tagant_recup_whoHasUpdated(sessionStorage.getItem('produitArti'));
-							$('body .WhoHasValidedArti').attr('title','Validation faite par : '+data[1][0]['user_num']);
 						}
 					})
 				}
