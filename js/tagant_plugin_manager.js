@@ -237,7 +237,7 @@
 								var productId = '';
 								var produit = '';
 								var titre_prod = '';
-								var text_prod = '';
+								var text_prod = ''; //a été supprimé de l'affichage
 								var description_prod = '';
 								var caracteristiques_prod= "";
 								var caracteristiques = '';
@@ -298,14 +298,6 @@
 												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="ProductName" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
 											<div class="editable" style="cursor:pointer" name="titre_produit"><center>'+titre_prod+'</center></div>\
-										</div>\
-										<div class="form-group">\
-											<label style="background-color:white" class="pull-left"><span class="langue">Texte court:</span></label><br>\
-											<form action ="#" method="post" id="ModifieProdElmtTextProd" class="text_produit" style="display:none">\
-												<br><textarea required cols="40" rows="4" name="caracteristiques" class="form-control"></textarea>\
-												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="caracteristiques" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
-											</form>\
-											<div class="editable" style="cursor:pointer" name="text_produit"><center>'+text_prod+'</center></div>\
 										</div>\
 										<div class="form-group">\
 											<label style="background-color:white" class="pull-left"><span class="langue">Description:</span></label><br>\
