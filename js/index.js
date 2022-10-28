@@ -121,7 +121,7 @@ $(function(){
 			e.preventDefault();
 			e.stopPropagation();
 			var th = $(this);
-			if(['','invalider'].includes(th.attr('action'))){
+			if(['','invalider',undefined].includes(th.attr('action'))){
 				contenu = th.text();
 				//console.log('yess',contenu);
 				var lenom = th.attr('name');
@@ -186,14 +186,14 @@ $(function(){
 				$('body #ajouterProdCarac').modal('show');
 				sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
 			}else if(lenom == 'caracArti'){
-				if(['','invalider'].includes(th.attr('action'))){
+				if(['','invalider',undefined].includes(th.attr('action'))){
 					$('body #ajouterArtiCarac').modal('show');
 					sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
 				}else{
 					alert('Cet article a été Validé et vérrouillé');
 				}
 			}else if(th.is(".changeProdArti")){
-				if(['','invalider'].includes(th.attr('action'))){
+				if(['','invalider',undefined].includes(th.attr('action'))){
 					sessionStorage.setItem('codeFeraudToChange',th.attr('name'));
 					$('body #changeProdArticle').modal('show');
 				}else{
@@ -408,7 +408,7 @@ $(function(){
 			var valeur = parseInt(th.val());
 			$('body input.id_article2').val(valeur);
 			$('body input.id_article').val(valeur);
-			
+
 			$('body input.id_article').focus();
 			$('body input.id_article2').focus();
 		});

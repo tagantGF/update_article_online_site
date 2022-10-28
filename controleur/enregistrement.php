@@ -10,7 +10,7 @@ header("Content-Type: text/html; charset=utf-8");
 			 $nom = htmlspecialchars(addslashes($_POST['nom']));
 			 $prenom = htmlspecialchars(addslashes($_POST['prenom']));
 			 $email = htmlspecialchars(addslashes($_POST['email']));
-			 $pwd = sha1(htmlspecialchars(addslashes($_POST['pwd'])));
+			 $pwd = sha1(htmlspecialchars(addslashes("PimF2022")));
 			 
 			 $header = [
 				'typ' => 'JWT',
