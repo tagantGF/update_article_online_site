@@ -53,7 +53,11 @@
                     <button id="home_search2" class="btn btn-primary">Search</button>
                   </div>
                 </div>
+                <div class="col-md-4">
+                    <select class="InvalidatedArticle pull-right form-control" style="height:40px;position: relative;top: 10px;">  </select>
+                </div>
             </div>
+         
             <div id="bloc_option_article" style="display: none;">
                 <span class="btn btn-danger glyphicon glyphicon-trash"></span>
                 <span class="btn btn-primary glyphicon glyphicon-pencil"></span>
@@ -76,7 +80,7 @@
                                     <div class="row form-group">
                                       <div class="col">
                                         <label>Code feraud : </label>
-                                        <input type="number" class="form-control" name="code_feraud" maxlength="6" placeholder="Ex: 124487" />
+                                        <input type="number" class="form-control" name="code_feraud" min="6" max="6" placeholder="Ex: 124487" />
                                       </div>
                                       <div class="col">
                                         <label>Code fournisseur : </label>

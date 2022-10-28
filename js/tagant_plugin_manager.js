@@ -83,6 +83,7 @@
 							success:function(data2){
 								$('#contenu').html(data2);
 								$('body #logoFeraudPage').removeAttr('style');
+								$('body').tagant_recup('controleur/articlesNoSave.php');
 							}
 						})
 					}else if(nom == "connexion" && data != "existant"){
@@ -114,6 +115,7 @@
 							data:'',
 							success:function(data2){
 								$('#contenu').html(data2);
+								$('body').tagant_recup('controleur/articlesNoSave.php');
 							}
 						})
 					}else if(nom == "contact"){
@@ -151,19 +153,27 @@
 		})
 	}
 	
-	jQuery.fn.tagant_recup = function(){
+	jQuery.fn.tagant_recup = function(url){
 		$.ajax({
-			url:'controleur/selectAllArbo.php',
+			url:url,
 			type:'post',
 			data:'token='+sessionStorage.getItem('token'),
 			dataType:'json',
 			success:function(data){
-				var liste = "";
-				for(var a in data){
-					var arbo = data[a]['TreeName1']+'/'+data[a]['TreeName2']+'/'+data[a]['TreeName3'];
-					liste += '<option>'+arbo+'</option>';
+				if(url == 'controleur/selectAllArbo.php'){
+					var liste = "";
+					for(var a in data){
+						var arbo = data[a]['TreeName1']+'/'+data[a]['TreeName2']+'/'+data[a]['TreeName3'];
+						liste += '<option>'+arbo+'</option>';
+					}
+					$('body .arborescence_prod').html(liste);
+				}else if(url == 'controleur/articlesNoSave.php'){
+					var liste = "";
+					for(var a in data){
+						liste += '<option value="'+data[a]['code_feraud']+'">'+data[a]['code_feraud']+'</option>';
+					}
+					$('body .InvalidatedArticle').html(liste);
 				}
-				$('body .arborescence_prod').html(liste);
 			}
 		})
 	}
@@ -210,6 +220,7 @@
 			dataType:'json',
 			success:function(data){
 				if(data){
+					
 					$.ajax({
 						url:'vue/articles.html',
 						type:'post',
@@ -326,6 +337,8 @@
 								var artval_entete = [];
 								var artval_val = [];
 								var caracteristiques_art = '';
+								var code_feraud = "";
+								var monattribut="";
 								for(var d in data[0][c]){
 									if(d == 'libelle_article'){
 										lib_article = data[0][c][d];
@@ -334,21 +347,21 @@
 											photo1 = 'images/image_default.png';
 										}else{
 											//photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo1 = 'images_pim/media/'+data[0][c][d];
+											photo1 = '../images_pim/media/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD2'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
 											//photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo2 = 'images_pim/media/'+data[0][c][d];
+											photo2 = '../images_pim/media/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD3'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
 											//photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo3 = 'images_pim/media/'+data[0][c][d];
+											photo3 = '../images_pim/media/'+data[0][c][d];
 										}
 									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[0][c][d]){
 										arthcode_val.push(data[0][c][d]);
@@ -361,13 +374,22 @@
 										code_feraud = data[0][c][d];
 									}
 								}
+								if(data[1] != ""){
+									for(var z in data[1]){
+										if(data[1][z].length > 0){
+											if(data[1][z][0]['art_code'] == code_feraud){
+												monattribut = (data[1][z][0]['action'])?data[1][z][0]['action']:"";
+											}
+										}
+									}
+								}
 								for(var dd in arthcode_entete){
 									for(var ee in artval_entete){
 										var nArthcode = arthcode_entete[dd].replace(/\D/g,'');
 										var nArthval = artval_entete[ee].replace(/\D/g,'');
 										
 										if(nArthcode == nArthval){
-											caracteristiques_art += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
+											caracteristiques_art += ' <tr style="cursor:pointer" action="'+monattribut+'" class="editable_tr" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
 												<td><strong>'+arthcode_val[dd]+'</strong></td>\
 												<td>'+artval_val[dd]+'</td>\
 											</tr>\
@@ -383,6 +405,7 @@
 													</div><span id="'+code_feraud+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'" style="left:-26px" class="saveCaractArti glyphicon glyphicon-ok-sign btn btn-success"><span>\
 												</td>\
 											</tr>';
+
 										}
 									}
 								}
@@ -396,9 +419,9 @@
 												<br><textarea required cols="40" rows="4" name="libelle_article" id="'+code_feraud+'" class="form-control"></textarea>\
 												<center><button type="submit" name="'+code_feraud+'" class="modifieElmtArti btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
-											<span class="editable" style="cursor:pointer" name="libArt'+code_feraud+'">'+lib_article+'</span>\
+											<span class="editable" action="'+monattribut+'" style="cursor:pointer" name="libArt'+code_feraud+'">'+lib_article+'</span>\
 										</center>\
-										<button name="'+code_feraud+'" class="changeProdArti btn btn-warning glyphicon glyphicon-retweet"></button>\
+										<button name="'+code_feraud+'" action="'+monattribut+'" class="changeProdArti btn btn-warning glyphicon glyphicon-retweet"></button>\
 									</h4>\
 									<div class="card-group">\
 										<div class="card">\
@@ -413,7 +436,7 @@
 									</div>\
 								</div>\
 								<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12">\
-									<h4><center><strong><span tabindex="0" data-bs-toggle="tooltip" title="caracteristiqueArti" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Caractéristiques de l\'article <button name="'+code_feraud+'" id="caracArti" class="caracArti btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4>\
+									<h4><center><strong><span tabindex="0" data-bs-toggle="tooltip" title="caracteristiqueArti" style="color:#5bc0de;cursor:pointer" class="d-inline-block showtoltip glyphicon glyphicon-info-sign"></span> Caractéristiques de l\'article <button action="'+monattribut+'" name="'+code_feraud+'" id="caracArti" class="caracArti btn btn-default glyphicon glyphicon-plus"></button></strong></center></h4>\
 									<table class="table table-striped table-bordered table-condensed">\
 										<thead>\
 										  <!-- <tr>\
@@ -431,15 +454,33 @@
 							$('body #content_block_prod').html(produit);
 							$('body #content_block_art').html(liste_articles);
 							$('body span.id_article').text(id_article);
-							if(data[1] != ''){
+							if(data[1] != '' && data[1][0][0]['action'] == 'valider'){
 								var elmt = '<span tabindex="0" data-bs-toggle="tooltip" title="WhoHasValidedArti" style="margin-left:2px;line-height:32px;color:#5bc0de;cursor:pointer" class="WhoHasValidedArti pull-right d-inline-block showtoltip glyphicon glyphicon-info-sign"></span>\
 											<button class="sayValidated pull-right btn btn-success">\
 												<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
 											</button>';
 								$('body .sayIfValidated').replaceWith(elmt);
-								$('body .WhoHasValidedArti').attr('title','Validation faite par : '+data[1][0]['user_num']);
+								$('body .WhoHasValidedArti').attr('title','Validation faite par : '+data[1][0][0]['user_num']);
+								
+								var h1 = document.getElementById('contenu').offsetHeight;
+								var h2 = document.getElementById('enteteArticleBlock').offsetHeight;
+								var h = parseInt(h1)-parseInt(h2);
+								$('body #hideArticle').css({
+									'height':h
+								});
+							}else if(data[1] != '' && data[1][0][0]['action'] == 'invalider'){
+								var elmt = '<span tabindex="0" data-bs-toggle="tooltip" title="WhoHasValidedArti" style="margin-left:2px;line-height:32px;color:#5bc0de;cursor:pointer" class="WhoHasInvalidedArti pull-right d-inline-block showtoltip glyphicon glyphicon-info-sign"></span>\
+											<button class="sayIfValidated pull-right btn btn-warning">\
+												<span class="glyphicon glyphicon-thumbs-down"></span> Non validé\
+											</button>';
+								$('body .sayIfValidated').replaceWith(elmt);
+								$('body .WhoHasInvalidedArti').attr('title','Invalidation faite par : '+data[1][0][0]['user_num']);
+								$('body #hideArticle').css({
+									'height':0
+								});
 							}
 							$('body').tagant_recup_whoHasUpdated(sessionStorage.getItem('produitArti'));
+							$('body').tagant_recup('controleur/articlesNoSave.php');
 						}
 					})
 				}

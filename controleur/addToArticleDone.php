@@ -9,15 +9,29 @@ header("Content-Type: text/html; charset=utf-8");
             $jwt = new JWT();
             $nbre = $jwt->oauth($_POST['token']);
             if($nbre == 0){
-                $id_article = $_POST['id_article'];
-                $user = $_POST['user'];
-                $tab = array(
-                    "art_code"=>$id_article,
-                    "user_num"=>$user
-                );
-               
-                $y =  $manager->insertion('article_done',$tab,'');
-                echo json_encode('Sauvegarde faite !');
+                if($_POST['action'] == 'valider'){
+                    $id_article = $_POST['id_article'];
+                    $user = $_POST['user'];
+                    $tab = array(
+                        "art_code"=>$id_article,
+                        "user_num"=>$user,
+                        "action"=>"valider",
+                    );
+                    $r = $manager->supprimer('article_done',"user_num=$user AND art_code ='$id_article'");
+                    $y =  $manager->insertion('article_done',$tab,'');
+                    echo json_encode('Sauvegarde faite !');
+                }else if($_POST['action'] == 'invalider'){
+                    $id_article = $_POST['id_article'];
+                    $user = $_POST['user'];
+                    $tab = array(
+                        "art_code"=>$id_article,
+                        "user_num"=>$user,
+                        "action"=>"invalider",
+                    );
+                    $r = $manager->supprimer('article_done',"user_num=$user AND art_code ='$id_article'");
+                    $y =  $manager->insertion('article_done',$tab,'');
+                    echo json_encode('Sauvegarde faite !');
+                }
             }
 			// echo '<pre>';
             //     print_r($y);

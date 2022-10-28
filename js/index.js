@@ -1,5 +1,6 @@
 $(function(){
 	// sessionStorage.clear();
+	
 //*******************init home page*******************************
 	function firstpage(url){
 		$.ajax({
@@ -16,12 +17,14 @@ $(function(){
 		firstpage('vue/listecontact.html');
 		$('body #deconnexion').removeAttr('style');
 		$('body #logoFeraudPage').removeAttr('style');
+		
 	}else if(sessionStorage.getItem('role_num') == 2 && sessionStorage.getItem('firstSearchDone') != '1'){
 		firstpage('vue/search_accueil.html');
 		if(sessionStorage.getItem('num_user') != null){
 			$('body #deconnexion').removeAttr('style');
 			$('body #logoFeraudPage').removeAttr('style');
 		}
+		$('body').tagant_recup('controleur/articlesNoSave.php');
 	}else{
 		if(sessionStorage.getItem('firstSearchDone') != '1'){
 			firstpage('vue/connexion.html');
@@ -47,6 +50,7 @@ $(function(){
 	$('body').tagant_submit_form('#form_addCaracteristiquesProduct');
 	$('body').tagant_submit_form('#form_addCaracteristiquesArticle');
 	$('body').tagant_submit_form('#form_ChangeArbo');
+	
 	//****************************************************************
 
 	$('body').on('click','#deconnexion',function(e){
@@ -117,45 +121,50 @@ $(function(){
 			e.preventDefault();
 			e.stopPropagation();
 			var th = $(this);
-			contenu = th.text();
-			//console.log('yess',contenu);
-			var lenom = th.attr('name');
-			if(lenom == 'arbo_produit'){
-				th.attr('style','display:none');
-				$('body form.'+lenom).removeAttr('style');
+			if(['','invalider'].includes(th.attr('action'))){
+				contenu = th.text();
+				//console.log('yess',contenu);
+				var lenom = th.attr('name');
+				if(lenom == 'arbo_produit'){
+					th.attr('style','display:none');
+					$('body form.'+lenom).removeAttr('style');
+				}else{
+					th.attr('style','display:none');
+					$('body form.'+lenom).removeAttr('style');
+					$('body form.'+lenom+' textarea').text(contenu);
+				}
 			}else{
-				th.attr('style','display:none');
-				$('body form.'+lenom).removeAttr('style');
-				$('body form.'+lenom+' textarea').text(contenu);
+				alert('Cet article a été Validé et vérrouillé');
 			}
-			
-			
 		});
 		$('body').on('click','.editable_tr',function(e){ // affiche option(delete,update) après click sur ligne article
 			e.preventDefault();
 			e.stopPropagation();
 			
 			var th = $(this);
-			var lenom = th.attr('name');
-			var fi = '';
-			var lst = '';
-			var tab = ['REF_CAT','REF_FOUR','EAN'];
-			var gg = th.next().find("textarea[name='"+lenom+"1']").val();
-			th.children().each(function(index) {
-				if(index == 0){
-					fi = $(this).text();
+			if(['','invalider',undefined].includes(th.attr('action'))){
+				var lenom = th.attr('name');
+				var fi = '';
+				var lst = '';
+				var tab = ['REF_CAT','REF_FOUR','EAN'];
+				var gg = th.next().find("textarea[name='"+lenom+"1']").val();
+				th.children().each(function(index) {
+					if(index == 0){
+						fi = $(this).text();
+					}else{
+						lst = $(this).text();
+					}
+				});
+				if(!tab.includes(fi)){
+					th.next().removeAttr('style');
+					th.next().find("textarea[name='"+lenom+"1']").text(fi);
+					th.next().find("textarea[name='"+lenom+"2']").text(lst);
 				}else{
-					lst = $(this).text();
+					alert('Aucune modification autorisée !');
 				}
-			});
-			if(!tab.includes(fi)){
-				th.next().removeAttr('style');
-				th.next().find("textarea[name='"+lenom+"1']").text(fi);
-				th.next().find("textarea[name='"+lenom+"2']").text(lst);
 			}else{
-				alert('Aucune modification autorisée !');
+				alert('Cet article a été Validé et vérrouillé');
 			}
-			
 		});
 	//************************************************************************************************************* */
 
@@ -167,8 +176,8 @@ $(function(){
 			var th = $(this);
 			var lenom = th.attr('id');
 			if(lenom == 'showProdArbo'){
-				$('body #showArbo').modal('show');
-				$('body').tagant_recup();
+				$('body #showArbo').modal('show'); 
+				$('body').tagant_recup('controleur/selectAllArbo.php');
 				sessionStorage.setItem('codeFeraudArbo',th.attr('name'));
 			}else if(lenom == 'addArtiProd'){
 				sessionStorage.setItem('codeFeraudForAddArticle',th.attr('name'));
@@ -177,11 +186,19 @@ $(function(){
 				$('body #ajouterProdCarac').modal('show');
 				sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
 			}else if(lenom == 'caracArti'){
-				$('body #ajouterArtiCarac').modal('show');
-				sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
+				if(['','invalider'].includes(th.attr('action'))){
+					$('body #ajouterArtiCarac').modal('show');
+					sessionStorage.setItem('codeFeraudForAddCaract',th.attr('name'));
+				}else{
+					alert('Cet article a été Validé et vérrouillé');
+				}
 			}else if(th.is(".changeProdArti")){
-				sessionStorage.setItem('codeFeraudToChange',th.attr('name'));
-				$('body #changeProdArticle').modal('show');
+				if(['','invalider'].includes(th.attr('action'))){
+					sessionStorage.setItem('codeFeraudToChange',th.attr('name'));
+					$('body #changeProdArticle').modal('show');
+				}else{
+					alert('Cet article a été Validé et vérrouillé');
+				}
 			}
 		});
 	//***************************************************************************************************** */
@@ -322,39 +339,79 @@ $(function(){
 //****************************************************************************** */
 
 //*******************************show tooltip************************** */
-	$('body').on('mouseenter click','.showtoltip',function(e){
-		e.preventDefault();
-		e.stopPropagation();
-		var th = $(this);
-		var lib = th.attr('title');
-		if(['infoProd','ArborescenceProd','caracteristiqueProd','libArti','caracteristiqueArti'].includes(lib) && ![null,undefined,''].includes(sessionStorage.getItem(lib))){
-			th.attr('title','Changement fait par : '+sessionStorage.getItem(lib).toUpperCase());
-		}
-	});
+		$('body').on('mouseenter','.showtoltip',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var th = $(this);
+			var lib = th.attr('title');
+			if(['infoProd','ArborescenceProd','caracteristiqueProd','libArti','caracteristiqueArti'].includes(lib) && ![null,undefined,''].includes(sessionStorage.getItem(lib))){
+				th.attr('title','Changement fait par : '+sessionStorage.getItem(lib).toUpperCase());
+			}
+		});
 
 //***************************************************************************** */
 //*******************************save article********************************* */
-$('body').on('click','.sayIfValidated',function(e){
-	e.preventDefault();
-	e.stopPropagation();
-	
-	var th = $(this);
-	$.ajax({
-		url:"controleur/addToArticleDone.php",
-		type:'post',
-		dataType:'json',
-		data:'token='+sessionStorage.getItem('token')+'&id_article='+sessionStorage.getItem("search_article_id")+'&user='+sessionStorage.getItem("num_user"),
-		success:function(data){
-			if(data == 'Sauvegarde faite !'){
-				var elmt = '<button class="sayValidated pull-right btn btn-success">\
-				<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
-			</button>';
-				th.replaceWith(elmt);
+		$('body').on('click','.sayIfValidated',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var th = $(this);
+			if(confirm('Voulez-vous valider et ainsi verrouiller cet article ?')){
+				$.ajax({
+					url:"controleur/addToArticleDone.php",
+					type:'post',
+					dataType:'json',
+					data:'action=valider'+'&token='+sessionStorage.getItem('token')+'&id_article='+sessionStorage.getItem("search_article_id")+'&user='+sessionStorage.getItem("num_user"),
+					success:function(data){
+						if(data == 'Sauvegarde faite !'){
+							// var elmt = '<span tabindex="0" data-bs-toggle="tooltip" title="WhoHasValidedArti" style="margin-left:2px;line-height:32px;color:#5bc0de;cursor:pointer" class="WhoHasValidedArti pull-right d-inline-block showtoltip glyphicon glyphicon-info-sign"></span>\
+							// 			<button class="sayValidated pull-right btn btn-success">\
+							// 				<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
+							// 			</button>';
+							// th.replaceWith(elmt);
+							$('body').tagant_search_article(sessionStorage.getItem("search_article_id"));
+						}
+					}
+				})
 			}
-		}
-	})
-});
+		});
+
+		$('body').on('click','.sayValidated',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var th = $(this);
+			if(confirm('Voulez-vous invalider et déverrouiller cet article ?')){
+				$.ajax({
+					url:"controleur/addToArticleDone.php",
+					type:'post',
+					dataType:'json',
+					data:'action=invalider'+'&token='+sessionStorage.getItem('token')+'&id_article='+sessionStorage.getItem("search_article_id")+'&user='+sessionStorage.getItem("num_user"),
+					success:function(data){
+						if(data == 'Sauvegarde faite !'){
+							// var elmt = '<span tabindex="0" data-bs-toggle="tooltip" title="WhoHasValidedArti" style="margin-left:2px;line-height:32px;color:#5bc0de;cursor:pointer" class="WhoHasValidedArti pull-right d-inline-block showtoltip glyphicon glyphicon-info-sign"></span>\
+							// 			<button class="sayValidated pull-right btn btn-success">\
+							// 				<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
+							// 			</button>';
+							// th.replaceWith(elmt);
+							$('body').tagant_search_article(sessionStorage.getItem("search_article_id"));
+						}
+					}
+				})
+			}
+		});
 //***************************************************************************** */
+		$('body').on('change','.InvalidatedArticle',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var th = $(this);
+			var valeur = parseInt(th.val());
+			$('body input.id_article2').val(valeur);
+			$('body input.id_article').val(valeur);
+			
+			$('body input.id_article').focus();
+			$('body input.id_article2').focus();
+		});
 })
 
  
