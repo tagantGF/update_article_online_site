@@ -34,7 +34,6 @@ header("Content-Type: text/html; charset=utf-8");
 					}
 				}
 			}
-			
 			$tab = array($envoi,$t2);
 			echo json_encode($tab);
 		}

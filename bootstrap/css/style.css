@@ -27,10 +27,11 @@ body #accueil_corps{
 }
 body #connexion{
 	position:absolute;
-	top:30%;
-	height: 40%;
+	top:35%;
+	height: 30%;
 	border:none;
 }
+
 body #deconnexion{
 	top: 5px;
 	cursor: pointer;
@@ -41,8 +42,8 @@ body #logoFeraudPage{
 }
 body #enregistrement{ 
 	position:absolute;
-	top:25%;
-	height: 50%;
+	top:30%;
+	height: 40%;
 }
 body #formContact{
 	position:absolute;
@@ -67,5 +68,18 @@ body div.row_carac_article{
 }
 body div.row_carac_article_description{ 
 	line-height: 25px;
+}
+@media only screen and (max-width: 600px) {
+	body #connexion{
+		position:absolute;
+		top:30%;
+		height: 40%;
+		border:none;
+	}
+	body #enregistrement{ 
+		position:absolute;
+		top:22.5%;
+		height: 55%;
+	}
 }
 
