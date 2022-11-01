@@ -17,7 +17,7 @@ header("Content-Type: text/html; charset=utf-8");
                         "user_num"=>$user,
                         "action"=>"valider",
                     );
-                    $r = $manager->supprimer('article_done',"user_num=$user AND art_code ='$id_article'");
+                    $r = $manager->supprimer('article_done',"art_code ='$id_article'");
                     $y =  $manager->insertion('article_done',$tab,'');
                     echo json_encode('Sauvegarde faite !');
                 }else if($_POST['action'] == 'invalider'){

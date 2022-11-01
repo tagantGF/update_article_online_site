@@ -338,22 +338,67 @@
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo1 = 'images/image_default.png';
 										}else{
-											//photo1 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo1 = '../images_pim/media/'+data[0][c][d];
+											var re = /(?:\.([^.]+))?$/;
+											var ext = re.exec(data[0][c][d])[1];
+											if(ext == 'txt'){
+												$.ajax({
+													url:'controleur/donneebase64.php',
+													type:'post',
+													dataType:'json',
+													data:'nom='+data[0][c][d],
+													success:function(data3){
+														sessionStorage.setItem('photo1',data3);
+													}
+												})
+												photo1 = sessionStorage.getItem('photo1');
+												sessionStorage.removeItem('photo1');
+											}else{
+												photo1 = "";
+											}
 										}
 									}else if(d == 'ProductImageHD2'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
-											//photo2 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo2 = '../images_pim/media/'+data[0][c][d];
+											var re = /(?:\.([^.]+))?$/;
+											var ext = re.exec(data[0][c][d])[1];
+											if(ext == 'txt'){
+												$.ajax({
+													url:'controleur/donneebase64.php',
+													type:'post',
+													dataType:'json',
+													data:'nom='+data[0][c][d],
+													success:function(data3){
+														sessionStorage.setItem('photo2',data3);
+													}
+												})
+												photo2 = sessionStorage.getItem('photo2');
+												sessionStorage.removeItem('photo2');
+											}else{
+												photo2 = "";
+											}
 										}
 									}else if(d == 'ProductImageHD3'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
-											//photo3 = 'https://feraud-quinc.onebase.fr/images/images_prod/BD/'+data[c][d];
-											photo3 = '../images_pim/media/'+data[0][c][d];
+											var re = /(?:\.([^.]+))?$/;
+											var ext = re.exec(data[0][c][d])[1];
+											if(ext == 'txt'){
+												$.ajax({
+													url:'controleur/donneebase64.php',
+													type:'post',
+													dataType:'json',
+													data:'nom='+data[0][c][d],
+													success:function(data3){
+														sessionStorage.setItem('photo3',data3);
+													}
+												})
+												photo3 = sessionStorage.getItem('photo3');
+												sessionStorage.removeItem('photo3');
+											}else{
+												photo3 = "";
+											}
 										}
 									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[0][c][d]){
 										arthcode_val.push(data[0][c][d]);
@@ -416,14 +461,15 @@
 										<button name="'+code_feraud+'" action="'+monattribut+'" class="changeProdArti btn btn-warning glyphicon glyphicon-retweet"></button>\
 									</h4>\
 									<div class="card-group">\
-										<div class="card">\
-										  <img width="250" height="250" src="'+photo1+'" class="card-img-top" alt="...">\
+										<input type="file" id="photopiece" style="display:none">\
+										<div style="cursor:pointer" class="photoArti card" name="'+photo1+'" title="'+code_feraud+'">\
+										  <img width="250" height="250" src="'+photo1+'" name="'+photo1+'1" class="card-img-top" alt="...">\
 										</div>\
-										<div class="card">\
-										  <img width="250" height="250"src="'+photo2+'" class="card-img-top" alt="...">\
+										<div style="cursor:pointer" class="card photoArti" name="'+photo2+'" title="'+code_feraud+'">\
+										  <img width="250" height="250" src="'+photo2+'" name="'+photo2+'2" class="card-img-top" alt="...">\
 										</div>\
-										<div class="card">\
-										  <img width="250" height="250" src="'+photo3+'" class="card-img-top" alt="...">\
+										<div style="cursor:pointer" class="card photoArti" name="'+photo3+'" title="'+code_feraud+'">\
+										  <img width="250" height="250" src="'+photo3+'" name="'+photo3+'3" class="card-img-top" alt="...">\
 										</div>\
 									</div>\
 								</div>\

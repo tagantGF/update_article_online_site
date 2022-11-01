@@ -412,6 +412,97 @@ $(function(){
 			$('body input.id_article').focus();
 			$('body input.id_article2').focus();
 		});
+	//*********************************************************************** */
+
+	//******************************gestion clic sur images****************** */
+		$('body').on('click','.photoArti',function(e){
+			var th = $(this);
+			$('#photopiece').trigger('click');
+			var p = th.find('img').attr('name');
+			sessionStorage.setItem('whatImageClicked',p);
+			sessionStorage.setItem('whatDivImageClicked',th.attr('title'));
+		});
+
+		$('body').on('change','#photopiece',function(e){
+			e.preventDefault();
+			// sessionStorage.setItem('typephotopris','galerie');
+			// $('#appareil_photo2').attr('src','images/appareil_photo.jpg');
+			// $('#appareil_photo2').attr('height','15%');
+			// $('#appareil_photo2').attr('width','15%');
+			var th = $(this);
+			var output_format = '';
+			var quality =0;
+			var f = e.target.files[0];
+			var source_fichier;
+			
+			var file = this.files[0];
+			var fileType = file["type"];
+			var fileSize = Math.round(file.size/1024);
+			//alert(fileSize+'kb');
+			var validImageTypes = ["image/jpeg","image/jpg","image/png"];
+			if ($.inArray(fileType,validImageTypes) < 0) {
+			
+			}else{
+				 //quality =  80;
+				// output file format (jpg || png || webp)
+				if(fileType == "image/jpeg" || fileType == "image/jpg"){
+					 output_format = 'jpeg'
+				}else if(fileType == "image/png"){
+					 output_format = 'png'
+				}
+				//This function returns an Image Object 
+
+				// sessionStorage.setItem('videoaulieurimage','false');
+				// sessionStorage.setItem('quality',quality);
+				// sessionStorage.setItem('output_format',output_format);
+			}
+			
+            var fileName = f.name;
+            var reader = new FileReader();
+			  // Closure to capture the file information.
+			reader.addEventListener("load",function(){
+				var tt = sessionStorage.getItem('whatImageClicked');
+				var tt2 = sessionStorage.getItem('whatDivImageClicked');
+				var codeF = $("body div[name='"+tt+"']").attr('title');
+				$("body div.photoArti").each(function(index){
+					var th2 = $(this);
+					if(th2.attr('title') == tt2){
+						var gg = th2.find('img').attr('name');
+						if(gg == tt){
+							th2.find('img').attr('src',reader.result);
+							source_fichier = reader.result;
+
+							//var ff = 'nomphoto='+fileName+'&pp='+source_fichier+'&extension_fichier='+output_format;
+							var formass = new FormData();
+							formass.append('nomphoto',fileName);
+							formass.append('pp',source_fichier);
+							formass.append('extension_fichier',output_format);
+							formass.append('code_feraud',tt2);
+							$.ajax({
+								url:'controleur/addImages.php',
+								data:formass,
+								processData:false,
+								contentType:false,
+								type:'post',
+								dataType:'json',
+								// beforeSend:function(){
+								// 	$('body #masquepage').removeAttr('style');
+								// 	$('body #afficheload').removeAttr('style');
+								// 	$('body #afficheload').html('<center><img src="images/loader.gif" height="30%" width="30%"></center>');
+								// },
+								success:function(data){
+
+								}
+							})
+						}
+					}
+				})
+			},false);
+			reader.readAsDataURL(f);
+			
+				
+        });
+	//************************************************************************* */
 })
 
  
