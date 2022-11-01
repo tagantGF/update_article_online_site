@@ -62,28 +62,12 @@
 				// },
 				success:function(data){
 					if(nom == "enregistrement" && data != "existant"){
-						$('body #deconnexion').removeAttr('style');
-						$('body #logoFeraudPage').removeAttr('style');
-						for(var a in data){
-							if(a == 0){
-								for(var b in data[a]){
-									for(var c in data[a][b]){
-										sessionStorage.setItem(c, data[a][b][c]);
-									}
-								}
-							}else{
-								sessionStorage.setItem('token', data[a]);
-							}
-							
-						}
 						$.ajax({
-							url:'vue/search_accueil.html',
+							url:'vue/connexion.html',
 							type:'post',
 							data:'',
-							success:function(data2){
-								$('#contenu').html(data2);
-								$('body #logoFeraudPage').removeAttr('style');
-								$('body').tagant_recup('controleur/articlesNoSave.php');
+							success:function(data){
+								$('#contenu').html(data);
 							}
 						})
 					}else if(nom == "connexion" && data != "existant"){
@@ -305,7 +289,7 @@
 												<br><textarea required cols="40" rows="4" name="description" class="form-control"></textarea>\
 												<center><button type="button" name="'+codeFeraudForAddArticle+'" id="description" class="modifieElmtProd btn btn-success mb-2"><span class="glyphicon glyphicon-ok-sign"></span> ok</button></center>\
 											</form>\
-											<div class="editable" style="cursor:pointer;" name="description_produit"><center>'+description_prod+'</center></div>\
+											<div class="editable" style="cursor:pointer;justify-content:left" name="description_produit"><center>'+description_prod+'</center></div>\
 										</div>\
 									</div>\
 								</div>\
@@ -338,67 +322,19 @@
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo1 = 'images/image_default.png';
 										}else{
-											var re = /(?:\.([^.]+))?$/;
-											var ext = re.exec(data[0][c][d])[1];
-											if(ext == 'txt'){
-												$.ajax({
-													url:'controleur/donneebase64.php',
-													type:'post',
-													dataType:'json',
-													data:'nom='+data[0][c][d],
-													success:function(data3){
-														sessionStorage.setItem('photo1',data3);
-													}
-												})
-												photo1 = sessionStorage.getItem('photo1');
-												sessionStorage.removeItem('photo1');
-											}else{
-												photo1 = "";
-											}
+											photo1 = 'test/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD2'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
-											var re = /(?:\.([^.]+))?$/;
-											var ext = re.exec(data[0][c][d])[1];
-											if(ext == 'txt'){
-												$.ajax({
-													url:'controleur/donneebase64.php',
-													type:'post',
-													dataType:'json',
-													data:'nom='+data[0][c][d],
-													success:function(data3){
-														sessionStorage.setItem('photo2',data3);
-													}
-												})
-												photo2 = sessionStorage.getItem('photo2');
-												sessionStorage.removeItem('photo2');
-											}else{
-												photo2 = "";
-											}
+											photo2 = 'test/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD3'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
-											var re = /(?:\.([^.]+))?$/;
-											var ext = re.exec(data[0][c][d])[1];
-											if(ext == 'txt'){
-												$.ajax({
-													url:'controleur/donneebase64.php',
-													type:'post',
-													dataType:'json',
-													data:'nom='+data[0][c][d],
-													success:function(data3){
-														sessionStorage.setItem('photo3',data3);
-													}
-												})
-												photo3 = sessionStorage.getItem('photo3');
-												sessionStorage.removeItem('photo3');
-											}else{
-												photo3 = "";
-											}
+											photo3 = 'test/'+data[0][c][d];
 										}
 									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[0][c][d]){
 										arthcode_val.push(data[0][c][d]);
@@ -463,13 +399,13 @@
 									<div class="card-group">\
 										<input type="file" id="photopiece" style="display:none">\
 										<div style="cursor:pointer" class="photoArti card" name="'+photo1+'" title="'+code_feraud+'">\
-										  <img width="250" height="250" src="'+photo1+'" name="'+photo1+'1" class="card-img-top" alt="...">\
+										  <img width="250" height="250" src="'+photo1+'" name="	ProductImageHD1" class="card-img-top" alt="...">\
 										</div>\
 										<div style="cursor:pointer" class="card photoArti" name="'+photo2+'" title="'+code_feraud+'">\
-										  <img width="250" height="250" src="'+photo2+'" name="'+photo2+'2" class="card-img-top" alt="...">\
+										  <img width="250" height="250" src="'+photo2+'" name="	ProductImageHD2" class="card-img-top" alt="...">\
 										</div>\
 										<div style="cursor:pointer" class="card photoArti" name="'+photo3+'" title="'+code_feraud+'">\
-										  <img width="250" height="250" src="'+photo3+'" name="'+photo3+'3" class="card-img-top" alt="...">\
+										  <img width="250" height="250" src="'+photo3+'" name="	ProductImageHD3" class="card-img-top" alt="...">\
 										</div>\
 									</div>\
 								</div>\

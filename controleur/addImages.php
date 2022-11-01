@@ -8,30 +8,21 @@ header("Content-Type: text/html; charset=utf-8");
 		$code_feraud = $_POST['code_feraud'];
         $nomphoto = $_POST['nomphoto'];
 		$b64 = $_POST['pp'];
+        $whatImage = $_POST['whatImage'];
 		$extension_fichier = $_POST['extension_fichier'];
-		if($extension_fichier == 'jpg' OR $extension_fichier == 'jpeg'){
-			$nomphoto = str_replace('jpg','txt',$nomphoto);
-			$nomphoto = str_replace('jpeg','txt',$nomphoto);
-		}else{
-			$nomphoto = str_replace($extension_fichier,'txt',$nomphoto);
-		}
-		$monfichier = fopen("../test/".$nomphoto,'w+');
-		fputs($monfichier,$b64);
-		fclose($monfichier);
-
-        $arbo = '';
-        $t = $manager->selectionUnique2('articles',array('*'),"code_feraud=$code_feraud");
-        $tableau = array('ProductImageHD1','ProductImageHD2','ProductImageHD3');
-        foreach($t[0] as $k=>$v){
-            if(in_array($k,$tableau) && in_array($v,array(null,""))){
-                $arbo = $k;
-                break;
-            }
+        
+        $bin = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $b64));
+        $im = imageCreateFromString($bin);
+        if (!$im) {
+            die('Base64 value is not a valid image');
         }
+        $img_file = "../test/$nomphoto";
+        imagepng($im, $img_file, 0);
+
         $tab = array(
-            "$arbo" =>$nomphoto,
+            "$whatImage" =>$nomphoto,
         );
         $y =  $manager->modifier('articles',$tab,"code_feraud = $code_feraud");
-        echo json_encode($y);
+        echo json_encode("envoyé");
     }
 ?>

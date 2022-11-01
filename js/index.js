@@ -478,6 +478,7 @@ $(function(){
 							formass.append('pp',source_fichier);
 							formass.append('extension_fichier',output_format);
 							formass.append('code_feraud',tt2);
+							formass.append('whatImage',tt);
 							$.ajax({
 								url:'controleur/addImages.php',
 								data:formass,
