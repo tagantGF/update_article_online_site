@@ -70,7 +70,7 @@
 								$('#contenu').html(data);
 							}
 						})
-					}else if(nom == "connexion" && data != "existant"){
+					}else if(nom == "connexion" && data.length > 0){
 						$('body #deconnexion').removeAttr('style');
 						$('body #logoFeraudPage').removeAttr('style');
 						var url2 = "";
@@ -130,7 +130,7 @@
 						$('body #showArbo .close').trigger('click');
 						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudArbo'));
 					}else{
-						alert('Utilisateur déja existant !');
+						alert('Connexion impossible!');
 					}
 				}
 			})
