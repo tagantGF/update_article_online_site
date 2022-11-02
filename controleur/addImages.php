@@ -16,7 +16,7 @@ header("Content-Type: text/html; charset=utf-8");
         if (!$im) {
             die('Base64 value is not a valid image');
         }
-        $img_file = "../test/$nomphoto";
+        $img_file = "../../images_pim/$nomphoto";
         imagepng($im, $img_file, 0);
 
         $tab = array(
