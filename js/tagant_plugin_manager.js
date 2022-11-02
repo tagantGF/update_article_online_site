@@ -322,19 +322,19 @@
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo1 = 'images/image_default.png';
 										}else{
-											photo1 = 'test/'+data[0][c][d];
+											photo1 = '../images_pim/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD2'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo2 = 'images/image_default.png';
 										}else{
-											photo2 = 'test/'+data[0][c][d];
+											photo2 = '../images_pim/'+data[0][c][d];
 										}
 									}else if(d == 'ProductImageHD3'){
 										if([null,'',undefined].includes(data[0][c][d])){
 											photo3 = 'images/image_default.png';
 										}else{
-											photo3 = 'test/'+data[0][c][d];
+											photo3 = '../images_pim/'+data[0][c][d];
 										}
 									}else if(d.replace(new RegExp("[^(a-zA-Z)]", "g"), '') == 'ArtThCode' && data[0][c][d]){
 										arthcode_val.push(data[0][c][d]);
