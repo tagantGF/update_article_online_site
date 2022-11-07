@@ -49,6 +49,8 @@
 				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraudForAddCaract='+sessionStorage.getItem('codeFeraudForAddCaract')+'&user='+sessionStorage.getItem('num_user');
 			}else if(form_soumis == '#form_ChangeArbo'){
 				var partss = th.serialize()+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+sessionStorage.getItem('codeFeraudArbo')+'&user='+sessionStorage.getItem('num_user');
+			}else if(form_soumis == '#form_Arbo1'){
+				var partss = th.serialize()+'&token='+sessionStorage.getItem('token');
 			}
 			$.ajax({
 				url:url,
@@ -129,6 +131,15 @@
 						$('body #showArbo .reseteur').trigger('click');
 						$('body #showArbo .close').trigger('click');
 						$('body').tagant_search_article(sessionStorage.getItem('codeFeraudArbo'));
+					}else if(nom == "arbo1"){
+						$('body #showArbo1 .reseteur').trigger('click');
+						$('body #showArbo1 .close').trigger('click');
+						var liste = '';
+						for(var a in data){
+							var arbo = data[a]['code_feraud'];
+							liste += '<option>'+arbo+'</option>';
+						}
+						$('body .InvalidatedArticle').html(liste);
 					}else{
 						alert('Connexion impossible!');
 					}
@@ -145,7 +156,7 @@
 			dataType:'json',
 			success:function(data){
 				if(url == 'controleur/selectAllArbo.php'){
-					var liste = "";
+					var liste = '<option>Articles invalidés</option>';
 					for(var a in data){
 						var arbo = data[a]['TreeName1']+'/'+data[a]['TreeName2']+'/'+data[a]['TreeName3'];
 						liste += '<option>'+arbo+'</option>';
@@ -157,10 +168,19 @@
 						liste += '<option value="'+data[a]['code_feraud']+'">'+data[a]['code_feraud']+'</option>';
 					}
 					$('body .InvalidatedArticle').html(liste);
+				}else if(url == 'controleur/articleArbo1.php'){
+					var liste = '';
+					for(var a in data){
+						var arbo = data[a]['TreeName1'];
+						liste += '<option>'+arbo+'</option>';
+					}
+					$('body .arborescence1').html(liste);
 				}
 			}
 		})
 	}
+
+
 	jQuery.fn.tagant_recup_whoHasUpdated = function(prodID){
 		$.ajax({
 			url:'controleur/whoHasUpdated.php',
@@ -183,15 +203,15 @@
 			}
 		})
 	}
-	jQuery.fn.tagant_delete = function(num_demandes){
+	jQuery.fn.tagant_delete = function(codeF,nomImage){
 		$.ajax({
 			url:'controleur/delete.php',
 			type:'post',
-			data:'token='+sessionStorage.getItem('token')+'&num_demandes='+num_demandes,
+			data:'token='+sessionStorage.getItem('token')+'&codeF='+codeF+'&nomImage='+nomImage,
 			dataType:'json',
 			success:function(data){
 				if(data == 'Suppression effectuée'){
-					$('body div.collapse'+num_demandes).remove();
+					$('body').tagant_search_article(sessionStorage.getItem("search_article_id"));
 				}
 			}
 		})
@@ -265,7 +285,17 @@
 															</tr>';
 							}
 							produit = '<div class=" col-xs-12 col-lg-12 col-sm-12 col-md-12" style="border:3.2px groove #28a745;padding-top:10px;padding-bottom:10px;margin-bottom:20px">\
-								<h3><center>Produit de l\'article <button name="'+codeFeraudForAddArticle+'" id="addArtiProd" class="addArtiProd btn btn-info glyphicon glyphicon-plus"></button></center></h3><br>\
+									<h3><center>Produit de l\'article <div   class="btn-group dropright">\
+									<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+										Ajouter\
+									</button>\
+									<div class="dropdown-menu">\
+										<button title="'+codeFeraudForAddArticle+'" class="photoProd dropdown-item" type="button">Une photo du produit</button>\
+										<button title="'+codeFeraudForAddArticle+'" name="'+codeFeraudForAddArticle+'" id="addArtiProd" class="dropdown-item addArtiProd">Un article</button>\
+									</div>\
+									<input type="file" id="photopiece2" style="display:none">\
+								</div><br><br>\
+								</center></h3><br>\
 								<div class="row col-xs-12 col-lg-12 col-sm-12 col-md-12" style="margin-bottom: 20px;">\
 									<div class="col-xs-6 col-lg-6 col-sm-6 col-md-6" style="border-right:0.5px solid black">\
 										<div style="margin-top:12em">\
@@ -399,13 +429,16 @@
 									<div class="card-group">\
 										<input type="file" id="photopiece" style="display:none">\
 										<div style="cursor:pointer" class="photoArti card" name="'+photo1+'" title="'+code_feraud+'">\
+											<div style="display:none" name="'+code_feraud+'" title="ProductImageHD1" class="delPhotoArti"><center><span class="btn btn-danger glyphicon glyphicon-trash"></span></center></div>\
 										  <img width="250" height="250" src="'+photo1+'" name="	ProductImageHD1" class="card-img-top" alt="...">\
 										</div>\
 										<div style="cursor:pointer" class="card photoArti" name="'+photo2+'" title="'+code_feraud+'">\
-										  <img width="250" height="250" src="'+photo2+'" name="	ProductImageHD2" class="card-img-top" alt="...">\
+										  	<div style="display:none" name="'+code_feraud+'" title="ProductImageHD2" class="delPhotoArti"><center><span class="btn btn-danger glyphicon glyphicon-trash"></span></center></div>\
+											<img width="250" height="250" src="'+photo2+'" name="	ProductImageHD2" class="card-img-top" alt="...">\
 										</div>\
 										<div style="cursor:pointer" class="card photoArti" name="'+photo3+'" title="'+code_feraud+'">\
-										  <img width="250" height="250" src="'+photo3+'" name="	ProductImageHD3" class="card-img-top" alt="...">\
+											<div style="display:none" name="'+code_feraud+'" title="ProductImageHD3" class="delPhotoArti"><center><span class="btn btn-danger glyphicon glyphicon-trash"></span></center></div>\
+											<img width="250" height="250" src="'+photo3+'" name="	ProductImageHD3" class="card-img-top" alt="...">\
 										</div>\
 									</div>\
 								</div>\
@@ -454,7 +487,12 @@
 								});
 							}
 							$('body').tagant_recup_whoHasUpdated(sessionStorage.getItem('produitArti'));
-							$('body').tagant_recup('controleur/articlesNoSave.php');
+							var valeurTypeArti= $('body select.searchArtiMenu').val();
+							if(valeurTypeArti == 'controleur/articleArbo1.php'){
+								$('body').tagant_recup(valeurTypeArti);
+							}else{
+								$('body').tagant_recup(valeurTypeArti);
+							}
 						}
 					})
 				}

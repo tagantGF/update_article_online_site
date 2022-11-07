@@ -2,11 +2,18 @@
     <h4 class="alert alert-info"><center>Votre dernière Modification éffectuée a été sur l'article <span class="lastWorkDone">(?)</span></center></h4>
     <div id="accueil_corps_search_bloc" class="row height d-flex justify-content-center align-items-center">
       <div class="col-md-8">
-        <div class="form-group">
-          <label>Liste des articles non validées : </label>
-          <select class="InvalidatedArticle form-control" style="height:40px"> </select>
-        </div><br><br><br>
-        <div class="form-group search" style="margin-top:0%;">
+        <div class="form-group col-md-6">
+          <label>Type d'articles recherchés</label>
+          <select class="searchArtiMenu form-control" style="height:40px;position: relative;top: 10px;">
+              <option value="controleur/articlesNoSave.php">Articles non validés</option>
+              <option value="controleur/articleArbo1.php">Articles arborescence 1</option>
+          </select>
+      </div>
+      <div class="form-group col-md-6">
+          <label>Liste des articles</label>
+          <select class="InvalidatedArticle form-control" style="height:40px;position: relative;top: 10px;"></select>
+      </div>
+        <div class="row form-group search" style="margin-top:30%;">
           <i class="fa fa-search"></i>
           <input type="number" class="id_article form-control" placeholder="Veuillez entrer l'identifiant de l'article à rechercher !">
           <button id='home_search' class="btn btn-primary">Search</button>

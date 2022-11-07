@@ -8,8 +8,13 @@ header("Content-Type: text/html; charset=utf-8");
 		$jwt = new JWT();
 		$nbre = $jwt->oauth($_POST['token']);
 		if($nbre == 0){
-			$demande_num = $_POST['num_demandes'];
-			$manager->supprimer('demandes',"num_demandes=$demande_num");
+			$codeFeraud = $_POST['codeF'];
+			$nomImage = $_POST['nomImage'];
+			$tab = array(
+				"$nomImage"=>''
+			);
+			$y =  $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");
+			//$manager->supprimer('demandes',"num_demandes=$demande_num");
 			echo json_encode('Suppression effectuée');
 		}
 

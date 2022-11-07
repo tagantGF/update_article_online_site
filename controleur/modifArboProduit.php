@@ -24,7 +24,7 @@ header("Content-Type: text/html; charset=utf-8");
                 );
                 $y =  $manager->modifier('articles',$tab,"ProductId=$productId");
 
-                $manager->supprimer('modificationtrack',"lapartie IN ('ArborescenceProd'') AND lecode ='$productId'");
+                $manager->supprimer('modificationtrack',"lapartie IN ('ArborescenceProd') AND lecode ='$productId'");
                 $tab2 = array(
                     'lecode'=>''.$productId.'',
                     'lapartie'=>'ArborescenceProd',

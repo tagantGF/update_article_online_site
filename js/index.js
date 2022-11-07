@@ -24,7 +24,13 @@ $(function(){
 			$('body #deconnexion').removeAttr('style');
 			$('body #logoFeraudPage').removeAttr('style');
 		}
-		$('body').tagant_recup('controleur/articlesNoSave.php');
+		var valeurTypeArti= $('body select.searchArtiMenu').val();
+		if(valeurTypeArti == 'controleur/articleArbo1.php'){
+			$('body').tagant_recup(valeurTypeArti);
+		}else{
+			$('body').tagant_recup(valeurTypeArti);
+		}
+		
 	}else{
 		if(sessionStorage.getItem('firstSearchDone') != '1'){
 			firstpage('vue/connexion.html');
@@ -50,6 +56,7 @@ $(function(){
 	$('body').tagant_submit_form('#form_addCaracteristiquesProduct');
 	$('body').tagant_submit_form('#form_addCaracteristiquesArticle');
 	$('body').tagant_submit_form('#form_ChangeArbo');
+	$('body').tagant_submit_form('#form_Arbo1');
 	
 	//****************************************************************
 
@@ -412,6 +419,19 @@ $(function(){
 			$('body input.id_article').focus();
 			$('body input.id_article2').focus();
 		});
+
+		$('body').on('change','.searchArtiMenu',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var th = $(this);
+			var valeur = th.val();
+			if(valeur == "controleur/articleArbo1.php"){
+				$('body #showArbo1').modal('show'); 
+			}
+			setTimeout(function(){
+				$('body').tagant_recup(valeur);
+			},300);
+		});
 	//*********************************************************************** */
 
 	//******************************gestion clic sur images****************** */
@@ -423,12 +443,73 @@ $(function(){
 			sessionStorage.setItem('whatDivImageClicked',th.attr('title'));
 		});
 
+		$('body').on('click','.photoProd',function(e){
+			var th = $(this);
+			$('#photopiece2').trigger('click');
+			sessionStorage.setItem('whatDivImageClicked',th.attr('title'));
+		});
+
+		$('body').on('mouseenter','.photoArti',function(e){
+			var th = $(this);
+			th.find('div').removeAttr('style');
+		});
+
+		$('body').on('mouseleave','.photoArti',function(e){
+			var th = $(this);
+			th.find('div').attr('style','display:none');
+		});
+
+
+		$('body').on('change','#photopiece2',function(e){
+			e.preventDefault();
+			var th = $(this);
+			var output_format = '';
+			var quality =0;
+			var f = e.target.files[0];
+			var source_fichier;
+			
+			var file = this.files[0];
+			var fileType = file["type"];
+			var fileSize = Math.round(file.size/1024);
+			//alert(fileSize+'kb');
+			var validImageTypes = ["image/jpeg","image/jpg","image/png"];
+			if ($.inArray(fileType,validImageTypes) < 0) {
+			
+			}else{
+				if(fileType == "image/jpeg" || fileType == "image/jpg"){
+					 output_format = 'jpeg'
+				}else if(fileType == "image/png"){
+					 output_format = 'png'
+				}
+			}
+            var fileName = f.name;
+            var reader = new FileReader();
+			  // Closure to capture the file information.
+			reader.addEventListener("load",function(){
+				var tt2 = sessionStorage.getItem('whatDivImageClicked');
+				var formass = new FormData();
+				source_fichier = reader.result;
+				formass.append('nomphoto',fileName);
+				formass.append('pp',source_fichier);
+				formass.append('extension_fichier',output_format);
+				formass.append('code_feraud',tt2);
+				$.ajax({
+					url:'controleur/addImagesProd.php',
+					data:formass,
+					processData:false,
+					contentType:false,
+					type:'post',
+					dataType:'json',
+					success:function(data){
+						$('body').tagant_search_article(sessionStorage.getItem("search_article_id"));
+					}
+				})
+			},false);
+			reader.readAsDataURL(f);
+        });
+
 		$('body').on('change','#photopiece',function(e){
 			e.preventDefault();
-			// sessionStorage.setItem('typephotopris','galerie');
-			// $('#appareil_photo2').attr('src','images/appareil_photo.jpg');
-			// $('#appareil_photo2').attr('height','15%');
-			// $('#appareil_photo2').attr('width','15%');
 			var th = $(this);
 			var output_format = '';
 			var quality =0;
@@ -450,20 +531,14 @@ $(function(){
 				}else if(fileType == "image/png"){
 					 output_format = 'png'
 				}
-				//This function returns an Image Object 
-
-				// sessionStorage.setItem('videoaulieurimage','false');
-				// sessionStorage.setItem('quality',quality);
-				// sessionStorage.setItem('output_format',output_format);
+				
 			}
-			
             var fileName = f.name;
             var reader = new FileReader();
 			  // Closure to capture the file information.
 			reader.addEventListener("load",function(){
 				var tt = sessionStorage.getItem('whatImageClicked');
 				var tt2 = sessionStorage.getItem('whatDivImageClicked');
-				var codeF = $("body div[name='"+tt+"']").attr('title');
 				$("body div.photoArti").each(function(index){
 					var th2 = $(this);
 					if(th2.attr('title') == tt2){
@@ -486,13 +561,7 @@ $(function(){
 								contentType:false,
 								type:'post',
 								dataType:'json',
-								// beforeSend:function(){
-								// 	$('body #masquepage').removeAttr('style');
-								// 	$('body #afficheload').removeAttr('style');
-								// 	$('body #afficheload').html('<center><img src="images/loader.gif" height="30%" width="30%"></center>');
-								// },
 								success:function(data){
-
 								}
 							})
 						}
@@ -500,10 +569,22 @@ $(function(){
 				})
 			},false);
 			reader.readAsDataURL(f);
-			
-				
         });
 	//************************************************************************* */
+
+	//*********************delete photo article**************************** */
+			$('body').on('click','.delPhotoArti',function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var th = $(this);
+				var codeF = th.attr('name');
+				var nomImage = th.attr('title');
+				if(confirm('Voulez-vous supprimer cette image ?')){
+					$('body').tagant_delete(codeF,nomImage);
+				}
+			});
+	//************************************************************************** */
+
 })
 
  

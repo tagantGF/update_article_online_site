@@ -49,15 +49,24 @@
             <div class="pull-left" id="logoFeraudPage" style="display: none;"><img src="images/logo_gf.svg" width="200px"></div>
             <div id="deconnexion" class="pull-right btn btn-danger" style="display:none"><span class="glyphicon glyphicon-off"></span> Déconnexion</div>
             <div id='search_bar' class="row" style="display:none">
-                <div class="col-md-8">
+                <div class="form-group col-md-6">
+                  <label>Recherche sur un article</label>
                   <div class="search">
                     <i class="fa fa-search"></i>
                     <input type="number" class="id_article2 form-control" placeholder="Veuillez entrer l'identifiant de l'article !">
                     <button id="home_search2" class="btn btn-primary">Search</button>
                   </div>
                 </div>
-                <div class="col-md-4">
-                    <select class="InvalidatedArticle pull-right form-control" style="height:40px;position: relative;top: 10px;">  </select>
+                <div class="form-group col-md-3">
+                    <label>Type d'articles recherchés</label>
+                    <select class="searchArtiMenu form-control" style="height:40px;position: relative;top: 10px;">
+                        <option value="controleur/articlesNoSave.php">Articles non validés</option>
+                        <option value="controleur/articleArbo1.php">Articles arborescence 1</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Liste des articles</label>
+                    <select class="InvalidatedArticle form-control" style="height:40px;position: relative;top: 10px;"></select>
                 </div>
             </div>
          
@@ -235,6 +244,31 @@
             </div>
         </div>
     <!--**********************************************************************************-->
+    <!--****************************************************arborescence 1****************-->
+        <div class="modal fade" data-backdrop='false' id='showArbo1'>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h3 class="modal-title">
+                        <center>
+                            arborescence 1
+                            <button type="button" class="close" data-dismiss="modal" style="position: absolute;right: 30px;"><span class="glyphicon glyphicon-remove" style='color:red'></span></button>
+                        </center>
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <form action ="#" data-url="controleur/getArticleArbo1.php" method="post" name="arbo1" id="form_Arbo1">
+                            <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                <select class="arborescence1 form-control" name="TreeName1" style="height: 40px;" required></select>
+                            </div>
+                            <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Envoyer</span></button>
+                            <input type="reset" class="reseteur" style="display:none" name='reinitialise'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--**************************************************************************************-->
 		</div>
 		<script src="js/jquery.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
