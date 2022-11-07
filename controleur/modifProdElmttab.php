@@ -50,7 +50,7 @@ header("Content-Type: text/html; charset=utf-8");
 
                 foreach($caracteristique as $k=>$v){
                     if(strtolower(fctRetirerAccents(trim($v[0]))) == $valeurSecreteLibelle){
-                        $caracteristique[$k][0] = strtoupper($valeurInconnu);
+                        $caracteristique[$k][0] = $valeurInconnu;
                         $caracteristique[$k][1] = $valeur;
                     }
                 }

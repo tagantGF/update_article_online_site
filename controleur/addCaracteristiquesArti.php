@@ -20,7 +20,7 @@ header("Content-Type: text/html; charset=utf-8");
                             foreach($t[0] as $k2=>$v2){
                                 if($k2 == 'ArtVal'.$a && in_array($v2,array(null,''))){
                                     $tab = array(
-                                        "ArtThCode$a"=>strtoupper($libelle),
+                                        "ArtThCode$a"=>$libelle,
                                         "ArtVal$a"=>$valeur
                                     );
                                     $y =  $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");

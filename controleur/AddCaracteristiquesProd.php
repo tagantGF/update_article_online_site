@@ -13,7 +13,7 @@ header("Content-Type: text/html; charset=utf-8");
                 $user = $_POST['user'];
                 $libelle = htmlspecialchars(addslashes($_POST['libelle']));
                 $valeur = htmlspecialchars(addslashes($_POST['valeur']));
-                $elmt = " • ".strtoupper($libelle)." : $valeur";
+                $elmt = " • ".$libelle." : $valeur";
 
                 $t = $manager->selectionUnique2('articles',array('ProductId,caracteristiques'),"code_feraud=$codeFeraud");
                 $productId = $t[0]->ProductId;

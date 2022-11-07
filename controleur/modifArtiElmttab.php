@@ -30,7 +30,7 @@ header("Content-Type: text/html; charset=utf-8");
                     $vv = str_replace(" ","_",$v);
                     if(strtolower(trim($vv)) == $valeurSecreteLibelle){
                         $q = str_replace("ArtThCode","ArtVal",$k);
-                        $t[0]->$k = strtoupper($valeurInconnu);
+                        $t[0]->$k = $valeurInconnu;
                         $t[0]->$q = $valeur;
                         $a = 11;
                     }

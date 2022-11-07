@@ -29,7 +29,7 @@ header("Content-Type: text/html; charset=utf-8");
 					foreach($v1 as $k2=>$v2){
 						if($k2 == "user_num"){
 								$t3 = $manager->selectionUnique2('users',array('*'),"num_user=$v2");
-								$t2[$k][$k1]->$k2 = strtoupper($t3[0]->nom).' '.strtoupper($t3[0]->prenom); 
+								$t2[$k][$k1]->$k2 = $t3[0]->nom.' '.$t3[0]->prenom; 
 							}
 					}
 				}
