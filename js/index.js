@@ -218,37 +218,40 @@ $(function(){
 				}
 			}
 			else if(sessionStorage.getItem('updateBtn') == 'deleted'){
-				sessionStorage.removeItem('updateCaracProd');
-				sessionStorage.removeItem('updateBtn');
-				var fi = '';
-				var lst = '';
-				var codeFeraud = th.attr('id');
-				var gg = th.next().find("textarea[name='"+lenom+"1']").val();
-				th.children().each(function(index){
-					if(index == 0){
-						fi = $(this).text();
-					}else{
-						lst = $(this).text();
-					}
-				});
-				var datass = '';
-				var url = '';
-				if(th.hasClass('produitsTable')){
-					datass = 'type=produit'+'&libelle='+fi+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&valeur='+lst;
-				}else if(th.hasClass('ArtiTable')){
-					datass = 'type=article'+'&libelle='+fi+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&valeur='+lst;
-				}
-				$.ajax({
-					url:"controleur/delete_prod.php",
-					type:'post',
-					dataType:'json',
-					data:datass,
-					success:function(data){
-						if(data == 'suppression fait !'){
-							th.remove();
+				if(confirm('Voulez-vous supprimer cet élément ?')){
+					sessionStorage.removeItem('updateCaracProd');
+					sessionStorage.removeItem('updateBtn');
+					var fi = '';
+					var lst = '';
+					var codeFeraud = th.attr('id');
+					var gg = th.next().find("textarea[name='"+lenom+"1']").val();
+					th.children().each(function(index){
+						if(index == 0){
+							fi = $(this).text();
+						}else{
+							lst = $(this).text();
 						}
+					});
+					var datass = '';
+					var url = '';
+					if(th.hasClass('produitsTable')){
+						datass = 'type=produit'+'&libelle='+fi+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&valeur='+lst;
+					}else if(th.hasClass('ArtiTable')){
+						datass = 'type=article'+'&libelle='+fi+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&valeur='+lst;
 					}
-				})
+					$.ajax({
+						url:"controleur/delete_prod.php",
+						type:'post',
+						dataType:'json',
+						data:datass,
+						success:function(data){
+							if(data == 'suppression fait !'){
+								th.remove();
+							}
+						}
+					})
+				}
+				
 			}
 		});
 	//************************************************************************************************************* */
