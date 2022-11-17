@@ -267,7 +267,7 @@
 							caracteristiques = caracteristiques.filter(function(n){return n != ''});
 							for(var aa in caracteristiques){
 								caracteristiques[aa] =  caracteristiques[aa].split(':');
-								caracteristiques_prod += ' <tr style="cursor:pointer" class="editable_tr" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+								caracteristiques_prod += ' <tr style="cursor:pointer" id="'+codeFeraudForAddArticle+'" class="editable_tr produitsTable" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
 																<td><strong>'+caracteristiques[aa][0]+'</strong></td>\
 																<td>'+caracteristiques[aa][1]+'</td>\
 															</tr>\
@@ -392,7 +392,7 @@
 										var nArthval = artval_entete[ee].replace(/\D/g,'');
 										
 										if(nArthcode == nArthval){
-											caracteristiques_art += ' <tr style="cursor:pointer" action="'+monattribut+'" class="editable_tr" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
+											caracteristiques_art += ' <tr style="cursor:pointer" id="'+code_feraud+'" action="'+monattribut+'" class="editable_tr ArtiTable" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
 												<td><strong>'+arthcode_val[dd]+'</strong></td>\
 												<td>'+artval_val[dd]+'</td>\
 											</tr>\

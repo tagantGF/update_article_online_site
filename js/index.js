@@ -1,6 +1,8 @@
 $(function(){
 	// sessionStorage.clear();
-	
+	sessionStorage.removeItem('updateBtn');
+	sessionStorage.removeItem('deleteBtn');
+	sessionStorage.removeItem('updateCaracProd');
 //*******************init home page*******************************
 	function firstpage(url){
 		$.ajax({
@@ -144,38 +146,115 @@ $(function(){
 				alert('Cet article a été Validé et vérrouillé');
 			}
 		});
+		$('body').mousemove(function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			sessionStorage.setItem('cursorX',e.pageX);
+			sessionStorage.setItem('cursorY',e.pageY);
+		});
+		$('body').on('click','.container',function(e){
+			// e.preventDefault();
+			// e.stopPropagation();
+			$('body div#bloc_option_article').attr('style','display:none');
+			sessionStorage.removeItem('updateCaracProd');
+			sessionStorage.removeItem('updateBtn');
+			sessionStorage.removeItem('deleteBtn');
+		});
+		$('body').on('click','span.updateElement',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var th = $(this);
+			var lenom = th.attr('name');
+			if(lenom == 'update'){
+				sessionStorage.setItem('updateBtn','clicked');
+				$('body tr.editable_tr[name="'+sessionStorage.getItem('updateCaracProd')+'"]').trigger('click');
+				$('body div#bloc_option_article').attr('style','display:none');
+			}else{
+				sessionStorage.setItem('updateBtn','deleted');
+				$('body tr.editable_tr[name="'+sessionStorage.getItem('updateCaracProd')+'"]').trigger('click');
+				$('body div#bloc_option_article').attr('style','display:none');
+			}
+		});
 		$('body').on('click','.editable_tr',function(e){ // affiche option(delete,update) après click sur ligne article
 			e.preventDefault();
 			e.stopPropagation();
-			
 			var th = $(this);
-			if(['','invalider',undefined].includes(th.attr('action'))){
-				var lenom = th.attr('name');
+			var lenom = th.attr('name');
+			if(sessionStorage.getItem('updateBtn')== null){
+				$('body div#bloc_option_article').removeAttr('style');
+				$('body div#bloc_option_article').css({
+					'position':'absolute',
+					'z-index':'99',
+					'left': sessionStorage.getItem('cursorX')+"px",
+					'top': sessionStorage.getItem('cursorY')+'px'
+				});
+				sessionStorage.setItem('updateCaracProd',lenom);
+			}
+			else if(sessionStorage.getItem('updateBtn') == 'clicked'){
+				sessionStorage.removeItem('updateCaracProd');
+				sessionStorage.removeItem('updateBtn');
+				if(['','invalider',undefined].includes(th.attr('action'))){
+					var lenom = th.attr('name');
+					var fi = '';
+					var lst = '';
+					var tab = ['REF_CAT','REF_FOUR','EAN'];
+					var gg = th.next().find("textarea[name='"+lenom+"1']").val();
+					th.children().each(function(index) {
+						if(index == 0){
+							fi = $(this).text();
+						}else{
+							lst = $(this).text();
+						}
+					});
+					if(!tab.includes(fi)){
+						th.next().removeAttr('style');
+						th.next().find("textarea[name='"+lenom+"1']").text(fi);
+						th.next().find("textarea[name='"+lenom+"2']").text(lst);
+					}else{
+						alert('Aucune modification autorisée !');
+					}
+				}else{
+					alert('Cet article a été Validé et vérrouillé');
+				}
+			}
+			else if(sessionStorage.getItem('updateBtn') == 'deleted'){
+				sessionStorage.removeItem('updateCaracProd');
+				sessionStorage.removeItem('updateBtn');
 				var fi = '';
 				var lst = '';
-				var tab = ['REF_CAT','REF_FOUR','EAN'];
+				var codeFeraud = th.attr('id');
 				var gg = th.next().find("textarea[name='"+lenom+"1']").val();
-				th.children().each(function(index) {
+				th.children().each(function(index){
 					if(index == 0){
 						fi = $(this).text();
 					}else{
 						lst = $(this).text();
 					}
 				});
-				if(!tab.includes(fi)){
-					th.next().removeAttr('style');
-					th.next().find("textarea[name='"+lenom+"1']").text(fi);
-					th.next().find("textarea[name='"+lenom+"2']").text(lst);
-				}else{
-					alert('Aucune modification autorisée !');
+				var datass = '';
+				var url = '';
+				if(th.hasClass('produitsTable')){
+					datass = 'type=produit'+'&libelle='+fi+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&valeur='+lst;
+				}else if(th.hasClass('ArtiTable')){
+					datass = 'type=article'+'&libelle='+fi+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&valeur='+lst;
 				}
-			}else{
-				alert('Cet article a été Validé et vérrouillé');
+				$.ajax({
+					url:"controleur/delete_prod.php",
+					type:'post',
+					dataType:'json',
+					data:datass,
+					success:function(data){
+						if(data == 'suppression fait !'){
+							th.remove();
+						}
+					}
+				})
 			}
 		});
 	//************************************************************************************************************* */
 
 	//**************************************show modal**************************************************** */
+		
 		$('body').on('click','.showProdArbo,.addArtiProd,.caracProd,.caracArti,.changeProdArti',function(e){ // bar recherche page d'accueil
 			e.preventDefault();
 			e.stopPropagation();
