@@ -22,7 +22,7 @@ header("Content-Type: text/html; charset=utf-8");
                     'TreeName2'=>$arbo[1],
                     'TreeName3'=>$arbo[2]
                 );
-                $y =  $manager->modifier('articles',$tab,"ProductId=$productId");
+                $y =  $manager->modifier('articles',$tab,"ProductId='$productId'");
 
                 $manager->supprimer('modificationtrack',"lapartie IN ('ArborescenceProd') AND lecode ='$productId'");
                 $tab2 = array(
