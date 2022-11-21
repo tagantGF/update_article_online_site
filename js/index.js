@@ -517,6 +517,54 @@ $(function(){
 	//*********************************************************************** */
 
 	//******************************gestion clic sur images****************** */
+		$('body').on('dragover','.photoArti',function(e){
+			e.preventDefault();
+		});
+		$('body').on('drop','.photoArti',function(e){
+			e.preventDefault();
+			var th = $(this);
+			var output_format = '';
+			var file = e.originalEvent.dataTransfer.files[0];
+			var fileType = file["type"];
+			var fileSize = Math.round(file.size/1024);
+			var validImageTypes = ["image/jpeg","image/jpg","image/png"];
+			if ($.inArray(fileType,validImageTypes) < 0) {
+			
+			}else{
+				if(fileType == "image/jpeg" || fileType == "image/jpg"){
+					 output_format = 'jpeg'
+				}else if(fileType == "image/png"){
+					 output_format = 'png'
+				}
+			}
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.addEventListener('loadend',()=>{
+				th.find('img').attr('src',reader.result);
+				var source_fichier = reader.result;
+				var fileName = file.name;
+				var formass = new FormData();
+				var whatdiv = th.find('img').attr('name');
+				var codeF = th.attr('title');
+				formass.append('nomphoto',fileName);
+				formass.append('pp',source_fichier);
+				formass.append('extension_fichier',output_format);
+				formass.append('code_feraud',codeF);
+				formass.append('whatImage',whatdiv);
+				$.ajax({
+					url:'controleur/addImages.php',
+					data:formass,
+					processData:false,
+					contentType:false,
+					type:'post',
+					dataType:'json',
+					success:function(data){
+
+					}
+				})
+			})
+		});
+
 		$('body').on('click','.photoArti',function(e){
 			var th = $(this);
 			$('#photopiece').trigger('click');
@@ -524,6 +572,7 @@ $(function(){
 			sessionStorage.setItem('whatImageClicked',p);
 			sessionStorage.setItem('whatDivImageClicked',th.attr('title'));
 		});
+
 
 		$('body').on('click','.photoProd',function(e){
 			var th = $(this);
