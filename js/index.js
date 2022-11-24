@@ -147,8 +147,8 @@ $(function(){
 			}
 		});
 		$('body').mousemove(function(e){
-			e.preventDefault();
-			e.stopPropagation();
+			// e.preventDefault();
+			// e.stopPropagation();
 			sessionStorage.setItem('cursorX',e.pageX);
 			sessionStorage.setItem('cursorY',e.pageY);
 		});
