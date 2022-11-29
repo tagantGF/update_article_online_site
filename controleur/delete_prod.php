@@ -49,7 +49,7 @@ header("Content-Type: text/html; charset=utf-8");
                 $manager->modifier('articles',$tab,"ProductId='$productId'");
                 echo json_encode('suppression fait !');
             }else if($_POST['type'] == "article"){
-                $codeFeraud = $_POST['codeFeraud'];
+                $codeFeraud = intval($_POST['codeFeraud']);
                 $libelle = $_POST['libelle'];
                 $valeur = trim($_POST['valeur']);
                 unset($_POST['libelle']);
@@ -58,19 +58,22 @@ header("Content-Type: text/html; charset=utf-8");
                 unset($_POST['type']);
                 $t = $manager->selectionUnique2('articles',array('*'),"code_feraud=$codeFeraud");
                 $tab= array();
+                $indice = 0;
                 foreach($t[0] as $key=>$val){
                     $i = 0;
                     for($a=1;$a<12;$a++){
                         if('ArtThCode'.$a == $key && trim($val) == trim($libelle)){
                             $tab['ArtThCode'.$a] = '';
+                            $tab['ArtVal'.$a] = '';
                             $i++;
+                            $indice = $a;
                         }
                     }
-                    if($i == 0){
+                    if($i == 0 && 'ArtVal'.$indice != $key){
                         $tab[$key] = $val;
                     }
                 }
-                $manager->modifier('articles',$tab,"code_feraud='$codeFeraud'");
+                $i = $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");
                 echo json_encode('suppression fait !');
             }
         }

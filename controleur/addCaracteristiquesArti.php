@@ -9,7 +9,7 @@ header("Content-Type: text/html; charset=utf-8");
             $jwt = new JWT();
             $nbre = $jwt->oauth($_POST['token']);
             if($nbre == 0){
-                $codeFeraud = $_POST['codeFeraudForAddCaract'];
+                $codeFeraud = intval($_POST['codeFeraudForAddCaract']);
                 $libelle = htmlspecialchars(addslashes($_POST['libelle']));
                 $valeur = htmlspecialchars(addslashes($_POST['valeur']));
                 $user = $_POST['user'];
