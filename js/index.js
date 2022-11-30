@@ -406,23 +406,27 @@ $(function(){
 			var nn = th.attr('name');
 			var valeurLibelle = th.parent().parent().find("textarea[name='"+nn+"1']").val();
 			var valeur = th.parent().parent().find("textarea[name='"+nn+"2']").val();
-			var pp = th.parent().parent().find("textarea[name='"+nn+"2']").attr('id');
-			var datass = pp+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('num_user');
-			var tab = ['ref_cat','ref_four','ean'];
-			if(valeurLibelle.trim() != ""){
-				$.ajax({
-					url:"controleur/modifArtiElmttab.php",
-					type:'post',
-					dataType:'json',
-					data:datass,
-					success:function(data){
-						if(data == 'changement fait !'){
-							$('body').tagant_search_article(codeFeraud);
+			if(valeur != '' && valeurLibelle !=''){
+				var pp = th.parent().parent().find("textarea[name='"+nn+"2']").attr('id');
+				var datass = pp+'='+valeurLibelle+'&valeur='+valeur+'&token='+sessionStorage.getItem('token')+'&codeFeraud='+codeFeraud+'&user='+sessionStorage.getItem('num_user');
+				var tab = ['ref_cat','ref_four','ean'];
+				if(valeurLibelle.trim() != ""){
+					$.ajax({
+						url:"controleur/modifArtiElmttab.php",
+						type:'post',
+						dataType:'json',
+						data:datass,
+						success:function(data){
+							if(data == 'changement fait !'){
+								$('body').tagant_search_article(codeFeraud);
+							}
 						}
-					}
-				})
+					})
+				}else{
+					alert('La modification ne peut être envoyé car un champs est vide !');
+				}
 			}else{
-				alert('La modification ne peut être envoyé car un champs est vide !');
+				alert('Les vides ne sont pas admises');
 			}
 		});
 //****************************************************************************** */
