@@ -769,7 +769,6 @@ $(function(){
 		th.parent().parent().parent().children('textarea').val(val);
 		th.parent().parent().attr('style','display:none');
 	});
-	alert('test');
 })
 
  
