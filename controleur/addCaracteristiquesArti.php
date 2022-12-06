@@ -10,33 +10,29 @@ header("Content-Type: text/html; charset=utf-8");
             $nbre = $jwt->oauth($_POST['token']);
             if($nbre == 0){
                 $codeFeraud = intval($_POST['codeFeraudForAddCaract']);
-                $libelle = htmlspecialchars(addslashes($_POST['libelle']));
-                $valeur = htmlspecialchars(addslashes($_POST['valeur']));
+                $libelle = $_POST['libelle'];
+                $valeur = $_POST['valeur'];
                 $user = $_POST['user'];
                 $t = $manager->selectionUnique2('articles',array('*'),"code_feraud=$codeFeraud");
                 for($a=3;$a<12;$a++){
                     foreach($t[0] as $k=>$v){
                         if($k == 'ArtThCode'.$a && in_array($v,array(null,''))){
-                            foreach($t[0] as $k2=>$v2){
-                                if($k2 == 'ArtVal'.$a && in_array($v2,array(null,''))){
-                                    $tab = array(
-                                        "ArtThCode$a"=>$libelle,
-                                        "ArtVal$a"=>$valeur
-                                    );
-                                    $y =  $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");
+                            $tab = array(
+                                "ArtThCode$a"=>$libelle,
+                                "ArtVal$a"=>$valeur
+                            );
+                            $y =  $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");
 
-                                    $manager->supprimer('modificationtrack',"lapartie=caracteristiqueArti AND lecode ='$codeFeraud'");
-                                    $tab2 = array(
-                                        'lecode'=>$codeFeraud,
-                                        'lapartie'=>'caracteristiqueArti',
-                                        'user_num'=>$user
-                                    );
-                                    $g =  $manager->insertion('modificationtrack',$tab2,'');
+                            $manager->supprimer('modificationtrack',"lapartie=caracteristiqueArti AND lecode ='$codeFeraud'");
+                            $tab2 = array(
+                                'lecode'=>"$codeFeraud",
+                                'lapartie'=>'caracteristiqueArti',
+                                'user_num'=>$user
+                            );
+                            $g =  $manager->insertion('modificationtrack',$tab2,'');
 
-                                    echo json_encode($y);
-                                    $a = 12;
-                                }
-                            }
+                            echo json_encode($y);
+                            $a = 12;
                         }
                     }
                     if($a == 11){

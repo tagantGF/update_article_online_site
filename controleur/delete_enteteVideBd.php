@@ -35,5 +35,6 @@ header("Content-Type: text/html; charset=utf-8");
             }
             $i = $manager->modifier('articles',$tab,"code_feraud=$code");
         }
+        echo 'Changement fait !';
     }
 ?>

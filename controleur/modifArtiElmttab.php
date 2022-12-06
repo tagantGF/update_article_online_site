@@ -19,7 +19,7 @@ header("Content-Type: text/html; charset=utf-8");
                 unset($_POST['valeur']);
                 unset($_POST['user']);
                 foreach($_POST as $key=>$val){
-                    $_POST[$key] = htmlspecialchars($val);
+                    $_POST[$key] = $val;
                     $valeurSecreteLibelle = $key;
                     $valeurInconnu = trim($_POST[$key]);
                 }
@@ -28,7 +28,7 @@ header("Content-Type: text/html; charset=utf-8");
                 
                 foreach($t[0] as $k=>$v){
                     $vv = str_replace(" ","_",$v);
-                    if(strtolower(trim($vv)) == $valeurSecreteLibelle){
+                    if(strtolower(trim($vv)) == $valeurSecreteLibelle && stripos($k,'ArtThCode') !== false){
                         $q = str_replace("ArtThCode","ArtVal",$k);
                         $t[0]->$k = $valeurInconnu;
                         $t[0]->$q = $valeur;

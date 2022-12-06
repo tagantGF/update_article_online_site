@@ -267,14 +267,15 @@
 							caracteristiques = caracteristiques.filter(function(n){return n != ''});
 							for(var aa in caracteristiques){
 								caracteristiques[aa] =  caracteristiques[aa].split(':');
-								caracteristiques_prod += ' <tr style="cursor:pointer" id="'+codeFeraudForAddArticle+'" class="editable_tr produitsTable" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
+								caracteristiques_prod += ' <tr style="cursor:pointer" id="'+codeFeraudForAddArticle+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'" class="editable_tr produitsTable" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
 																<td><strong>'+caracteristiques[aa][0]+'</strong></td>\
 																<td>'+caracteristiques[aa][1]+'</td>\
 															</tr>\
 															<tr style="display:none" class="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'">\
 																<td>\
 																	<div class="col">\
-																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
+																	<p style="display:none" class="showsuggestions"></p>\
+																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="getsaisie form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
 																	</div>\
 																</td>\
 																<td>\
@@ -392,14 +393,15 @@
 										var nArthval = artval_entete[ee].replace(/\D/g,'');
 										
 										if(nArthcode == nArthval){
-											caracteristiques_art += ' <tr style="cursor:pointer" id="'+code_feraud+'" action="'+monattribut+'" class="editable_tr ArtiTable" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
+											caracteristiques_art += ' <tr style="cursor:pointer" id="'+code_feraud+strNoAccent(artval_val[dd]).toLowerCase()+'" action="'+monattribut+'" class="editable_tr ArtiTable" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
 												<td><strong>'+arthcode_val[dd]+'</strong></td>\
 												<td>'+artval_val[dd]+'</td>\
 											</tr>\
 											<tr style="display:none" class="'+strNoAccent(artval_val[dd]).toLowerCase()+'">\
 												<td>\
 													<div class="col">\
-														<textarea required name="'+strNoAccent(artval_val[dd]).toLowerCase()+'1" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'lib"></textarea>\
+														<p style="display:none" class="showsuggestions"></p>\
+														<textarea required name="'+strNoAccent(artval_val[dd]).toLowerCase()+'1" cols="40" rows="4" class="getsaisie form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'lib"></textarea>\
 													</div>\
 												</td>\
 												<td>\
@@ -408,7 +410,6 @@
 													</div><span id="'+code_feraud+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'" style="left:-26px" class="saveCaractArti glyphicon glyphicon-ok-sign btn btn-success"><span>\
 												</td>\
 											</tr>';
-
 										}
 									}
 								}
@@ -430,15 +431,15 @@
 										<input type="file" id="photopiece" style="display:none">\
 										<div style="cursor:pointer" class="photoArti card" name="'+photo1+'" title="'+code_feraud+'">\
 											<div style="display:none" name="'+code_feraud+'" title="ProductImageHD1" class="delPhotoArti"><center><span class="btn btn-danger glyphicon glyphicon-trash"></span></center></div>\
-										  <img width="250" height="250" src="'+photo1+'" name="	ProductImageHD1" class="card-img-top" alt="...">\
+										  <img width="250" height="250" src="'+photo1+'" name="ProductImageHD1" class="card-img-top" alt="...">\
 										</div>\
 										<div style="cursor:pointer" class="card photoArti" name="'+photo2+'" title="'+code_feraud+'">\
 										  	<div style="display:none" name="'+code_feraud+'" title="ProductImageHD2" class="delPhotoArti"><center><span class="btn btn-danger glyphicon glyphicon-trash"></span></center></div>\
-											<img width="250" height="250" src="'+photo2+'" name="	ProductImageHD2" class="card-img-top" alt="...">\
+											<img width="250" height="250" src="'+photo2+'" name="ProductImageHD2" class="card-img-top" alt="...">\
 										</div>\
 										<div style="cursor:pointer" class="card photoArti" name="'+photo3+'" title="'+code_feraud+'">\
 											<div style="display:none" name="'+code_feraud+'" title="ProductImageHD3" class="delPhotoArti"><center><span class="btn btn-danger glyphicon glyphicon-trash"></span></center></div>\
-											<img width="250" height="250" src="'+photo3+'" name="	ProductImageHD3" class="card-img-top" alt="...">\
+											<img width="250" height="250" src="'+photo3+'" name="ProductImageHD3" class="card-img-top" alt="...">\
 										</div>\
 									</div>\
 								</div>\

@@ -69,7 +69,7 @@ header("Content-Type: text/html; charset=utf-8");
                             $indice = $a;
                         }
                     }
-                    if($i == 0 && 'ArtVal'.$indice != $key){
+                    if($i == 0 && 'ArtVal'.$indice != $key && 'ArtThCode'.$indice != $key){
                         $tab[$key] = $val;
                     }
                 }

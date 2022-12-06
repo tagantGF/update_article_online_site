@@ -90,4 +90,15 @@ body div.row_carac_article_description{
 		height: 55%;
 	}
 }
+body .showsuggestions{
+	color:black;
+    margin: 0 0 10px;
+    position: absolute;
+    top: -22px;
+    background-color: #b6cbdf;
+    max-height: 200px;
+	min-height: 22px;
+    width: 75%;
+    left: 12.5%;
+}
 
