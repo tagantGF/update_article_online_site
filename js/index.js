@@ -159,6 +159,8 @@ $(function(){
 			sessionStorage.removeItem('updateCaracProd');
 			sessionStorage.removeItem('updateBtn');
 			sessionStorage.removeItem('deleteBtn');
+			//ferme bloque suggestions 
+			$('body .showsuggestions').attr('style','display:none');
 		});
 		$('body').on('click','span.updateElement',function(e){
 			e.preventDefault();
@@ -725,15 +727,22 @@ $(function(){
 	$('body').on('keyup','.getsaisie',function(e){
 		// e.preventDefault();
 		// e.stopPropagation();
+		
 		var th = $(this);
 		var nom = th.attr('name');
 		var val = th.val();
+		var wichSuggestion = '';
+		if(th.hasClass('valeurSuggestions')){
+			wichSuggestion = 'valeur';
+		}else if(th.hasClass('enteteSuggestions')){
+			wichSuggestion = 'entete';
+		}
 		if(val != ''){
 			$.ajax({
 				url:"controleur/getSuggestions.php",
 				type:'post',
 				dataType:'json',
-				data:'valeur='+val,
+				data:'valeur='+val+'&element='+wichSuggestion,
 				success:function(data){
 					//console.log('test',data);
 						var liste = '';
@@ -745,7 +754,6 @@ $(function(){
 							}else{
 								liste += "<center><span class='suggestionValue' style='background-color:#dee2e6;cursor:pointer;text-align:center'>"+data[a]+"</span></center><br>";
 							}
-							
 						}
 						th.parent().children('p').removeAttr('style');
 						th.parent().children('p').html(liste);

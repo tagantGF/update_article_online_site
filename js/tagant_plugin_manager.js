@@ -275,12 +275,13 @@
 																<td>\
 																	<div class="col">\
 																	<p style="display:none" class="showsuggestions"></p>\
-																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="getsaisie form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
+																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="getsaisie enteteSuggestions form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
 																	</div>\
 																</td>\
 																<td>\
 																	<div class="col">\
-																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
+																	<p style="display:none" class="showsuggestions"></p>\
+																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="getsaisie valeurSuggestions form-control'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
 																	</div><span id="'+codeFeraudForAddArticle+'" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'" style="left:-26px" class="saveCaractProd glyphicon glyphicon-ok-sign btn btn-success"><span>\
 																</td>\
 															</tr>';
@@ -401,12 +402,13 @@
 												<td>\
 													<div class="col">\
 														<p style="display:none" class="showsuggestions"></p>\
-														<textarea required name="'+strNoAccent(artval_val[dd]).toLowerCase()+'1" cols="40" rows="4" class="getsaisie form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'lib"></textarea>\
+														<textarea required name="'+strNoAccent(artval_val[dd]).toLowerCase()+'1" cols="40" rows="4" class="getsaisie enteteSuggestions form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'lib"></textarea>\
 													</div>\
 												</td>\
 												<td>\
 													<div class="col">\
-														<textarea required id="'+strNoAccent(arthcode_val[dd]).toLowerCase()+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'2" cols="40" rows="4" class="form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'val"></textarea>\
+													<p style="display:none" class="showsuggestions"></p>\
+														<textarea required id="'+strNoAccent(arthcode_val[dd]).toLowerCase()+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'2" cols="40" rows="4" class="getsaisie valeurSuggestions form-control '+strNoAccent(arthcode_val[dd]).toLowerCase()+'val"></textarea>\
 													</div><span id="'+code_feraud+'" name="'+strNoAccent(artval_val[dd]).toLowerCase()+'" style="left:-26px" class="saveCaractArti glyphicon glyphicon-ok-sign btn btn-success"><span>\
 												</td>\
 											</tr>';
