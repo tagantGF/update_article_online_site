@@ -15,7 +15,7 @@ header("Content-Type: text/html; charset=utf-8");
                     $i=0; 
                     for($a=1;$a<12;$a++){
                         if('ArtThCode'.$a == $key && $val != ''){
-                            $pos = stripos($val, $valeur);
+                            $pos = stripos(trim($val), trim($valeur));
                             if($pos !== false && count($entete)<6){
                                 $entete[] = $val;
                             } 
@@ -36,7 +36,7 @@ header("Content-Type: text/html; charset=utf-8");
                     $i=0; 
                     for($a=1;$a<12;$a++){
                         if('ArtVal'.$a == $key && $val != ''){
-                            $pos = stripos($val, $valeur);
+                            $pos = stripos(trim($val),trim($valeur));
                             if($pos !== false && count($entete)<6){
                                 $entete[] = $val;
                             } 

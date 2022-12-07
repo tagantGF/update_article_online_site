@@ -275,13 +275,13 @@
 																<td>\
 																	<div class="col">\
 																	<p style="display:none" class="showsuggestions"></p>\
-																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="getsaisie enteteSuggestions form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
+																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'1" cols="40" rows="4" class="prod getsaisie enteteSuggestions form-control '+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'lib">hgjfghjgfjhd</textarea>\
 																	</div>\
 																</td>\
 																<td>\
 																	<div class="col">\
 																	<p style="display:none" class="showsuggestions"></p>\
-																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="getsaisie valeurSuggestions form-control'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
+																		<textarea required name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'2" cols="40" rows="4" class="prod getsaisie valeurSuggestions form-control'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'val">jjjjj</textarea>\
 																	</div><span id="'+codeFeraudForAddArticle+'" name="'+strNoAccent(caracteristiques[aa][0]).toLowerCase()+'" style="left:-26px" class="saveCaractProd glyphicon glyphicon-ok-sign btn btn-success"><span>\
 																</td>\
 															</tr>';

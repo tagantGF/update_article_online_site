@@ -161,6 +161,7 @@ $(function(){
 			sessionStorage.removeItem('deleteBtn');
 			//ferme bloque suggestions 
 			$('body .showsuggestions').attr('style','display:none');
+			$('body .suggestion_popop').attr('style','display:none');
 		});
 		$('body').on('click','span.updateElement',function(e){
 			e.preventDefault();
@@ -582,7 +583,6 @@ $(function(){
 			sessionStorage.setItem('whatDivImageClicked',th.attr('title'));
 		});
 
-
 		$('body').on('click','.photoProd',function(e){
 			var th = $(this);
 			$('#photopiece2').trigger('click');
@@ -723,60 +723,125 @@ $(function(){
 				}
 			});
 	//************************************************************************** */
+	//***************************************************suggestions coté modification element *******************************************/
+		$('body').on('keyup','.getsaisie',function(e){
+			// e.preventDefault();
+			// e.stopPropagation();
+			var th = $(this);
+			var nom = th.attr('name');
+			var val = th.val();
+			var wichSuggestion = '';
+			if(th.hasClass('valeurSuggestions')){
+				wichSuggestion = 'valeur';
+			}else if(th.hasClass('enteteSuggestions')){
+				wichSuggestion = 'entete';
+			}
 
-	$('body').on('keyup','.getsaisie',function(e){
-		// e.preventDefault();
-		// e.stopPropagation();
-		
-		var th = $(this);
-		var nom = th.attr('name');
-		var val = th.val();
-		var wichSuggestion = '';
-		if(th.hasClass('valeurSuggestions')){
-			wichSuggestion = 'valeur';
-		}else if(th.hasClass('enteteSuggestions')){
-			wichSuggestion = 'entete';
-		}
-		if(val != ''){
-			$.ajax({
-				url:"controleur/getSuggestions.php",
-				type:'post',
-				dataType:'json',
-				data:'valeur='+val+'&element='+wichSuggestion,
-				success:function(data){
-					//console.log('test',data);
-						var liste = '';
-						var n = 0;
-						for(var a in data){
-							n++;
-							if(n%2 == 0){
-								liste += "<center><span class='suggestionValue' style='background-color:#a0c53e;cursor:pointer;text-align:center'>"+data[a]+"</span></center><br>";
-							}else{
-								liste += "<center><span class='suggestionValue' style='background-color:#dee2e6;cursor:pointer;text-align:center'>"+data[a]+"</span></center><br>";
+			if(th.hasClass('prod')){
+				url = 'controleur/getSuggestionsProd.php';
+			}else{
+				url = 'controleur/getSuggestions.php';
+			}
+
+			if(val != ''){
+				$.ajax({
+					url:url,
+					type:'post',
+					dataType:'json',
+					data:'valeur='+val+'&element='+wichSuggestion,
+					success:function(data){
+						if(data.length != 0){
+							var liste = '';
+							var n = 0;
+							for(var a in data){
+								n++;
+								if(n%2 == 0){
+									liste += "<center><span class='suggestionValue' style='background-color:#a0c53e;cursor:pointer;text-align:center'>"+data[a]+"</span></center><br>";
+								}else{
+									liste += "<center><span class='suggestionValue' style='background-color:#dee2e6;cursor:pointer;text-align:center'>"+data[a]+"</span></center><br>";
+								}
 							}
+							th.parent().children('p').removeAttr('style');
+							th.parent().children('p').html(liste);
+							var h = th.parent().children('p').height()+5;
+							th.parent().children('p').css({
+								'top':-(h)+'px',
+							})
+						}else{
+							th.parent().children('p').attr('style','display:none');
 						}
-						th.parent().children('p').removeAttr('style');
-						th.parent().children('p').html(liste);
-						//console.log('test',liste);
-						var h = th.parent().children('p').height()+5;
-						//console.log('test',h);
-						th.parent().children('p').css({
-							'top':-(h)+'px',
-						})
-				}
-			})
-		}else{
-			th.parent().children('p').attr('style','display:none');
-		}
-	});
-	$('body').on('click','.suggestionValue',function(e){
-		e.preventDefault();
-		e.stopPropagation();
-		var th = $(this);
-		var val = th.text();
-		th.parent().parent().parent().children('textarea').val(val);
-		th.parent().parent().attr('style','display:none');
-	});
+					}
+				})
+			}else{
+				th.parent().children('p').attr('style','display:none');
+			}
+		});
+		$('body').on('click','.suggestionValue',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var th = $(this);
+			var val = th.text();
+			th.parent().parent().parent().children('textarea').val(val);
+			th.parent().parent().attr('style','display:none');
+		});
+	//**************************************************************************************************************** */
+
+	//***************************************************suggestions coté ajout element ***************************************/
+		$('body').on('keyup','.getsaisieAjout',function(e){
+			var th = $(this);
+			var nom = th.attr('name');
+			var val = th.val();
+			var wichSuggestion = '';
+			var url = '';
+			if(nom =='valeur'){
+				wichSuggestion = 'valeur';
+			}else if(nom=='libelle'){
+				wichSuggestion = 'entete';
+			}
+
+			if(th.hasClass('prod')){
+				url = 'controleur/getSuggestionsProd.php';
+			}else{
+				url = 'controleur/getSuggestions.php';
+			}
+			if(val != ''){
+				$.ajax({
+					url:url,
+					type:'post',
+					dataType:'json',
+					data:'valeur='+val+'&element='+wichSuggestion,
+					success:function(data){
+						if(data.length != 0){
+							var liste = '';
+							var n = 0;
+							for(var a in data){
+								n++;
+								if(n%2 == 0){
+									liste += "<center><span class='suggestionValueAjout' style='background-color:#a0c53e;cursor:pointer;text-align:center'>"+data[a]+"</span></center><br>";
+								}else{
+									liste += "<center><span class='suggestionValueAjout' style='background-color:#dee2e6;cursor:pointer;text-align:center'>"+data[a]+"</span></center><br>";
+								}
+							}
+							th.parent().children('div').removeAttr('style');
+							th.parent().children('div').html(liste);
+						}else{
+							th.parent().children('div').attr('style','display:none');
+						}
+					}
+				})
+			}else{
+				th.parent().children('div').attr('style','display:none');
+			}
+		});
+		$('body').on('click','.suggestionValueAjout',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var th = $(this);
+			var val = th.text();
+			th.parent().parent().parent().children('input').val(val);
+			th.parent().parent().attr('style','display:none');
+		});
+	//**************************************************************************************************************** */
 })
 
  

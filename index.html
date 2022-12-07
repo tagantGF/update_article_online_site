@@ -146,11 +146,13 @@
                             <form action ="#" data-url="controleur/AddCaracteristiquesProd.php" method="post" name="addCaracteristiquesProduct" id="form_addCaracteristiquesProduct">
                                 <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
                                     <span class="input-group-addon"><span>Libellé :</span></span>
-                                    <input type="text" class="form-control" name="libelle" required>
+                                    <input type="text" class="form-control getsaisieAjout prod" name="libelle" required>
+                                    <div class="suggestion_popop" style="display: none;"></div>
                                 </div>
                                 <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
                                     <span class="input-group-addon"><span>Valeur:</span></span>
-                                    <input type="text" class="form-control" name="valeur" required>
+                                    <input type="text" class="form-control getsaisieAjout prod" name="valeur" required>
+                                    <div class="suggestion_popop" style="display: none;"></div>
                                 </div>
                                 <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Ajouter</span></button>
                                 <input type="reset" class="reseteur" style="display:none" name='reinitialise'>
@@ -177,11 +179,13 @@
                         <form action ="#" data-url="controleur/addCaracteristiquesArti.php" method="post" name="addCaracteristiquesArticle" id="form_addCaracteristiquesArticle">
                             <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
                                 <span class="input-group-addon"><span class='langue'>Libellé :</span></span>
-                                <input type="text" class="form-control" name="libelle" required>
+                                <input type="text" class="form-control getsaisieAjout" name="libelle" required>
+                                <div class="suggestion_popop" style="display: none;"></div>
                             </div>
                             <div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
                                 <span class="input-group-addon"><span>Valeur:</span></span>
-                                <input type="text" class="form-control" name="valeur" required>
+                                <input type="text" class="form-control getsaisieAjout" name="valeur" required>
+                                <div class="suggestion_popop" style="display: none;"></div>
                             </div>
                             <button type ="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> <span class='langue'> Ajouter</span></button>
                             <input type="reset" class="reseteur" style="display:none" name='reinitialise'>
