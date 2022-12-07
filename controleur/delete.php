@@ -10,11 +10,14 @@ header("Content-Type: text/html; charset=utf-8");
 		if($nbre == 0){
 			$codeFeraud = $_POST['codeF'];
 			$nomImage = $_POST['nomImage'];
+			$t = $manager->selectionUnique2('articles',array($nomImage),"code_feraud=$codeFeraud");
+			foreach($t[0] as $k2=>$v2){
+				unlink("../../images_pim/media/$v2");
+			}
 			$tab = array(
 				"$nomImage"=>''
 			);
 			$y =  $manager->modifier('articles',$tab,"code_feraud=$codeFeraud");
-			//$manager->supprimer('demandes',"num_demandes=$demande_num");
 			echo json_encode('Suppression effectuée');
 		}
 
