@@ -15,6 +15,7 @@ header("Content-Type: text/html; charset=utf-8");
         if (!$im) {
             die('Base64 value is not a valid image');
         }
+        $nomphoto = "$nomphoto".rand();
         $img_file = "../../images_pim/media/$nomphoto";
         imagepng($im, $img_file, 0);
         $productId =  $t = $manager->selectionUnique2('articles',array('ProductId'),"code_feraud=$code_feraud");
