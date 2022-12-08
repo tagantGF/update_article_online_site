@@ -28,7 +28,7 @@
                 // echo '</pre>';
                 foreach($caracteristique as $key=>$val){
                     $pos = stripos(trim($caracteristique[$key][0]), trim($valeur));
-                    if($pos !== false && count($entete)<6){
+                    if($pos !== false && count($entete)<11){
                         $entete[] = $caracteristique[$key][0];
                     } 
                 }
@@ -55,7 +55,7 @@
                 }
                 foreach($caracteristique as $key=>$val){
                     $pos = stripos(trim($caracteristique[$key][1]), trim($valeur));
-                    if($pos !== false && count($valeurs)<6){
+                    if($pos !== false && count($valeurs)<11){
                         $valeurs[] = $caracteristique[$key][1];
                     } 
                 }
