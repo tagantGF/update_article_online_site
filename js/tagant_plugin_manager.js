@@ -469,9 +469,12 @@
 											<button class="sayValidated pull-right btn btn-success">\
 												<span class="glyphicon glyphicon-thumbs-up"></span> Validé\
 											</button>';
-								$('body .sayIfValidated').replaceWith(elmt);
+								if($('body .sayIfValidated').attr('name') == 'init'){
+									$('body .sayIfValidated').replaceWith(elmt);
+								}else{
+									$('body .sayValidated').replaceWith(elmt);
+								}
 								$('body .WhoHasValidedArti').attr('title','Validation faite par : '+data[1][0][0]['user_num']);
-								
 								var h1 = document.getElementById('contenu').offsetHeight;
 								var h2 = document.getElementById('enteteArticleBlock').offsetHeight;
 								var h = parseInt(h1)-parseInt(h2);
@@ -479,11 +482,15 @@
 									'height':h
 								});
 							}else if(data[1] != '' && data[1][0][0]['action'] == 'invalider'){
-								var elmt = '<span tabindex="0" data-bs-toggle="tooltip" title="WhoHasValidedArti" style="margin-left:2px;line-height:32px;color:#5bc0de;cursor:pointer" class="WhoHasInvalidedArti pull-right d-inline-block showtoltip glyphicon glyphicon-info-sign"></span>\
+								var elmt = '<span tabindex="0" data-bs-toggle="tooltip" title="WhoHasInvalidedArti" style="margin-left:2px;line-height:32px;color:#5bc0de;cursor:pointer" class="WhoHasInvalidedArti pull-right d-inline-block showtoltip glyphicon glyphicon-info-sign"></span>\
 											<button class="sayIfValidated pull-right btn btn-warning">\
 												<span class="glyphicon glyphicon-thumbs-down"></span> Non validé\
 											</button>';
-								$('body .sayIfValidated').replaceWith(elmt);
+								if($('body .sayIfValidated').attr('name') == 'init'){
+									$('body .sayIfValidated').replaceWith(elmt);
+								}else{
+									$('body .sayValidated').replaceWith(elmt);
+								}
 								$('body .WhoHasInvalidedArti').attr('title','Invalidation faite par : '+data[1][0][0]['user_num']);
 								$('body #hideArticle').css({
 									'height':0
